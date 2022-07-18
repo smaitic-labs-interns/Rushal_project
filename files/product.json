@@ -1,0 +1,17 @@
+[
+    {
+        "name": "soap",
+        "price": "20" ,
+        "brand": "detol"  
+    },
+    {
+        "name": "mouse",
+        "price": "2000",
+        "brand": "detol"
+    },
+    {
+        "name": "mobile",
+        "price": "100",
+        "brand": "samsung"
+    }
+]
