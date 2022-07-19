@@ -1,12 +1,35 @@
 [
-    {
-        "name": "rushal",
-        "username": "rushal123",
-        "password": "111"
-    },
-    {
-        "name": "kiroz",
-        "username": "kiroz123",
-        "password": "222"
-    }
+  {
+    "name": "rushal",
+    "username": "rushal123",
+    "password": "111",
+    "email": "yyy@gmail.com"
+  },
+  {
+    "name": "kiroz",
+    "username": "kiroz123",
+    "password": "222",
+    "email": "sss@gmail.com"
+  },
+  {
+    "fname": "rushal",
+    "lname": "maharjan",
+    "password": "123",
+    "email": "numb123jhiyo@gmail.com",
+    "contact": "9843437654"
+  },
+  {
+    "fname": "rushal",
+    "lname": "maharjan",
+    "password": "123",
+    "email": "rushal@gmail.com",
+    "contact": "9843437654"
+  },
+  {
+    "fname": "rushal",
+    "lname": "maharjan",
+    "password": "123",
+    "email": "man@gmail.com",
+    "contact": "9843437654"
+  }
 ]
