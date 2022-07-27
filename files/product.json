@@ -1,17 +1,16 @@
 [
-    {
-        "name": "soap",
-        "price": "20" ,
-        "brand": "detol"  
-    },
-    {
-        "name": "mouse",
-        "price": "2000",
-        "brand": "detol"
-    },
-    {
-        "name": "mobile",
-        "price": "100",
-        "brand": "samsung"
-    }
+  {
+    "product_id": "8f1758e5-3055-4111-9b84-a911d3271fbe",
+    "Category": "Telivision",
+    "price": 8000,
+    "brand": "Dell",
+    "rating": "5"
+  },
+  {
+    "product_id": "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0",
+    "Category": "Telivision",
+    "price": 8000,
+    "brand": "Dell",
+    "rating": "5"
+  }
 ]
