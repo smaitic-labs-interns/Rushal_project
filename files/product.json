@@ -1,16 +1,16 @@
 [
   {
-    "product_id": "8f1758e5-3055-4111-9b84-a911d3271fbe",
-    "Category": "Telivision",
-    "price": 8000,
-    "brand": "Dell",
+    "product_id": "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0",
+    "Category": "Laptop",
+    "price": 90000,
+    "brand": "samsung",
     "rating": "5"
   },
   {
-    "product_id": "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0",
-    "Category": "Telivision",
-    "price": 8000,
+    "product_id": "bc79476e-36a2-4a9b-bc34-bb39b4e86296",
+    "Category": "Mouse",
+    "price": 4000,
     "brand": "Dell",
-    "rating": "5"
+    "rating": "1"
   }
 ]
