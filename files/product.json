@@ -12,5 +12,12 @@
     "price": 4000,
     "brand": "Dell",
     "rating": "1"
+  },
+  {
+    "product_id": "8bfb07fc-1007-4139-8017-1c864a39876c",
+    "category": "Monitor",
+    "price": 4000,
+    "brand": "Samsung",
+    "rating": "1"
   }
 ]

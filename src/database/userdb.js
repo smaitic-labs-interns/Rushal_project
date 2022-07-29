@@ -1,11 +1,11 @@
 const fs = require("fs");
 
-function getUserdata() {
+function getUserData() {
   const data = fs.readFileSync("../../files/users.json", { encoding: "utf8" });
   return JSON.parse(data);
 }
 
-function getUserdataupdate(user) {
+function updateUserData(user) {
   try {
     fs.writeFileSync("../../files/users.json", JSON.stringify(user, null, 2));
     return true;
@@ -14,4 +14,4 @@ function getUserdataupdate(user) {
   }
 }
 
-module.exports = { getUserdata, getUserdataupdate };
+module.exports = { getUserData, updateUserData };

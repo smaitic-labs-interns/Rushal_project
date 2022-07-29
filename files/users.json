@@ -1,26 +1,10 @@
 [
   {
-    "userID": "734238da-6ee2-4080-a0ff-8638c0534997",
+    "userID": "6c029f5d-a5a2-4542-bc52-cded2047e937",
     "fname": "rushal",
     "lname": "maharjan",
-    "password": "111",
+    "password": "25d55ad283aa400af464c76d713c07ad",
     "email": "rushal123@gmail.com",
-    "contact": "9843437654"
-  },
-  {
-    "userID": "8b0e2caa-1845-4609-8811-5c43a0350ff6",
-    "fname": "rushal",
-    "lname": "maharjan",
-    "password": "111",
-    "email": "tttrushal123@gmail.com",
-    "contact": "9843437654"
-  },
-  {
-    "userID": "4f7990b9-d2c1-4063-be76-8cd03252c33f",
-    "fname": "rushal",
-    "lname": "maharjan",
-    "password": "111",
-    "email": "ttaskdjasshal123@gmail.com",
-    "contact": "9843437654"
+    "contact": 9843437654
   }
 ]

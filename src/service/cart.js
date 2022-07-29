@@ -1,9 +1,8 @@
-const cart = require('../cartdb')
+const cart = require('../database/cartdb')
 const allCart = cart.getCartdata()
 
 
 const addtoCart = (CartID, Product) => {
-  let productIdNotFound = true;
   //assuming customer already have cart created
   for (let Acart of allCart) {
     if (Acart.CartId === CartID) {
@@ -11,7 +10,7 @@ const addtoCart = (CartID, Product) => {
         if (Product.Productid === i.id) {
           i.Quantity += Product.Quantity;
           Acart.Totalcost += Product.Quantity * Product.Price;
-          productIdNotFound = false;
+        
         }
       }
       if (productIdNotFound) {

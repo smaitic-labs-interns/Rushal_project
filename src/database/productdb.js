@@ -7,9 +7,9 @@ function getProductdata() {
   return JSON.parse(file);
 }
 
-function getProductdataUpdate(product) {
+function updateProductData(product) {
   try {
-    fs.writeFileSync(  "../../files/product.json", JSON.stringify(product, null, 2));
+    fs.writeFileSync( "../../files/product.json", JSON.stringify(product, null, 2));
     return true;
   } catch (e) {
     console.log(`${e.name} => ${e.message}`);
@@ -17,4 +17,4 @@ function getProductdataUpdate(product) {
   }
 }
 
-module.exports = { getProductdata, getProductdataUpdate };
+module.exports = { getProductdata, updateProductData };
