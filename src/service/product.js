@@ -3,16 +3,22 @@ const {v4 : uuidv4} = require('uuid')
 const allProduct = product.getProductdata ()
 
 
-const searchProductbybrand = (brand) => {
+const searchProduct = (keyword) => {
   try {
     const result = [];
     for (let products of allProduct) {
-      if (products.brand.toLowerCase() === brand.toLowerCase()) {
-        result.push(products);
+      for (key in products) {
+        if (typeof products[key] === "string" && typeof keyword === "string") {
+          if (products[key].toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
+            result.push(products);
+            break;
+          }
+        }
       }
     }
     if (result.length > 0) {
-      console.log(result)
+      console.log(result);
+      return;
     }
     throw new Error("no result found");
   } catch (err) {
@@ -20,10 +26,7 @@ const searchProductbybrand = (brand) => {
   }
 };
 
-//searchProductbybrand("dell");
-
-
-
+searchProduct("d");
 
 const addProduct = (category, price, brand, rating) => {
   try {
@@ -43,7 +46,7 @@ const addProduct = (category, price, brand, rating) => {
     console.log(err.message);
   }
 };
-addProduct("Monitor", 4000, "Samsung", "1");
+//addProduct("Monitor", 4000, "Samsung", "1");
 
 
 const removeProduct = (productid) => {

@@ -1,73 +1,75 @@
 const cart = require('../database/cartdb')
 const allCart = cart.getCartdata()
+const {getProductdata} = require ('../database/productdb')
+const allProduct = getProductdata()
+const {v4 : uuidv4} = require('uuid')
 
 
-const addtoCart = (CartID, Product) => {
-  //assuming customer already have cart created
-  for (let Acart of allCart) {
-    if (Acart.CartId === CartID) {
-      for (let i of Acart.Products) {
-        if (Product.Productid === i.id) {
-          i.Quantity += Product.Quantity;
-          Acart.Totalcost += Product.Quantity * Product.Price;
-        
-        }
-      }
-      if (productIdNotFound) {
-        Acart["Products"].push({
-          id: Product["Productid"],
-          Quantity: Product["Quantity"],
-        });
-        Acart["Totalcost"] += Product["Quantity"] * Product["Price"];
-      }
-      if (cart.getCartDataUpdate(allCart)) {
-        console.log("data added to cart");
-        return;
+const checkingProduct = (productid) => {
+  try {
+    for (var product of allProduct) {
+      if (product.product_id === productid) {
+        return product;
       }
     }
-  }
-  //  creating new cart
-  const carts = { CartId: CartID, Products: [], Totalcost: 0 };
-  carts["Products"].push({
-    id: Product["Productid"],
-    Quantity: Product["Quantity"],
-  });
-  carts["Totalcost"] += Product["Quantity"] * Product["Price"];
-  allCart.push(carts);
-
-  if (cart.getCartDataUpdate(allCart)) {
-    console.log("data added to cart");
-  } else {
-    console.log("error Occured");
+    throw new Error("no product found for id:" + productid);
+  } catch (e) {
+    throw e;
   }
 };
-const cartinfo = { Productid: "555555", Price: 20, Quantity: 4 };
-addtoCart("gg ", cartinfo);
+
+const addtoCart = (CartID, newProduct) => {
+  try {
+    //assuming customer already have cart created
+    const productResult = checkingProduct(newProduct.Productid);
+    for (let Acart of allCart) {
+      if (Acart.CartId === CartID) {
+        for (let i of Acart.Products) {
+          if (newProduct.Productid === i.id) {
+            i.Quantity += newProduct.Quantity;
+            Acart.Totalcost += newProduct.Quantity * productResult.price;
+            if (cart.getCartDataUpdate(allCart)) {
+              console.log("data added to cart");
+              return;
+            }
+          }
+        }
+        Acart["Products"].push({
+          id: newProduct["Productid"],
+          Quantity: newProduct["Quantity"],
+        });
+        Acart["Totalcost"] += newProduct["Quantity"] * productResult["price"];
+        if (cart.getCartDataUpdate(allCart)) {
+          console.log("data added to cart");
+          return;
+        }
+      }
+    }
+    //  creating new cart
+    const carts = { CartId: uuidv4(), Products: [], Totalcost: 0 };
+    carts["Products"].push({
+      id: newProduct["Productid"],
+      Quantity: newProduct["Quantity"],
+    });
+    carts["Totalcost"] += newProduct["Quantity"] * productResult["price"];
+    allCart.push(carts);
+
+    if (cart.getCartDataUpdate(allCart)) {
+      console.log("data added to cart");
+    } else {
+      throw new Error("error Occured");
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+const cartinfo = { Productid: "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0",Quantity: 4,};
+addtoCart("1efe7cff-7ba5-4e02-859d-d32f737ef436", cartinfo);
 
 
 
 
 
-// const addtoCart = (CardID , Product) =>{
-
-//     let productIdNotFound = true;
-//     for(let Acart in allCart){
-
-//         if(Acart.CardId === CardID){
-//         console.log("card if matched");
-//         for(let i of Acart.Products){
-//             if(Product.Productid === i.id){
-//                 i.Quantity += Product.Quantity 
-//                 Acart.Totalcost += Product.Quantity * Product.Price 
-//                 productIdNotFound = false
-                
-//             }
-//         }
-//         } 
-//     }
-
-
-//}
 
 
 

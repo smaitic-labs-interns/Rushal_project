@@ -1,6 +1,6 @@
 const User = require("../database/userdb.js");
 const { v4: uuidv4 } = require("uuid");
-const Validate = require('../../validation.js')
+const Validate = require('./validation.js')
 const Crypto = require('crypto')
 
 const peoples = User.getUserData();
@@ -20,7 +20,7 @@ const login = (email, password) => {
     console.log(err.message);
   }
 };
-//login("rushal123@gmail.com", "12345678");
+//login("maharjan@gmail.com", "rushal123");
 
 //sign up
 
@@ -63,8 +63,8 @@ const signUP = (fname, lname, password, email, contact) => {
 signUP({
   fname: "rushal",
   lname: "maharjan",
-  password: "12345678",
-  email: "rushal123@gmail.com",
+  password: "123456789",
+  email: "tanisha@gmail.com",
   contact: "9843437654",
 });
 
