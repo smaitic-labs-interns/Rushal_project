@@ -64,8 +64,33 @@ const addtoCart = (CartID, newProduct) => {
   }
 };
 const cartinfo = { Productid: "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0",Quantity: 4,};
-addtoCart("1efe7cff-7ba5-4e02-859d-d32f737ef436", cartinfo);
+addtoCart("6c546d9b-06ab-4a3e-b921-d5d06676616b", cartinfo);
 
+
+const reduceQuantity = (CartID , ProductID , Quantity) => {
+  try{
+    const productResult = checkingProduct(ProductID)
+    for(let oldCart of allCart){
+      if(oldCart.CartId === CartID){
+        for(var product of oldCart.Products){
+          if(product.id === ProductID){
+            product.Quantity -= Quantity
+            oldCart.Totalcost -= Quantity * productResult["price"]
+            if(cart.getCartDataUpdate(allCart)){
+              console.log("Quantity reduce succesfully");
+              return
+            }
+          }
+        }
+        throw new Error ("no Product found for id:" + ProductID)
+      }
+    }
+  throw new Error("no Cart found for id:" + CartID)
+}catch(e){
+  console.log(e.message);
+}
+}
+reduceQuantity("1efe7cff-7ba5-4e02-859d-d32f737ef436" , "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0" , 4)
 
 
 

@@ -17,7 +17,7 @@ const searchProduct = (keyword) => {
       }
     }
     if (result.length > 0) {
-      console.log(result);
+     // console.log(result);
       return;
     }
     throw new Error("no result found");
@@ -26,7 +26,7 @@ const searchProduct = (keyword) => {
   }
 };
 
-searchProduct("d");
+//searchProduct("b");
 
 const addProduct = (category, price, brand, rating) => {
   try {
@@ -46,7 +46,7 @@ const addProduct = (category, price, brand, rating) => {
     console.log(err.message);
   }
 };
-//addProduct("Monitor", 4000, "Samsung", "1");
+//addProduct("bottle", 4000, "Samsung", 1);
 
 
 const removeProduct = (productid) => {
@@ -68,7 +68,7 @@ const removeProduct = (productid) => {
     console.log(err.message);
   }
 };
-//removeProduct("8f1758e5-3055-4111-9b84-a911d3271fbe");
+removeProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1");
 
 
 
@@ -94,4 +94,4 @@ const updateProduct = (Productid, Productinfo) => {
 };
 
 const pro = { Category: "Laptop", price: 90000, brand: "samsung" };
-//updateProduct("3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0", pro);
+//updateProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1", pro);

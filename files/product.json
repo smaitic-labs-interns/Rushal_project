@@ -19,5 +19,19 @@
     "price": 4000,
     "brand": "Samsung",
     "rating": "1"
+  },
+  {
+    "product_id": "d255b457-49e0-4055-9018-eadcd08d1a83",
+    "category": "bottle",
+    "price": 4000,
+    "brand": "Samsung",
+    "rating": 1
+  },
+  {
+    "product_id": "cdd08f30-21a0-478a-b391-38939c42e7b9",
+    "category": "bottle",
+    "price": 4000,
+    "brand": "Samsung",
+    "rating": 1
   }
 ]

@@ -20,7 +20,7 @@ const login = (email, password) => {
     console.log(err.message);
   }
 };
-//login("maharjan@gmail.com", "rushal123");
+login("test@gmail.c", "123456789");
 
 //sign up
 
@@ -60,11 +60,11 @@ const signUP = (fname, lname, password, email, contact) => {
     console.log(err.message);
   }
 };
-signUP({
-  fname: "rushal",
-  lname: "maharjan",
-  password: "123456789",
-  email: "tanisha@gmail.com",
-  contact: "9843437654",
-});
+// signUP({
+//   fname: "tanish",
+//   lname: "maharjan",
+//   password: "123456789",
+//   email: "test@gmail.com",
+//   contact: "9843437654",
+// });
 

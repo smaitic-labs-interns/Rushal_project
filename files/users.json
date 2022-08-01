@@ -14,5 +14,13 @@
     "password": "25f9e794323b453885f5181f1b624d0b",
     "email": "tanisha@gmail.com",
     "contact": 9843437654
+  },
+  {
+    "userID": "6c546d9b-06ab-4a3e-b921-d5d06676616b",
+    "fname": "tanish",
+    "lname": "maharjan",
+    "password": "25f9e794323b453885f5181f1b624d0b",
+    "email": "test@gmail.com",
+    "contact": 9843437654
   }
 ]
