@@ -1,37 +1,10 @@
 [
   {
-    "product_id": "3d4c3013-eadb-40b1-ba4e-fa7026dbe9a0",
-    "Category": "Laptop",
-    "price": 90000,
-    "brand": "samsung",
-    "rating": "5"
-  },
-  {
-    "product_id": "bc79476e-36a2-4a9b-bc34-bb39b4e86296",
-    "Category": "Mouse",
-    "price": 4000,
-    "brand": "Dell",
-    "rating": "1"
-  },
-  {
-    "product_id": "8bfb07fc-1007-4139-8017-1c864a39876c",
-    "category": "Monitor",
-    "price": 4000,
-    "brand": "Samsung",
-    "rating": "1"
-  },
-  {
-    "product_id": "d255b457-49e0-4055-9018-eadcd08d1a83",
-    "category": "bottle",
-    "price": 4000,
-    "brand": "Samsung",
-    "rating": 1
-  },
-  {
-    "product_id": "cdd08f30-21a0-478a-b391-38939c42e7b9",
-    "category": "bottle",
-    "price": 4000,
-    "brand": "Samsung",
-    "rating": 1
+    "product_id": "622afe1b-2ed2-4354-92a8-a7f193bac207",
+    "category": "Laptop",
+    "name": "Legion Y 520",
+    "price": 400000,
+    "brand": "Razor",
+    "Quantity": 10
   }
 ]

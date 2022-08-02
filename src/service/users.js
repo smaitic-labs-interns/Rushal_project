@@ -1,7 +1,7 @@
 const User = require("../database/userdb.js");
 const { v4: uuidv4 } = require("uuid");
 const Validate = require('./validation.js')
-const Crypto = require('crypto')
+const Bcrypt = require('bcrypt')
 
 const peoples = User.getUserData();
 
@@ -9,8 +9,7 @@ const peoples = User.getUserData();
 const login = (email, password) => {
   try {
     for (let i = 0; i < peoples.length; i++) {
-      const hashPassword = Crypto.createHash("md5").update(password).digest("hex");
-      if (peoples[i].email === email && peoples[i].password === hashPassword) {
+      if (peoples[i].email === email && Bcrypt.compareSync(password, peoples[i].password)){
         console.log("login successful");
         return;
       }
@@ -20,7 +19,7 @@ const login = (email, password) => {
     console.log(err.message);
   }
 };
-login("test@gmail.c", "123456789");
+login("hello@gmail.com", "123456789");
 
 //sign up
 
@@ -45,7 +44,7 @@ const signUP = (fname, lname, password, email, contact) => {
       userID: uuidv4(),
       fname: value.fname,
       lname: value.lname,
-      password: Crypto.createHash('md5').update(value.password).digest("hex"),
+      password: Bcrypt.hashSync(value.password, 10),
       email: value.email,
       contact: value.contact,
     };
@@ -60,11 +59,11 @@ const signUP = (fname, lname, password, email, contact) => {
     console.log(err.message);
   }
 };
-// signUP({
-//   fname: "tanish",
-//   lname: "maharjan",
-//   password: "123456789",
-//   email: "test@gmail.com",
-//   contact: "9843437654",
-// });
+signUP({
+  fname: "tanish",
+  lname: "maharjan",
+  password: "123456789",
+  email: "hello@gmail.com",
+  contact: "9843437654",
+});
 

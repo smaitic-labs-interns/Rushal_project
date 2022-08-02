@@ -8,6 +8,9 @@ const searchProduct = (keyword) => {
     const result = [];
     for (let products of allProduct) {
       for (key in products) {
+        if(key === "Product_id" || key === "brand"){
+          continue
+        }else{
         if (typeof products[key] === "string" && typeof keyword === "string") {
           if (products[key].toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
             result.push(products);
@@ -15,9 +18,10 @@ const searchProduct = (keyword) => {
           }
         }
       }
+      }
     }
     if (result.length > 0) {
-     // console.log(result);
+     console.log(result);
       return;
     }
     throw new Error("no result found");
@@ -26,16 +30,17 @@ const searchProduct = (keyword) => {
   }
 };
 
-//searchProduct("b");
+searchProduct("r");
 
-const addProduct = (category, price, brand, rating) => {
+const addProduct = (category, name, price, brand, quantity) => {
   try {
     allProduct.push({
       product_id: uuidv4(),
       category: category,
+      name: name,
       price: price,
       brand: brand,
-      rating: rating,
+      Quantity: quantity,
     });
     if (product.updateProductData(allProduct)) {
       console.log("item added");
@@ -46,7 +51,7 @@ const addProduct = (category, price, brand, rating) => {
     console.log(err.message);
   }
 };
-//addProduct("bottle", 4000, "Samsung", 1);
+//addProduct("Laptop","Legion Y 520" ,  400000, "Razor", 1);
 
 
 const removeProduct = (productid) => {
@@ -68,7 +73,7 @@ const removeProduct = (productid) => {
     console.log(err.message);
   }
 };
-removeProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1");
+//removeProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1");
 
 
 
@@ -93,5 +98,5 @@ const updateProduct = (Productid, Productinfo) => {
   }
 };
 
-const pro = { Category: "Laptop", price: 90000, brand: "samsung" };
+const pro = { Category: "Laptop", name: "fantech" ,  price: 90000, brand: "samsung" };
 //updateProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1", pro);
