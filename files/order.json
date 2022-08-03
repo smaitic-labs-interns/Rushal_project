@@ -1,0 +1,20 @@
+{
+  "OrderId": "143bcd16-cf0e-4e1d-979d-195368769ee0",
+  "CartId": "fcba7412-26b2-4ba7-b88b-87e4a49a15c3",
+  "UserId": "e2f49706-bd4d-4cb7-893d-ed1aab4339ad",
+  "Products": [
+    {
+      "id": "6sdade1b-2ed2-4354-92a8-a7f193bac207",
+      "Quantity": 5
+    }
+  ],
+  "shipementAddress": {
+    "country": "Nepal",
+    "city": "Ktm"
+  },
+  "payment": {
+    "type": "esewa",
+    "status": "Paid"
+  },
+  "orderStatus": "Review"
+}

@@ -6,14 +6,19 @@ function getOrderdata (){
 return JSON.parse(file) ;
 }
 
-function updateOrderData(order) {
+async function updateOrderData(order) {
 
   try{
-   fs.writeFileSync('../../files/order.json', JSON.stringify(order , null , 2))
-   return true
+   fs.writeFile('../../files/order.json', JSON.stringify(order , null , 2) ,(error) => {
+    if(error){
+      throw error 
+    } 
+    return true;
+  });
   }catch(e){
     console.log(`${e.name} => ${e.message}`)
     return false
   }
   
 }
+ module.exports = {getOrderdata , updateOrderData}

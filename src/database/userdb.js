@@ -5,10 +5,15 @@ function getUserData() {
   return JSON.parse(data);
 }
 
-function updateUserData(user) {
+async function updateUserData(user) {
   try {
-    fs.writeFileSync("../../files/users.json", JSON.stringify(user, null, 2));
-    return true;
+    fs.writeFile("../../files/users.json", JSON.stringify(user, null, 2), (error) => {
+      if(error){
+        throw error 
+      } 
+      return true;
+    });
+   
   } catch (e) {
     return false;
   }

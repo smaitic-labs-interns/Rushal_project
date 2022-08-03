@@ -1,11 +1,18 @@
 [
-  
   {
     "userID": "e2f49706-bd4d-4cb7-893d-ed1aab4339ad",
     "fname": "tanish",
     "lname": "maharjan",
     "password": "$2b$10$gp8/KlgFOfTeN2ehicyAh..Wqby3dGmVPvp4D.ikHVszsScm23zWm",
     "email": "hello@gmail.com",
+    "contact": 9843437654
+  },
+  {
+    "userID": "4ad8f3c7-56ee-48b4-89c7-4c4ca3c7d57d",
+    "fname": "any",
+    "lname": "maharjan",
+    "password": "$2b$10$EZJ.BMGOZzijnXzWm5vsbe3MC6jPOrcT1fiN8qAS4bEaL4lVUmZlG",
+    "email": "jjj@gmail.com",
     "contact": 9843437654
   }
 ]

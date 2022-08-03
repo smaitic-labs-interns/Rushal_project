@@ -30,7 +30,7 @@ const searchProduct = (keyword) => {
   }
 };
 
-searchProduct("r");
+//searchProduct("r");
 
 const addProduct = (category, name, price, brand, quantity) => {
   try {
@@ -98,5 +98,5 @@ const updateProduct = (Productid, Productinfo) => {
   }
 };
 
-const pro = { Category: "Laptop", name: "fantech" ,  price: 90000, brand: "samsung" };
-//updateProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1", pro);
+const pro = { category: "computer", name: "fantech" ,  price: 90000, brand: "samsung", Quantity:2 };
+updateProduct("622afe1b-2ed2-4354-92a8-a7f193bac207", pro);

@@ -4,6 +4,7 @@ const Validate = require('./validation.js')
 const Bcrypt = require('bcrypt')
 
 const peoples = User.getUserData();
+const Salt = 10;
 
 //sign in
 const login = (email, password) => {
@@ -44,7 +45,7 @@ const signUP = (fname, lname, password, email, contact) => {
       userID: uuidv4(),
       fname: value.fname,
       lname: value.lname,
-      password: Bcrypt.hashSync(value.password, 10),
+      password: Bcrypt.hashSync(value.password, Salt),
       email: value.email,
       contact: value.contact,
     };
@@ -60,10 +61,10 @@ const signUP = (fname, lname, password, email, contact) => {
   }
 };
 signUP({
-  fname: "tanish",
+  fname: "any",
   lname: "maharjan",
   password: "123456789",
-  email: "hello@gmail.com",
+  email: "jjj@gmail.com",
   contact: "9843437654",
 });
 
