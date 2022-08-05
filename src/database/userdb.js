@@ -1,7 +1,9 @@
-const fs = require("fs");
+const fs = require("fs/promises");
+require("dotenv").config({ path: "../../.env" });
+const path = "../../files/users.json"
 
-function getUserData() {
-  const data = fs.readFileSync("../../files/users.json", { encoding: "utf8" });
+async function getUserData() {
+  const data = await fs.readFile(path, { encoding: "utf8" });
   return JSON.parse(data);
 }
 
@@ -12,8 +14,7 @@ async function updateUserData(user) {
         throw error 
       } 
       return true;
-    });
-   
+    }); 
   } catch (e) {
     return false;
   }

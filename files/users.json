@@ -14,5 +14,13 @@
     "password": "$2b$10$EZJ.BMGOZzijnXzWm5vsbe3MC6jPOrcT1fiN8qAS4bEaL4lVUmZlG",
     "email": "jjj@gmail.com",
     "contact": 9843437654
+  },
+  {
+    "userID": "6d019a1b-8030-474b-98a0-54bc096cc365",
+    "fname": "any",
+    "lname": "maharjan",
+    "password": "$2b$10$J.49vQlza92SLgX0nZ8c4ebust/XTFzJTGXJicr96EqGFDhm6JlUi",
+    "email": "you@gmail.com",
+    "contact": 9843437654
   }
 ]

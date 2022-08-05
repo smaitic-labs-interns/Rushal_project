@@ -1,20 +1,19 @@
-const fs = require('fs');
+const fs = require('fs/promises');
+require("dotenv").config({ path: "../../.env" });
+const path = '../../files/order.json'
 
 
-function getOrderdata (){
-    const file = fs.readFileSync('../../files/order.json', {encoding:'utf8'});
+async function getOrderdata (){
+    const file = await fs.readFile(path, {encoding:'utf8'});
 return JSON.parse(file) ;
 }
 
 async function updateOrderData(order) {
-
   try{
-   fs.writeFile('../../files/order.json', JSON.stringify(order , null , 2) ,(error) => {
-    if(error){
-      throw error 
-    } 
-    return true;
-  });
+    // const allOrder = await getOrderdata()
+    // allOrder.push(order)
+   fs.writeFile('../../files/order.json', JSON.stringify(order , null , 2))
+  return true;
   }catch(e){
     console.log(`${e.name} => ${e.message}`)
     return false

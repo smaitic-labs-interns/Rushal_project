@@ -3,12 +3,13 @@ const { v4: uuidv4 } = require("uuid");
 const Validate = require('./validation.js')
 const Bcrypt = require('bcrypt')
 
-const peoples = User.getUserData();
-const Salt = 10;
+
+const Salt = Bcrypt.genSaltSync(10);
 
 //sign in
-const login = (email, password) => {
+const login = async (email, password) => {
   try {
+    const peoples = await User.getUserData();
     for (let i = 0; i < peoples.length; i++) {
       if (peoples[i].email === email && Bcrypt.compareSync(password, peoples[i].password)){
         console.log("login successful");
@@ -24,8 +25,9 @@ login("hello@gmail.com", "123456789");
 
 //sign up
 
-const signUP = (fname, lname, password, email, contact) => {
+const signUP = async (fname, lname, password, email, contact) => {
   try {
+    const peoples = await User.getUserData();
     const { error, value } = Validate.userValidation(
       fname,
       lname,
@@ -51,7 +53,7 @@ const signUP = (fname, lname, password, email, contact) => {
     };
     peoples.push(user);
 
-    if (User.updateUserData(peoples)) {
+    if (await User.updateUserData(peoples)) {
       console.log("user registered");
     } else {
       throw new Error ("error occured while registering")
@@ -64,7 +66,7 @@ signUP({
   fname: "any",
   lname: "maharjan",
   password: "123456789",
-  email: "jjj@gmail.com",
+  email: "you@gmail.com",
   contact: "9843437654",
 });
 

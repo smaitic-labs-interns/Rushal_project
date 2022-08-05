@@ -1,10 +1,11 @@
 const product = require('../database/productdb.js')
 const {v4 : uuidv4} = require('uuid')
-const allProduct = product.getProductdata ()
 
 
-const searchProduct = (keyword) => {
+
+const searchProduct = async(keyword) => {
   try {
+    const allProduct = await product.getProductdata ()
     const result = [];
     for (let products of allProduct) {
       for (key in products) {
@@ -32,8 +33,9 @@ const searchProduct = (keyword) => {
 
 //searchProduct("r");
 
-const addProduct = (category, name, price, brand, quantity) => {
+const addProduct = async(category, name, price, brand, quantity) => {
   try {
+    const allProduct = await product.getProductdata ()
     allProduct.push({
       product_id: uuidv4(),
       category: category,
@@ -42,7 +44,7 @@ const addProduct = (category, name, price, brand, quantity) => {
       brand: brand,
       Quantity: quantity,
     });
-    if (product.updateProductData(allProduct)) {
+    if (await product.updateProductData(allProduct)) {
       console.log("item added");
     } else {
       throw new Error("error while adding");
@@ -54,31 +56,33 @@ const addProduct = (category, name, price, brand, quantity) => {
 //addProduct("Laptop","Legion Y 520" ,  400000, "Razor", 1);
 
 
-const removeProduct = (productid) => {
+const removeProduct = async(productid) => {
   try {
+    const allProduct = await product.getProductdata ()
+    var i = 0
     for (let Product of allProduct) {
       if (Product.product_id === productid) {
-        const remainingProduct = allProduct.filter(
-          (pro) => pro.product_id !== productid
-        );
+        const remainingProduct = allProduct.splice(i,1)
         if (product.updateProductData(remainingProduct)) {
           console.log("removed successfully");
           return;
         }
         throw new Error("error occur while saving on database");
       }
+      i += 1
     }
     console.log("no product on this id");
   } catch (err) {
     console.log(err.message);
   }
 };
-//removeProduct("f03aa316-f2f6-4f47-afb3-c5df1511b2d1");
+removeProduct("622afe1b-2ed2-4354-92a8-a7f193bac207");
 
 
 
-const updateProduct = (Productid, Productinfo) => {
+const updateProduct = async(Productid, Productinfo) => {
   try {
+    const allProduct = await product.getProductdata ()
     for (let Product of allProduct) {
       if (Product.product_id === Productid) {
         for (let key in Productinfo) {
@@ -99,4 +103,4 @@ const updateProduct = (Productid, Productinfo) => {
 };
 
 const pro = { category: "computer", name: "fantech" ,  price: 90000, brand: "samsung", Quantity:2 };
-updateProduct("622afe1b-2ed2-4354-92a8-a7f193bac207", pro);
+//updateProduct("622afe1b-2ed2-4354-92a8-a7f193bac207", pro);

@@ -5,14 +5,6 @@
     "name": "fantech",
     "price": 90000,
     "brand": "samsung",
-    "Quantity": 2
-  },
-  {
-    "product_id": "6sdade1b-2ed2-4354-92a8-a7f193bac207",
-    "category": "computer",
-    "name": "fantech",
-    "price": 90000,
-    "brand": "samsung",
-    "Quantity": 2
+    "Quantity": 20
   }
 ]
