@@ -51,57 +51,109 @@ if(store.updateProductData(allProduct)){
 
 const place_order = async (cart_id , ShipementAddress, Payment) => {
     try {
-     const allOrder = await Order.getOrderdata()
-       let totalcost = 0
-        const cartResult = await find_cart(cart_id) 
-        for(product of cartResult.Products){
-            const productResult = await checkingProduct(product.id);
-            if(productResult.Quantity < product.Quantity){
-                throw new Error ("not sufficient product on store")
-            }
-            // productResult.Quantity -= product.Quantity
-            if(update_Quantity(product.id , product.Quantity)){
-             totalcost += product.Quantity * productResult["price"]
-            }
+      const allOrder = await Order.getOrderdata();
+      let totalcost = 0;
+      const cartResult = await find_cart(cart_id);
+      for (product of cartResult.Products) {
+        const productResult = await checkingProduct(product.id);
+        if (productResult.Quantity < product.Quantity) {
+          throw new Error("not sufficient product on store");
         }
-        const order = {OrderId : uuidv4() , ...cartResult , totalcost , shipementAddress: ShipementAddress , payment: Payment, orderStatus: "Review" }
+        // productResult.Quantity -= product.Quantity
+        if (update_Quantity(product.id, product.Quantity)) {
+          totalcost += product.Quantity * productResult["price"];
+        }
+      }
+      const order = {
+        OrderId: uuidv4(),
+        ...cartResult,
+        totalcost,
+        shipementAddress: ShipementAddress,
+        payment: Payment,
+        orderStatus: "Review",
+      };
 
-        allOrder.push(order);
-        if(await Order.updateOrderData(allOrder)){
-            console.log("order palce successfully");
-            return
-        }
-        throw new Error ("error occured")
-    }catch(err){
-        console.log(err.message);
+      allOrder.push(order);
+      if (Order.updateOrderData(allOrder)) {
+        console.log("order palce successfully");
+        return;
+      }
+      throw new Error("error occured");
+    } catch (err) {
+      console.log(err.message);
     }
 }
 const address = {country: "Nepal" , city: "Ktm"}
-const Pay = {type: "esewa" , status: "Paid"}
-//place_order("08198902-b3a1-4c3f-9f90-987b46176639" , address, Pay)
+const Pay = {type: "Paypal" , status: "Paid"}
+//place_order("1ba9b75d-f3fb-4ebc-8ae8-105120fe7a1e" , address, Pay)
 
-const UpdateOrder_Quantity = async (orderid , productid , quantity) => {
-    try {
-    const allOrder = await Order.getOrderdata()
-        for(let i = 0 ; i < allOrder.length ; i++){
-            if(allOrder[i].OrderId === orderid){           
-                for(let product of allOrder[i].Products){
-                    if (product.id === productid){
-                        // total price -= currentQuantity*Price of that quantity // product_res()
-                        product.Quantity = quantity 
-                        // total price += current quantity* current price // product_res = f1();
-                        if(Order.updateOrderData(allOrder)){
-                            console.log("updated successfully");
-                            return;
-                        }
-                    }
-                }
-            }
-            
-        }
-        throw new Error('"No Order Found For Id: '+orderid)
-    }catch(err){
-        console.log(err.message);
+const updateorder_quantity = async (orderid, productid, quantity) => {
+  try {
+    let productData = await store.getProductById(productid)
+
+    if(productData.length <= 0){
+        throw new Error("no Product in this order")
     }
+        productData = productData[0]
+       
+    const allOrder = await Order.getOrderdata();
+    for (let i = 0; i < allOrder.length; i++) {
+      if (allOrder[i].OrderId === orderid) {
+        for (let product of allOrder[i].Products) {
+          if (product.id === productid) {
+            let tempCost = allOrder[i].totalcost - productData.price * product.Quantity;
+            //console.log(tempCost);
+            product.Quantity = quantity;
+            allOrder[i].totalcost = tempCost +(productData.price * quantity)
+            if (Order.updateOrderData(allOrder)) {
+              console.log("updated successfully");
+              return;
+            }
+          }
+        }
+      }
+    }
+    throw new Error('No Order Found For Id: ' + orderid);
+  } catch (err) {
+    console.log(err.message);
+  }
+};
+updateorder_quantity( "32df6d80-e17f-4713-bb03-ef3927440136", "622afe1b-2ed2-4354-92a8-a7f193bac207", 10);
+
+const cancel_order = async(orderid) => {
+  try{
+    const allOrder = await Order.getOrderdata();
+    for(let order of allOrder){
+      if(order.OrderId === orderid){
+        order.orderStatus = "canceled"
+        if (Order.updateOrderData(allOrder)) {
+          console.log("order cancel successfully");
+          return;
+        }
+      }
+    }
+    throw new Error ("no order found on id :"+ orderid)
+  }catch(e){
+    console.log(e.message);
+  }
 }
-UpdateOrder_Quantity ("0b84fd89-bb6e-4fcc-8527-cbe7477a639b" , "6sdade1b-2ed2-4354-92a8-a7f193bac207" , 15 )
+//cancel_order ("9f86aaad-38d1-4ad0-acf2-18359d3f8345")
+
+const trackrefund_update = async(orderid) =>{
+  try{
+    const allOrder = await Order.getOrderdata();
+    for(let order of allOrder){
+      if(order.OrderId === orderid){
+        order.payment.status = "refunded"
+        if (Order.updateOrderData(allOrder)) {
+          console.log(" order refunded successfully");
+          return;
+      }
+    }
+  }
+  throw new Error("no order found for this id:" + orderid)
+}catch(e){
+  console.log(e.message);
+}
+}
+//trackrefund_update("9f86aaad-38d1-4ad0-acf2-18359d3f8345")

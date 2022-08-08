@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
-const path = "../../files/users.json"
+//const path = "../../files/users.json"
+const path = process.env.USER_PATH
 
 async function getUserData() {
   const data = await fs.readFile(path, { encoding: "utf8" });
@@ -9,7 +10,7 @@ async function getUserData() {
 
 async function updateUserData(user) {
   try {
-    fs.writeFile("../../files/users.json", JSON.stringify(user, null, 2), (error) => {
+    fs.writeFile(path, JSON.stringify(user, null, 2), (error) => {
       if(error){
         throw error 
       } 

@@ -1,6 +1,7 @@
 const fs = require('fs/promises');
 require("dotenv").config({ path: "../../.env" });
-const path = '../../files/order.json'
+const path = process.env.ORDER_PATH
+//const path = '../../files/order.json'
 
 
 async function getOrderdata (){
@@ -12,7 +13,7 @@ async function updateOrderData(order) {
   try{
     // const allOrder = await getOrderdata()
     // allOrder.push(order)
-   fs.writeFile('../../files/order.json', JSON.stringify(order , null , 2))
+   fs.writeFile(path, JSON.stringify(order , null , 2))
   return true;
   }catch(e){
     console.log(`${e.name} => ${e.message}`)

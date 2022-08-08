@@ -1,42 +1,21 @@
 [
   {
-    "OrderId": "9f86aaad-38d1-4ad0-acf2-18359d3f8345",
-    "CartId": "fcba7412-26b2-4ba7-b88b-87e4a49a15c3",
+    "OrderId": "32df6d80-e17f-4713-bb03-ef3927440136",
+    "CartId": "1ba9b75d-f3fb-4ebc-8ae8-105120fe7a1e",
     "UserId": "e2f49706-bd4d-4cb7-893d-ed1aab4339ad",
     "Products": [
       {
-        "id": "6sdade1b-2ed2-4354-92a8-a7f193bac207",
+        "id": "622afe1b-2ed2-4354-92a8-a7f193bac207",
         "Quantity": 10
       }
     ],
-    "totalcost": 450000,
+    "totalcost": 1000,
     "shipementAddress": {
       "country": "Nepal",
       "city": "Ktm"
     },
     "payment": {
-      "type": "esewa",
-      "status": "Paid"
-    },
-    "orderStatus": "Review"
-  },
-  {
-    "OrderId": "0b84fd89-bb6e-4fcc-8527-cbe7477a639b",
-    "CartId": "08198902-b3a1-4c3f-9f90-987b46176639",
-    "UserId": "e2f49706-bd4d-4cb7-893d-ed1aab4339ad",
-    "Products": [
-      {
-        "id": "6sdade1b-2ed2-4354-92a8-a7f193bac207",
-        "Quantity": 15
-      }
-    ],
-    "totalcost": 360000,
-    "shipementAddress": {
-      "country": "Nepal",
-      "city": "Ktm"
-    },
-    "payment": {
-      "type": "esewa",
+      "type": "Paypal",
       "status": "Paid"
     },
     "orderStatus": "Review"

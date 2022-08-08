@@ -65,7 +65,7 @@ const addtoCart = async (CartID, Userid, newProduct) => {
     console.log(e.message);
   }
 };
-const cartinfo = { Productid: "6sdade1b-2ed2-4354-92a8-a7f193bac207",Quantity: 4,};
+const cartinfo = { Productid: "622afe1b-2ed2-4354-92a8-a7f193bac207",Quantity: 2,};
 //addtoCart(" ","e2f49706-bd4d-4cb7-893d-ed1aab4339ad" , cartinfo);
 
 
@@ -117,7 +117,7 @@ const removeProductFromCart = async (Cartid ,Productid) =>{ //productid=3
     console.log(e.message);
   }
 }
-removeProductFromCart("fcba7412-26b2-4ba7-b88b-87e4a49a15c3" , "6sdab-2ed2-4354-92a8-a7f193bac207")
+//removeProductFromCart("fcba7412-26b2-4ba7-b88b-87e4a49a15c3" , "6sdab-2ed2-4354-92a8-a7f193bac207")
 
 
 

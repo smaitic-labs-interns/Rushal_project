@@ -44,7 +44,7 @@ const addProduct = async(category, name, price, brand, quantity) => {
       brand: brand,
       Quantity: quantity,
     });
-    if (await product.updateProductData(allProduct)) {
+    if (product.updateProductData(allProduct)) {
       console.log("item added");
     } else {
       throw new Error("error while adding");
@@ -53,7 +53,7 @@ const addProduct = async(category, name, price, brand, quantity) => {
     console.log(err.message);
   }
 };
-//addProduct("Laptop","Legion Y 520" ,  400000, "Razor", 1);
+addProduct("Laptop","Legion Y 520" ,  100, "Razor", 1);
 
 
 const removeProduct = async(productid) => {
@@ -76,7 +76,7 @@ const removeProduct = async(productid) => {
     console.log(err.message);
   }
 };
-removeProduct("622afe1b-2ed2-4354-92a8-a7f193bac207");
+//removeProduct("622afe1b-2ed2-4354-92a8-a7f193bac207");
 
 
 

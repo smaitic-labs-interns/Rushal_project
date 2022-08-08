@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
-const path = "../../files/product.json"
+//const path = "../../files/product.json"
+const path = process.env.PRODUCT_PATH
 
 async function getProductdata() {
   const file = await fs.readFile(path, {encoding: "utf8",});
@@ -20,5 +21,13 @@ async function updateProductData(product) {
     return false;
   }
 }
+async function getProductById (id){
+  try{
+    const allproduct = await getProductdata();
+    return allproduct.filter((product) => product.product_id === id) 
+  }catch(e){
+    console.log(e.message);
+  }
+}
 
-module.exports = { getProductdata, updateProductData };
+module.exports = { getProductdata, updateProductData, getProductById };
