@@ -10,7 +10,7 @@ async function getProductdata() {
 
 async function updateProductData(product) {
   try {
-    fs.writeFile( "../../files/product.json", JSON.stringify(product, null, 2), (error) =>{
+    fs.writeFile(path, JSON.stringify(product, null, 2), (error) =>{
     if (error){
       throw error
     }

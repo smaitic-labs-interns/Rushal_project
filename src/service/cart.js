@@ -1,23 +1,9 @@
 const cart = require('../database/cartdb')
 const {getProductdata} = require ('../database/productdb')
-const allProduct = getProductdata()
 const {v4 : uuidv4} = require('uuid')
 
 
-const checkingProduct = async(productid) => {
-  try {
-    for (var product of allProduct) {
-      if (product.product_id === productid) {
-        return product;
-      }
-    }
-    throw new Error("no product found for id:" + productid);
-  } catch (e) {
-    throw e;
-  }
-};
-
-const addtoCart = async (CartID, Userid, newProduct) => {
+const addto_cart = async (CartID, Userid, newProduct) => {
   try {
     //assuming customer already have cart created
     const allCart = await cart.getCartdata()
@@ -36,7 +22,6 @@ const addtoCart = async (CartID, Userid, newProduct) => {
           id: newProduct["Productid"],
           Quantity: newProduct["Quantity"],
         });
-        // Acart["Totalcost"] += newProduct["Quantity"] * productResult["price"];
         if (cart.getCartDataUpdate(allCart)) {
           console.log("data added to cart");
           return;
@@ -53,7 +38,6 @@ const addtoCart = async (CartID, Userid, newProduct) => {
       id: newProduct["Productid"],
       Quantity: newProduct["Quantity"],
     });
-    // carts["Totalcost"] += newProduct["Quantity"] * productResult["price"];
     allCart.push(carts);
 
     if (cart.getCartDataUpdate(allCart)) {
@@ -65,11 +49,11 @@ const addtoCart = async (CartID, Userid, newProduct) => {
     console.log(e.message);
   }
 };
-const cartinfo = { Productid: "622afe1b-2ed2-4354-92a8-a7f193bac207",Quantity: 2,};
-//addtoCart(" ","e2f49706-bd4d-4cb7-893d-ed1aab4339ad" , cartinfo);
+const cartinfo = {Productid: "ac9ce917-aa3d-4345-a57d-68446847e3e6",Quantity: 2,};
+addto_cart("1ba9b75d-f3fb-4ebc-8ae8-105120fe7a1e","e2f49706-bd4d-4cb7-893d-ed1aab4339ad" , cartinfo);
 
 
-const updateCartQuantity = async (CartID, ProductID, Quantity) => {
+const updatecart_quantity = async (CartID, ProductID, Quantity) => {
   try {
     const allCart = await cart.getCartdata()
     for (let oldCart of allCart) {
@@ -77,7 +61,6 @@ const updateCartQuantity = async (CartID, ProductID, Quantity) => {
         for (var product of oldCart.Products) {
           if (product.id === ProductID) {
             product.Quantity = Quantity;
-            // oldCart.Totalcost += Quantity * productResult["price"];
             if (await cart.getCartDataUpdate(allCart)) {
               console.log("Quantity updated succesfully");
               return;
@@ -92,23 +75,23 @@ const updateCartQuantity = async (CartID, ProductID, Quantity) => {
     console.log(e.message);
   }
 };
-//updateCartQuantity( "fcba7412-26b2-4ba7-b88b-87e4a49a15c3", "6sdade1b-2ed2-4354-92a8-a7f193bac207", 5);
+//updatecart_quantity( "fcba7412-26b2-4ba7-b88b-87e4a49a15c3", "6sdade1b-2ed2-4354-92a8-a7f193bac207", 5);
 
-const removeProductFromCart = async (Cartid ,Productid) =>{ //productid=3
+const removeproduct_fromcart = async (Cartid ,Productid) =>{
   try{
-    var i = 0 // i =0 initial condition
+    var i = 0 
     const allCart = await cart.getCartdata()
     for(oldCart of allCart) {
       if(oldCart.CartId === Cartid){
      for(let product of oldCart.Products){
-      if(product.id === Productid){ // produsts[{id:1, qua:2}, {id:2, q:2},{id:3, q:3}, {id:4}]
-        oldCart.Products.splice(i,1) //2,1
+      if(product.id === Productid){ 
+        oldCart.Products.splice(i,1) 
         if(cart.getCartDataUpdate(allCart)){
           console.log("removed product from cart successfully");
           return;
         }
       }  
-      i += 1 // 0/1, 1/2,
+      i += 1 
      }
      throw new Error("error occured")
       }
@@ -117,7 +100,7 @@ const removeProductFromCart = async (Cartid ,Productid) =>{ //productid=3
     console.log(e.message);
   }
 }
-//removeProductFromCart("fcba7412-26b2-4ba7-b88b-87e4a49a15c3" , "6sdab-2ed2-4354-92a8-a7f193bac207")
+//removeproduct_fromcart("fcba7412-26b2-4ba7-b88b-87e4a49a15c3" , "6sdab-2ed2-4354-92a8-a7f193bac207")
 
 
 

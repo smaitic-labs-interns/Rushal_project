@@ -25,7 +25,7 @@ login("hello@gmail.com", "123456789");
 
 //sign up
 
-const signUP = async (fname, lname, password, email, contact) => {
+const sign_up = async (fname, lname, password, email, contact) => {
   try {
     const peoples = await User.getUserData();
     const { error, value } = Validate.userValidation(
@@ -62,7 +62,7 @@ const signUP = async (fname, lname, password, email, contact) => {
     console.log(err.message);
   }
 };
-signUP({
+sign_up({
   fname: "any",
   lname: "maharjan",
   password: "123456789",

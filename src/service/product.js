@@ -3,7 +3,7 @@ const {v4 : uuidv4} = require('uuid')
 
 
 
-const searchProduct = async(keyword) => {
+const search_product = async(keyword) => {
   try {
     const allProduct = await product.getProductdata ()
     const result = [];
@@ -26,14 +26,14 @@ const searchProduct = async(keyword) => {
       return;
     }
     throw new Error("no result found");
-  } catch (err) {
+  }catch (err) {
     console.log(err.message);
   }
 };
 
-//searchProduct("r");
+//search_product("r");
 
-const addProduct = async(category, name, price, brand, quantity) => {
+const add_product = async(category, name, price, brand, quantity) => {
   try {
     const allProduct = await product.getProductdata ()
     allProduct.push({
@@ -53,10 +53,10 @@ const addProduct = async(category, name, price, brand, quantity) => {
     console.log(err.message);
   }
 };
-addProduct("Laptop","Legion Y 520" ,  100, "Razor", 1);
+add_product("Laptop","Legion Y 520" ,  100, "Razor", 1);
 
 
-const removeProduct = async(productid) => {
+const remove_product = async(productid) => {
   try {
     const allProduct = await product.getProductdata ()
     var i = 0
@@ -76,11 +76,11 @@ const removeProduct = async(productid) => {
     console.log(err.message);
   }
 };
-//removeProduct("622afe1b-2ed2-4354-92a8-a7f193bac207");
+//remove_product("622afe1b-2ed2-4354-92a8-a7f193bac207");
 
 
 
-const updateProduct = async(Productid, Productinfo) => {
+const update_product = async(Productid, Productinfo) => {
   try {
     const allProduct = await product.getProductdata ()
     for (let Product of allProduct) {
@@ -103,4 +103,4 @@ const updateProduct = async(Productid, Productinfo) => {
 };
 
 const pro = { category: "computer", name: "fantech" ,  price: 90000, brand: "samsung", Quantity:2 };
-//updateProduct("622afe1b-2ed2-4354-92a8-a7f193bac207", pro);
+//update_product("622afe1b-2ed2-4354-92a8-a7f193bac207", pro);

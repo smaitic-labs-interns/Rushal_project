@@ -5,6 +5,10 @@
     "Products": [
       {
         "id": "622afe1b-2ed2-4354-92a8-a7f193bac207",
+        "Quantity": 4
+      },
+      {
+        "id": "ac9ce917-aa3d-4345-a57d-68446847e3e6",
         "Quantity": 2
       }
     ]
