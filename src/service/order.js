@@ -40,7 +40,6 @@ for(product of allProduct){
     if (product.product_id === id){
         product.Quantity -= quantity
     }
-
 }
 if(store.updateProductData(allProduct)){
     return true
@@ -88,7 +87,7 @@ const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
 const shipments = {name:"Inside Ringroad" , charge: 150 , status: "on the way"}
 const address = {country: "Nepal" , city: "Ktm"}
 const Pay = {type: "Paypal" , status: "Paid"}
-//place_order("1ba9b75d-f3fb-4ebc-8ae8-105120fe7a1e" ,address, shipments, Pay)
+//place_order("a7b084ca-b9a8-4b92-83c2-3bbb20914a97" ,address, shipments, Pay)
 
 const updateorder_quantity = async (orderid, productid, quantity) => {
   try {
@@ -120,7 +119,7 @@ const updateorder_quantity = async (orderid, productid, quantity) => {
     console.log(err.message);
   }
 };
-updateorder_quantity( "e6d27a78-d612-4cae-a234-959dbcbd1181", "622afe1b-2ed2-4354-92a8-a7f193bac207", 10);
+//updateorder_quantity("a9131cdf-96f7-4f8f-abc8-42e9e96427f6", "2065e804-0034-44a2-b091-dcbcb92dd7ec", 4);
 
 const cancel_order = async (orderid) => {
   try {
@@ -143,7 +142,7 @@ const cancel_order = async (orderid) => {
     console.log(e.message);
   }
 };
-//cancel_order ("de560d39-243c-4090-a943-26550e7188bf")
+//cancel_order ("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
 
 const trackrefund_update = async (orderid) => {
   try {
@@ -151,6 +150,7 @@ const trackrefund_update = async (orderid) => {
     for (let order of allOrder) {
       if (order.OrderId === orderid) {
         order.payment.status = "refunded";
+        order.totalcost = 0
         if (Order.updateOrderData(allOrder)) {
           console.log("order refunded successfully");
           return;
@@ -162,7 +162,7 @@ const trackrefund_update = async (orderid) => {
     console.log(e.message);
   }
 };
-//trackrefund_update("9f86aaad-38d1-4ad0-acf2-18359d3f8345")
+// trackrefund_update("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
 
 const shipment_update = async (orderid) => {
   try{
@@ -178,4 +178,4 @@ const shipment_update = async (orderid) => {
     console.log(e.message);
   }
 }
-//shipment_update("e6d27a78-d612-4cae-a234-959dbcbd1181")
+shipment_update("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")

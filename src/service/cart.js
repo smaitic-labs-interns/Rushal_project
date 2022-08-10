@@ -49,8 +49,8 @@ const addto_cart = async (CartID, Userid, newProduct) => {
     console.log(e.message);
   }
 };
-const cartinfo = {Productid: "ac9ce917-aa3d-4345-a57d-68446847e3e6",Quantity: 2,};
-addto_cart("1ba9b75d-f3fb-4ebc-8ae8-105120fe7a1e","e2f49706-bd4d-4cb7-893d-ed1aab4339ad" , cartinfo);
+const cartinfo = {Productid: "2065e804-0034-44a2-b091-dcbcb92dd7ec",Quantity: 2,};
+//addto_cart("a7b084ca-b9a8-4b92-83c2-3bbb20914a97","9b385ce7-afb2-451e-9937-b219aa79355a" , cartinfo);
 
 
 const updatecart_quantity = async (CartID, ProductID, Quantity) => {
@@ -61,7 +61,7 @@ const updatecart_quantity = async (CartID, ProductID, Quantity) => {
         for (var product of oldCart.Products) {
           if (product.id === ProductID) {
             product.Quantity = Quantity;
-            if (await cart.getCartDataUpdate(allCart)) {
+            if (cart.getCartDataUpdate(allCart)) {
               console.log("Quantity updated succesfully");
               return;
             }
@@ -75,7 +75,7 @@ const updatecart_quantity = async (CartID, ProductID, Quantity) => {
     console.log(e.message);
   }
 };
-//updatecart_quantity( "fcba7412-26b2-4ba7-b88b-87e4a49a15c3", "6sdade1b-2ed2-4354-92a8-a7f193bac207", 5);
+//updatecart_quantity("a7b084ca-b9a8-4b92-83c2-3bbb20914a97", "2065e804-0034-44a2-b091-dcbcb92dd7ec", 2);
 
 const removeproduct_fromcart = async (Cartid ,Productid) =>{
   try{
@@ -100,7 +100,7 @@ const removeproduct_fromcart = async (Cartid ,Productid) =>{
     console.log(e.message);
   }
 }
-//removeproduct_fromcart("fcba7412-26b2-4ba7-b88b-87e4a49a15c3" , "6sdab-2ed2-4354-92a8-a7f193bac207")
+// removeproduct_fromcart("cad9d7cb-ca6e-4759-b5d0-48fcc9ed3497" , "2065e804-0034-44a2-b091-dcbcb92dd7ec")
 
 
 

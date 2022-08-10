@@ -9,7 +9,7 @@ const search_product = async(keyword) => {
     const result = [];
     for (let products of allProduct) {
       for (key in products) {
-        if(key === "Product_id" || key === "brand"){
+        if(key === "product_id" || key === "brand"){
           continue
         }else{
         if (typeof products[key] === "string" && typeof keyword === "string") {
@@ -31,7 +31,7 @@ const search_product = async(keyword) => {
   }
 };
 
-//search_product("r");
+// search_product("520");
 
 const add_product = async(category, name, price, brand, quantity) => {
   try {
@@ -53,7 +53,7 @@ const add_product = async(category, name, price, brand, quantity) => {
     console.log(err.message);
   }
 };
-add_product("Laptop","Legion Y 520" ,  100, "Razor", 1);
+// add_product("computer","any" ,  100, "dell", 1);
 
 
 const remove_product = async(productid) => {
@@ -62,8 +62,8 @@ const remove_product = async(productid) => {
     var i = 0
     for (let Product of allProduct) {
       if (Product.product_id === productid) {
-        const remainingProduct = allProduct.splice(i,1)
-        if (product.updateProductData(remainingProduct)) {
+        allProduct.splice(i,1)
+        if (product.updateProductData(allProduct)) {
           console.log("removed successfully");
           return;
         }
@@ -71,22 +71,22 @@ const remove_product = async(productid) => {
       }
       i += 1
     }
-    console.log("no product on this id");
+    console.log("no product on this id :" + productid);
   } catch (err) {
     console.log(err.message);
   }
 };
-//remove_product("622afe1b-2ed2-4354-92a8-a7f193bac207");
+//remove_product("ff97d64e-c90a-466b-9d8a-28a17209a622");
 
 
 
-const update_product = async(Productid, Productinfo) => {
+const update_product = async(productid, productinfo) => {
   try {
     const allProduct = await product.getProductdata ()
     for (let Product of allProduct) {
-      if (Product.product_id === Productid) {
-        for (let key in Productinfo) {
-          Product[key] = Productinfo[key];
+      if (Product.product_id === productid) {
+        for (let key in productinfo) {
+          Product[key] = productinfo[key];
         }
         if (product.updateProductData(allProduct)) {
           console.log("Data updated");
@@ -96,11 +96,11 @@ const update_product = async(Productid, Productinfo) => {
       }
     }
 
-    console.log("no product found for this id :" + Productid);
+    console.log("no product found for this id :" + productid);
   } catch (err) {
     console.log(err.message);
   }
 };
 
-const pro = { category: "computer", name: "fantech" ,  price: 90000, brand: "samsung", Quantity:2 };
-//update_product("622afe1b-2ed2-4354-92a8-a7f193bac207", pro);
+const pro = { category: "computer", name: "fantech" ,  price: 100, brand: "samsung", Quantity:2 };
+//update_product("2065e804-0034-44a2-b091-dcbcb92dd7ec", pro);

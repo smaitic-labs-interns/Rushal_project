@@ -1,18 +1,18 @@
 [
   {
-    "product_id": "622afe1b-2ed2-4354-92a8-a7f193bac207",
-    "category": "computer",
-    "name": "fantech",
-    "price": 100,
-    "brand": "samsung",
-    "Quantity": 8
-  },
-  {
-    "product_id": "ac9ce917-aa3d-4345-a57d-68446847e3e6",
+    "product_id": "bb21e162-973e-4067-bdd5-dc3f80a7beda",
     "category": "Laptop",
     "name": "Legion Y 520",
     "price": 100,
     "brand": "Razor",
-    "Quantity": 1
+    "Quantity": 8
+  },
+  {
+    "product_id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
+    "category": "computer",
+    "name": "fantech",
+    "price": 100,
+    "brand": "samsung",
+    "Quantity": 0
   }
 ]

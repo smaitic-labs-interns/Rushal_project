@@ -10,22 +10,22 @@ async function getProductdata() {
 
 async function updateProductData(product) {
   try {
-    fs.writeFile(path, JSON.stringify(product, null, 2), (error) =>{
-    if (error){
-      throw error
-    }
-    return true
+    fs.writeFile(path, JSON.stringify(product, null, 2), (error) => {
+      if (error) {
+        throw error;
+      }
+      return true;
     });
   } catch (e) {
     console.log(`${e.name} => ${e.message}`);
     return false;
   }
 }
-async function getProductById (id){
-  try{
+async function getProductById(id) {
+  try {
     const allproduct = await getProductdata();
-    return allproduct.filter((product) => product.product_id === id) 
-  }catch(e){
+    return allproduct.filter((product) => product.product_id === id);
+  } catch (e) {
     console.log(e.message);
   }
 }

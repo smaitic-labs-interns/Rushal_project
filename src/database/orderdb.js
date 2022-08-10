@@ -10,15 +10,12 @@ return JSON.parse(file) ;
 }
 
 async function updateOrderData(order) {
-  try{
-    // const allOrder = await getOrderdata()
-    // allOrder.push(order)
-   fs.writeFile(path, JSON.stringify(order , null , 2))
-  return true;
-  }catch(e){
-    console.log(`${e.name} => ${e.message}`)
-    return false
+  try {
+    fs.writeFile(path, JSON.stringify(order, null, 2));
+    return true;
+  } catch (e) {
+    console.log(`${e.name} => ${e.message}`);
+    return false;
   }
-  
 }
  module.exports = {getOrderdata , updateOrderData}

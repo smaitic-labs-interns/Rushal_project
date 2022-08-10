@@ -9,21 +9,20 @@ async function getCartdata (){
 }
 
 async function getCartDataUpdate(cart) {
-  try{
-   fs.writeFile(path, JSON.stringify(cart , null , 2), (error) => {
-   if (error){
-    throw error
-   } 
-    return true;
-   });
-  }catch(e){
-    console.log(`${e.name} => ${e.message}`)
-    return false
+  try {
+    fs.writeFile(path, JSON.stringify(cart, null, 2), (error) => {
+      if (error) {
+        throw error;
+      }
+      return true;
+    });
+  } catch (e) {
+    console.log(`${e.name} => ${e.message}`);
+    return false;
   }
-  
 }
   
-module.exports = { getCartdata  ,getCartDataUpdate };
+module.exports = {getCartdata ,getCartDataUpdate};
 
 
 

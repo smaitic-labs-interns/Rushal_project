@@ -11,14 +11,37 @@ async function getUserData() {
 async function updateUserData(user) {
   try {
     fs.writeFile(path, JSON.stringify(user, null, 2), (error) => {
-      if(error){
-        throw error 
-      } 
+      if (error) {
+        throw error;
+      }
       return true;
-    }); 
+    });
   } catch (e) {
     return false;
   }
 }
+async function addUser (user){
+  try{
+    const peoples = await getUserData();
+    peoples.push(user);
+    fs.writeFile(path, JSON.stringify(peoples, null, 2), (error) => {
+      if (error) {
+        throw error;
+      }
 
-module.exports = { getUserData, updateUserData };
+      return true;
+    });
+  }catch(e){
+
+  }
+}
+async function findUserFromEmail (email){
+  const peoples = await getUserData();
+  for (let i = 0; i < peoples.length; i++) {
+    if (email === peoples[i].email) {
+      return true
+    }
+  }
+  return false
+}
+module.exports = { getUserData, updateUserData,addUser,findUserFromEmail };
