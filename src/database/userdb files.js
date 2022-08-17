@@ -1,23 +1,14 @@
 const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
+//const path = "../../files/users.json"
 const path = process.env.USER_PATH
 const Bcrypt = require('bcrypt')
-const {MongoClient} = require('mongodb');
-// require('dotenv').config();
-const url = process.env.MONGO_URL;
-const client = new MongoClient(url);
-const database = "Ecommerce_portal"
-const db_connect = async(collection)=>{
-    let result = await client.connect();
-    let db = result.db(database);
-    return db.collection(collection);
-}
 
 async function getUserData() {
-  let con = await db_connect("users")
-  const data = await con.find().toArray()
-  return data
+  const data = await fs.readFile(path, { encoding: "utf8" });
+  return JSON.parse(data);
 }
+
 async function updateUserData(user) {
   try {
     fs.writeFile(path, JSON.stringify(user, null, 2), (error) => {
@@ -32,9 +23,9 @@ async function updateUserData(user) {
 }
 async function addUser (user){
   try{
-    let con = await db_connect("users")
-    const data = await con.insertOne(user)
-      return  data.acknowledged
+    const peoples = await getUserData();
+    peoples.push(user);
+   return updateUserData(user)
   }catch(e){
 
   }

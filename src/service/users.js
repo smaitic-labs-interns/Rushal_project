@@ -9,13 +9,10 @@ const Salt = Bcrypt.genSaltSync(10);
 //sign in
 const login = async (email, password) => {
   try {
-    const peoples = await User.getUserData();
-    for (let i = 0; i < peoples.length; i++) {
-      if (peoples[i].email === email && Bcrypt.compareSync(password, peoples[i].password)){
-        console.log("login successful");
-        return;
-      }
-    }
+  if(await User.findUserFromLoginDetails(email, password)) {
+    console.log("login successfull");
+    return true
+  }
     throw new Error("Invalid email password");
   } catch (err) {
     console.log(err.message);
@@ -64,7 +61,7 @@ sign_up({
   fname: "Rushal123",
   lname: "Maharjan",
   password: "123456789",
-  email: "rush234@gmail.com",
+  email: "hello@gmail.com",
   contact: "9843437654",
 });
 

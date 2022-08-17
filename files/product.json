@@ -1,11 +1,11 @@
 [
   {
     "product_id": "bb21e162-973e-4067-bdd5-dc3f80a7beda",
-    "category": "Laptop",
-    "name": "Legion Y 520",
+    "category": "keyboard",
+    "name": "fantech",
     "price": 100,
-    "brand": "Razor",
-    "Quantity": 8
+    "brand": "protech",
+    "Quantity": 2
   },
   {
     "product_id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
@@ -14,5 +14,13 @@
     "price": 100,
     "brand": "samsung",
     "Quantity": 0
+  },
+  {
+    "product_id": "8429c11c-115d-4914-a1b7-66dadc22646d",
+    "category": "mobile",
+    "name": "any",
+    "price": 100,
+    "brand": "dell",
+    "Quantity": 1
   }
 ]

@@ -29,5 +29,86 @@ async function getProductById(id) {
     console.log(e.message);
   }
 }
+async function addProduct (product){
+  try{
+    const allProduct = await getProductdata ()
+    allProduct.push(product)
+    return updateProductData(allProduct)
+  }catch(e){
+    throw e
+  }
+}
 
-module.exports = { getProductdata, updateProductData, getProductById };
+async function findProductFromData (keyword) {
+try{
+  const allProduct = await getProductdata()
+  const result = [];
+    for (let product of allProduct) {
+      for (key in product) {
+        if(key === "product_id" || key === "brand"){
+          continue
+        }else{
+        if (typeof product[key] === "string" && typeof keyword === "string") {
+          if (product[key].toLowerCase().indexOf(keyword.toLowerCase()) !== -1) {
+            result.push(product);
+            break;
+          }
+        }
+      }
+      }
+    }
+    return result;
+
+}catch(e){
+  console.log(e.message);
+}
+
+}
+
+async function removeProductFromData (id){
+try{
+  const allProduct = await getProductdata()
+  var i = 0
+  for (let Product of allProduct) {
+    if (Product.product_id === id) {
+      allProduct.splice(i,1)
+      if (updateProductData(allProduct)) {
+        return true;
+      } 
+    }
+    i +=1
+  }
+  throw new Error("error occur while saving on database");
+}catch(e){
+throw e
+}
+}
+
+async function updateProductFromData(id , productinfo){
+  try{
+    const allProduct = await getProductdata()
+    for (let Product of allProduct) {
+      if (Product.product_id === id) {
+        for (let key in productinfo) {
+          Product[key] = productinfo[key];
+        }
+        if (updateProductData(allProduct)) {
+          return true;
+        }
+  }
+}
+return false;
+  }catch (e){
+    throw e
+  }
+}
+
+module.exports = {
+  getProductdata,
+  updateProductData,
+  getProductById,
+  addProduct,
+  findProductFromData,
+  removeProductFromData,
+  updateProductFromData
+};

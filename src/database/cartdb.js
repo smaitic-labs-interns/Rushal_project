@@ -22,6 +22,35 @@ async function getCartDataUpdate(cart) {
   }
 }
   
+async function addToCart(CartID, Userid, newProduct){
+try{
+  const allCart = await getCartdata()
+  for (let Acart of allCart) {
+    if (Acart.CartId === CartID) {
+      for (let i of Acart.Products) {
+        if (newProduct.Productid === i.id) {
+          i.Quantity += newProduct.Quantity;
+          return getCartDataUpdate(allCart) 
+        }
+      }
+      Acart["Products"].push({
+        id: newProduct["Productid"],
+        Quantity: newProduct["Quantity"],
+      });
+      return getCartDataUpdate(allCart)      
+    }
+  }
+  //  creating new cart
+  carts["Products"].push({
+    id: newProduct["Productid"],
+    Quantity: newProduct["Quantity"],
+  });
+  allCart.push(carts);
+  return getCartDataUpdate(allCart) 
+}catch(e){
+    throw e
+  }
+}
 module.exports = {getCartdata ,getCartDataUpdate};
 
 
