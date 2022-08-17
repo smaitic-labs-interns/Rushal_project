@@ -22,36 +22,111 @@ async function getCartDataUpdate(cart) {
   }
 }
   
-async function addToCart(CartID, Userid, newProduct){
-try{
-  const allCart = await getCartdata()
-  for (let Acart of allCart) {
-    if (Acart.CartId === CartID) {
-      for (let i of Acart.Products) {
-        if (newProduct.Productid === i.id) {
-          i.Quantity += newProduct.Quantity;
-          return getCartDataUpdate(allCart) 
-        }
+async function updateCartData(userid , cart){
+  try{
+    const allCart = await getCartdata();
+    for(let Acart of allCart){
+      if(Acart.UserId === userid){
+        allCart[allCart.indexOf(Acart)] = cart;
+        return getCartDataUpdate(allCart)
       }
-      Acart["Products"].push({
-        id: newProduct["Productid"],
-        Quantity: newProduct["Quantity"],
-      });
-      return getCartDataUpdate(allCart)      
     }
-  }
-  //  creating new cart
-  carts["Products"].push({
-    id: newProduct["Productid"],
-    Quantity: newProduct["Quantity"],
-  });
-  allCart.push(carts);
-  return getCartDataUpdate(allCart) 
-}catch(e){
+  }catch(e){
     throw e
   }
 }
-module.exports = {getCartdata ,getCartDataUpdate};
+
+async function getActiveCartdata(userid){
+  try{
+  const allCart = await getCartdata()
+  for(let cart of allCart){
+    if(cart.UserId === userid && cart.status ==="active"){
+      return cart
+    }
+  }
+  return false
+}catch(e){
+  throw e
+}
+}
+async function addToCart (cart){
+  try {
+  const allCart = await getCartdata()
+  allCart.push(cart)
+  return getCartDataUpdate(allCart);
+}catch(e){
+throw e
+}
+}
+async function updateQuantityFromCart(cartid, productid, quantity) {
+  try {
+    const allCart = await getCartdata();
+    for (let oldCart of allCart) {
+      if (oldCart.CartId === cartid) {
+        for (var product of oldCart.Products) {
+          if (product.id === productid) {
+            product.Quantity = quantity;
+            if (getCartDataUpdate(allCart)) {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+    }
+    throw new Error("no Cart found for id:" + cartid);
+  } catch (e) {
+    throw e;
+  }
+}
+
+async function removeProductFromCart(cartid , productid){
+  try{
+    const allCart = await getCartdata();
+    var i = 0
+    for(oldCart of allCart) {
+      if(oldCart.CartId === cartid){
+     for(let product of oldCart.Products){
+      if(product.id === productid){ 
+        oldCart.Products.splice(i,1) 
+        if(getCartDataUpdate(allCart)){
+          return true;
+        }
+      }  
+      i += 1 
+     }
+      }
+      return false;
+    }
+    throw new Error("error occured")
+  }catch(e){
+    throw e
+  }
+}
+async function findCart (cartId) {
+  try{
+      const allCart = await getCartdata()
+      for(cart of allCart){
+          if(cart.CartId === cartId){
+              return cart;
+          }
+      }
+      throw new Error("no cart found for id :" + cartId)
+  }catch(e){
+      throw e
+  }
+}
+
+module.exports = {
+  getCartdata,
+  getCartDataUpdate,
+  updateCartData,
+  getActiveCartdata,
+  addToCart,
+  updateQuantityFromCart,
+  removeProductFromCart,
+  findCart
+};
 
 
 

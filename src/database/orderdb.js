@@ -1,8 +1,6 @@
 const fs = require('fs/promises');
 require("dotenv").config({ path: "../../.env" });
 const path = process.env.ORDER_PATH
-//const path = '../../files/order.json'
-
 
 async function getOrderdata (){
     const file = await fs.readFile(path, {encoding:'utf8'});
@@ -18,4 +16,19 @@ async function updateOrderData(order) {
     return false;
   }
 }
- module.exports = {getOrderdata , updateOrderData}
+
+async function addOrder(order) {
+  try {
+    const allOrder = await getOrderdata();
+    delete order.Products
+    allOrder.push(order);
+    return updateOrderData(allOrder);
+  } catch (e) {
+    throw e;
+  }
+}
+
+
+
+
+ module.exports = {getOrderdata , updateOrderData, addOrder}

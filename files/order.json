@@ -1,28 +1,23 @@
 [
   {
-    "OrderId": "a9131cdf-96f7-4f8f-abc8-42e9e96427f6",
-    "CartId": "a7b084ca-b9a8-4b92-83c2-3bbb20914a97",
-    "UserId": "9b385ce7-afb2-451e-9937-b219aa79355a",
-    "Products": [
-      {
-        "id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
-        "Quantity": 4
-      }
-    ],
-    "totalcost": 0,
+    "OrderId": "228e27eb-3a15-4658-9624-068e0e6910d6",
+    "CartId": "19005597-92e7-4067-84f0-1ebaaa9232e5",
+    "UserId": "29b988b2-9653-4b1c-adad-587ac112066c",
+    "status": "active",
+    "totalcost": 200,
     "shipementAddress": {
       "country": "Nepal",
       "city": "Ktm"
     },
     "payment": {
       "type": "Paypal",
-      "status": "refunded"
+      "status": "Paid"
     },
     "shipment": {
       "name": "Inside Ringroad",
-      "charge": 0,
-      "status": "canceled"
+      "charge": 150,
+      "status": "on the way"
     },
-    "orderStatus": "canceled"
+    "orderStatus": "Review"
   }
 ]

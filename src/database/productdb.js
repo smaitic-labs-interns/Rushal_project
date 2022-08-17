@@ -102,6 +102,33 @@ return false;
     throw e
   }
 }
+async function checkingProduct(productid){
+  try {
+      const allProduct = await getProductdata()
+    for (var product of allProduct) {
+      if (product.product_id === productid) {
+        return product;
+      }
+    }
+    throw new Error("no product found for id:" + productid);
+  } catch (e) {
+    throw e;
+  }
+};
+async function updateQuantity(id , quantity) {
+
+  const allProduct = await getProductdata()
+  for(product of allProduct){
+      if (product.product_id === id){
+          product.Quantity -= quantity
+      }
+  }
+  if(updateProductData(allProduct)){
+      return true
+  }else{
+      console.log("error Occured");
+  }
+  }
 
 module.exports = {
   getProductdata,
@@ -110,5 +137,7 @@ module.exports = {
   addProduct,
   findProductFromData,
   removeProductFromData,
-  updateProductFromData
+  updateProductFromData,
+  checkingProduct,
+  updateQuantity
 };

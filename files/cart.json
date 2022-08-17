@@ -1,22 +1,13 @@
 [
   {
-    "CartId": "a7b084ca-b9a8-4b92-83c2-3bbb20914a97",
-    "UserId": "9b385ce7-afb2-451e-9937-b219aa79355a",
+    "CartId": "19005597-92e7-4067-84f0-1ebaaa9232e5",
+    "UserId": "29b988b2-9653-4b1c-adad-587ac112066c",
     "Products": [
       {
-        "id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
+        "id": "bb21e162-973e-4067-bdd5-dc3f80a7beda",
         "Quantity": 2
       }
-    ]
-  }, 
-  {
-    "CartId": "4b9d23b4-5736-4b04-8a8b-0559be510d39",
-    "UserId": "9b385ce7-afb2-451e-9937-b219aa79355a",
-    "Products": [
-      {
-        "id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
-        "Quantity": 2
-      }
-    ]
+    ],
+    "status": "active"
   }
 ]

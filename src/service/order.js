@@ -4,65 +4,21 @@ const{v4: uuidv4} = require('uuid')
 const store = require('../database/productdb')
 
 
-const checking_product = async (productid) => {
-    try {
-        const allProduct = await store.getProductdata()
-        // console.log(productid);
-      for (var product of allProduct) {
-        if (product.product_id === productid) {
-          return product;
-        }
-      }
-      throw new Error("no product found for id:" + productid);
-    } catch (e) {
-      throw e;
-    }
-  };
-
-const find_cart = async (cartId) => {
-    try{
-        const allCart = await cartDb.getCartdata()
-        for(cart of allCart){
-            if(cart.CartId === cartId){
-                return cart;
-            }
-        }
-        throw new Error("no cart found for id :" + cartId)
-    }catch(e){
-        throw e
-    }
-}
-
-const update_Quantity = async (id , quantity) =>{
-
-const allProduct = await store.getProductdata()
-for(product of allProduct){
-    if (product.product_id === id){
-        product.Quantity -= quantity
-    }
-}
-if(store.updateProductData(allProduct)){
-    return true
-}else{
-    console.log("error Occured");
-}
-}
 
 const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
     try {
-      const allOrder = await Order.getOrderdata();
       let totalcost = 0;
-      const cartResult = await find_cart(cart_id);
+      const cartResult = await cartDb.findCart(cart_id);
       for (product of cartResult.Products) {
-        const productResult = await checking_product(product.id);
+        const productResult = await store.checkingProduct(product.id);
         if (productResult.Quantity < product.Quantity) {
           throw new Error("not sufficient product on store");
         }
-        // productResult.Quantity -= product.Quantity
-        if (update_Quantity(product.id, product.Quantity)) {
+        if (store.updateQuantity(product.id, product.Quantity)) {
           totalcost += product.Quantity * productResult["price"];
         }
       }
+     
       const order = {
         OrderId: uuidv4(),
         ...cartResult,
@@ -70,12 +26,11 @@ const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
         shipementAddress: ShipementAddress,
         payment: Payment,
         shipment: Shipment,
-        orderStatus: "Review",
+        orderStatus: "Review"
 
       };
-
-      allOrder.push(order);
-      if (Order.updateOrderData(allOrder)) {
+      console.log(order);
+      if (Order.addOrder(order)) {
         console.log("order palce successfully");
         return;
       }
@@ -87,7 +42,8 @@ const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
 const shipments = {name:"Inside Ringroad" , charge: 150 , status: "on the way"}
 const address = {country: "Nepal" , city: "Ktm"}
 const Pay = {type: "Paypal" , status: "Paid"}
-//place_order("a7b084ca-b9a8-4b92-83c2-3bbb20914a97" ,address, shipments, Pay)
+place_order("19005597-92e7-4067-84f0-1ebaaa9232e5" ,address, shipments, Pay)
+
 
 const updateorder_quantity = async (orderid, productid, quantity) => {
   try {
@@ -178,4 +134,4 @@ const shipment_update = async (orderid) => {
     console.log(e.message);
   }
 }
-shipment_update("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
+//shipment_update("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
