@@ -20,15 +20,41 @@ async function updateOrderData(order) {
 async function addOrder(order) {
   try {
     const allOrder = await getOrderdata();
-    delete order.Products
+    delete order.CartId
     allOrder.push(order);
     return updateOrderData(allOrder);
   } catch (e) {
     throw e;
   }
 }
+async function getOrderById(orderid) {
+  try {
+    const allOrder = await getOrderdata();
+    for (let order of allOrder) {
+      if (order.OrderId === orderid) {
+        return order;
+      }
+    }
+    return false;
+  } catch (e) {
+    throw e;
+  }
+}
+async function updateOrder (orderid , neworder){
+  try{
+    const allOrder = await getOrderdata();
+    for(let order of allOrder){
+      if(order.OrderId === orderid){
+        allOrder[allOrder.indexOf(order)] = neworder;
+        return updateOrderData(allOrder)
+      }
+    }
+  }catch(e){
+   throw e
+  }
+}
 
 
 
 
- module.exports = {getOrderdata , updateOrderData, addOrder}
+ module.exports = {getOrderdata , updateOrderData, addOrder, getOrderById,updateOrder}

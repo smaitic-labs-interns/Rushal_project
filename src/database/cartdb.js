@@ -22,7 +22,7 @@ async function getCartDataUpdate(cart) {
   }
 }
   
-async function updateCartData(userid , cart){
+async function updateCartData(userid ,cart){
   try{
     const allCart = await getCartdata();
     for(let Acart of allCart){

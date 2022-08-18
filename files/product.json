@@ -5,7 +5,7 @@
     "name": "fantech",
     "price": 100,
     "brand": "protech",
-    "Quantity": 48
+    "Quantity": 50
   },
   {
     "product_id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
@@ -13,7 +13,7 @@
     "name": "fantech",
     "price": 100,
     "brand": "samsung",
-    "Quantity": 50
+    "Quantity": 48
   },
   {
     "product_id": "8429c11c-115d-4914-a1b7-66dadc22646d",

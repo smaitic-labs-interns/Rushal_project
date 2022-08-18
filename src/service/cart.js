@@ -15,6 +15,7 @@ const addto_cart = async (Userid, newProduct) => {
             console.log("data added to cart");
             return;
           }
+          throw new Error("error occur while adding data on cart ")
         }
       }
       Cart["Products"].push({
@@ -25,6 +26,7 @@ const addto_cart = async (Userid, newProduct) => {
         console.log("data added to cart");
         return;
       }
+      throw new Error("error occur while adding data on cart")
     }
     //  creating new cart
     const carts = {
@@ -48,7 +50,7 @@ const addto_cart = async (Userid, newProduct) => {
   }
 };
 const cartinfo = {Productid: "2065e804-0034-44a2-b091-dcbcb92dd7ec",Quantity: 2,};
-//addto_cart("29b988b2-9653-4b1c-adad-587ac112066c" , cartinfo);
+addto_cart("19005597-92e7-4067-84f0-1ebaaa9232e5" , cartinfo);
 
 
 const updatecart_quantity = async (CartID, ProductID, Quantity) => {

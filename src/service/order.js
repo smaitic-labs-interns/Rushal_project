@@ -18,7 +18,6 @@ const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
           totalcost += product.Quantity * productResult["price"];
         }
       }
-     
       const order = {
         OrderId: uuidv4(),
         ...cartResult,
@@ -29,7 +28,6 @@ const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
         orderStatus: "Review"
 
       };
-      console.log(order);
       if (Order.addOrder(order)) {
         console.log("order palce successfully");
         return;
@@ -42,96 +40,89 @@ const place_order = async (cart_id , ShipementAddress,Shipment, Payment) => {
 const shipments = {name:"Inside Ringroad" , charge: 150 , status: "on the way"}
 const address = {country: "Nepal" , city: "Ktm"}
 const Pay = {type: "Paypal" , status: "Paid"}
-place_order("19005597-92e7-4067-84f0-1ebaaa9232e5" ,address, shipments, Pay)
+//place_order("48c91f31-07a4-4303-b4a9-79bc575adfd8" ,address, shipments, Pay)
 
 
 const updateorder_quantity = async (orderid, productid, quantity) => {
   try {
     let productData = await store.getProductById(productid);
-
     if (productData.length <= 0) {
       throw new Error("no Product in this order");
     }
     productData = productData[0];
-
-    const allOrder = await Order.getOrderdata();
-    for (let i = 0; i < allOrder.length; i++) {
-      if (allOrder[i].OrderId === orderid) {
-        for (let product of allOrder[i].Products) {
+    const order = await Order.getOrderById(orderid)
+   
+      if (order) {
+        for (let product of order.Products) {
           if (product.id === productid) {
-            let tempCost = allOrder[i].totalcost - productData.price * product.Quantity;
+            let tempCost = order.totalcost - productData.price * product.Quantity;
             product.Quantity = quantity;
-            allOrder[i].totalcost = tempCost +(productData.price * quantity)
-            if (Order.updateOrderData(allOrder)) {
+            order.totalcost = tempCost +(productData.price * quantity)
+            if (Order.updateOrder(orderid, order)) {
               console.log("updated successfully");
               return;
             }
+            throw new Error ("error occur while updating")
           }
         }
       }
-    }
     throw new Error('No Order Found For Id: ' + orderid);
   } catch (err) {
     console.log(err.message);
   }
 };
-//updateorder_quantity("a9131cdf-96f7-4f8f-abc8-42e9e96427f6", "2065e804-0034-44a2-b091-dcbcb92dd7ec", 4);
+//updateorder_quantity("eee76ea9-c858-4f96-8c2b-cb084fc46daa", "2065e804-0034-44a2-b091-dcbcb92dd7ec", 4);
 
 const cancel_order = async (orderid) => {
   try {
-    const allOrder = await Order.getOrderdata();
-    for (let order of allOrder) {
-      if (order.OrderId === orderid) {
+    // const allOrder = await Order.getOrderdata();
+    const order = await Order.getOrderById(orderid)
+      if (order) {
         order.orderStatus = "canceled";
         order.totalcost = 0;
         order.payment.status = "canceled"
         order.shipment.charge = 0;
         order.shipment.status = "canceled"
-        if (Order.updateOrderData(allOrder)) {
+        if (await Order.updateOrder(orderid , order)) {
           console.log("order cancel successfully");
           return;
         }
       }
-    }
-    throw new Error("no order found on id :" + orderid);
+      throw new Error("no order found on id :" + orderid);
   } catch (e) {
     console.log(e.message);
   }
 };
-//cancel_order ("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
+// cancel_order ("eee76ea9-c858-4f96-8c2b-cb084fc46daa")
 
 const trackrefund_update = async (orderid) => {
   try {
-    const allOrder = await Order.getOrderdata();
-    for (let order of allOrder) {
-      if (order.OrderId === orderid) {
+     const order = await Order.getOrderById(orderid)
+      if (order) {
         order.payment.status = "refunded";
         order.totalcost = 0
-        if (Order.updateOrderData(allOrder)) {
+        if (Order.updateOrder(orderid , order)) {
           console.log("order refunded successfully");
           return;
         }
       }
-    }
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {
     console.log(e.message);
   }
 };
-// trackrefund_update("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
+// trackrefund_update("eee76ea9-c858-4f96-8c2b-cb084fc46daa")
 
 const shipment_update = async (orderid) => {
   try{
-    const allOrder = await Order.getOrderdata();
-    for(let order of allOrder){
-      if(order.OrderId === orderid){
+    const order = await Order.getOrderById(orderid)
+      if(order){
         console.log(order.shipment)
         return order.shipment
       }
-    }
     throw new Error("no order found for this id:" + orderid)
   }catch(e){
     console.log(e.message);
   }
 }
-//shipment_update("a9131cdf-96f7-4f8f-abc8-42e9e96427f6")
+shipment_update("")
