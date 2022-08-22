@@ -3,32 +3,28 @@ require("dotenv").config({path: "../../.env"});
 const path = process.env.CART_PATH
 //const path = "../../files/cart.json"
 
-async function getCartdata (){
+async function get_cart_data (){
   const file = await fs.readFile(path ,{encoding:'utf8' })
   return JSON.parse(file);
 }
 
-async function getCartDataUpdate(cart) {
+async function update_cart(cart) {
   try {
-    fs.writeFile(path, JSON.stringify(cart, null, 2), (error) => {
-      if (error) {
-        throw error;
-      }
-      return true;
-    });
+    await fs.writeFile(path, JSON.stringify(cart,null ,2))
+    return true;
   } catch (e) {
     console.log(`${e.name} => ${e.message}`);
     return false;
   }
 }
   
-async function updateCartData(userid ,cart){
+async function update_cart_data(cartid ,cart){
   try{
-    const allCart = await getCartdata();
+    const allCart = await get_cart_data();
     for(let Acart of allCart){
-      if(Acart.UserId === userid){
+      if(Acart.CartId === cartid){
         allCart[allCart.indexOf(Acart)] = cart;
-        return getCartDataUpdate(allCart)
+        return update_cart(allCart)
       }
     }
   }catch(e){
@@ -36,9 +32,9 @@ async function updateCartData(userid ,cart){
   }
 }
 
-async function getActiveCartdata(userid){
+async function get_active_cart_data(userid){
   try{
-  const allCart = await getCartdata()
+  const allCart = await get_cart_data()
   for(let cart of allCart){
     if(cart.UserId === userid && cart.status ==="active"){
       return cart
@@ -49,24 +45,24 @@ async function getActiveCartdata(userid){
   throw e
 }
 }
-async function addToCart (cart){
+async function add_to_cart (cart){
   try {
-  const allCart = await getCartdata()
+  const allCart = await get_cart_data()
   allCart.push(cart)
-  return getCartDataUpdate(allCart);
+  return update_cart(allCart);
 }catch(e){
 throw e
 }
 }
-async function updateQuantityFromCart(cartid, productid, quantity) {
+async function update_quantity_from_cart(cartid, productid, quantity) {
   try {
-    const allCart = await getCartdata();
+    const allCart = await get_cart_data();
     for (let oldCart of allCart) {
       if (oldCart.CartId === cartid) {
         for (var product of oldCart.Products) {
           if (product.id === productid) {
             product.Quantity = quantity;
-            if (getCartDataUpdate(allCart)) {
+            if (update_cart(allCart)) {
               return true;
             }
           }
@@ -80,16 +76,16 @@ async function updateQuantityFromCart(cartid, productid, quantity) {
   }
 }
 
-async function removeProductFromCart(cartid , productid){
+async function remove_product_from_cart(cartid , productid){
   try{
-    const allCart = await getCartdata();
+    const allCart = await get_cart_data();
     var i = 0
     for(oldCart of allCart) {
       if(oldCart.CartId === cartid){
      for(let product of oldCart.Products){
       if(product.id === productid){ 
         oldCart.Products.splice(i,1) 
-        if(getCartDataUpdate(allCart)){
+        if(update_cart(allCart)){
           return true;
         }
       }  
@@ -103,9 +99,9 @@ async function removeProductFromCart(cartid , productid){
     throw e
   }
 }
-async function findCart (cartId) {
+async function find_cart (cartId) {
   try{
-      const allCart = await getCartdata()
+      const allCart = await get_cart_data()
       for(cart of allCart){
           if(cart.CartId === cartId){
               return cart;
@@ -117,15 +113,32 @@ async function findCart (cartId) {
   }
 }
 
+async function deactive_cart(cartid){
+  try{
+  const allCart = await get_cart_data()
+  for(let cart of allCart){
+    if(cart.CartId === cartid){
+    cart.status = "deactive"
+    // console.log(cart);
+    return await update_cart(allCart)
+    }
+  }
+  return false
+}catch(e){
+  throw e
+}
+}
+
 module.exports = {
-  getCartdata,
-  getCartDataUpdate,
-  updateCartData,
-  getActiveCartdata,
-  addToCart,
-  updateQuantityFromCart,
-  removeProductFromCart,
-  findCart
+  get_cart_data,
+  update_cart,
+  update_cart_data,
+  get_active_cart_data,
+  add_to_cart,
+  update_quantity_from_cart,
+  remove_product_from_cart,
+  find_cart,
+  deactive_cart
 };
 
 

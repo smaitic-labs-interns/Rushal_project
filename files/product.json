@@ -14,13 +14,5 @@
     "price": 100,
     "brand": "samsung",
     "Quantity": 48
-  },
-  {
-    "product_id": "8429c11c-115d-4914-a1b7-66dadc22646d",
-    "category": "mobile",
-    "name": "any",
-    "price": 100,
-    "brand": "dell",
-    "Quantity": 50
   }
 ]

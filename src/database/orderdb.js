@@ -2,12 +2,12 @@ const fs = require('fs/promises');
 require("dotenv").config({ path: "../../.env" });
 const path = process.env.ORDER_PATH
 
-async function getOrderdata (){
+async function get_order_data (){
     const file = await fs.readFile(path, {encoding:'utf8'});
 return JSON.parse(file) ;
 }
 
-async function updateOrderData(order) {
+async function update_order_data(order) {
   try {
     fs.writeFile(path, JSON.stringify(order, null, 2));
     return true;
@@ -17,19 +17,20 @@ async function updateOrderData(order) {
   }
 }
 
-async function addOrder(order) {
+async function add_order(order) {
   try {
-    const allOrder = await getOrderdata();
+    const allOrder = await get_order_data();
+    delete order.status
     delete order.CartId
     allOrder.push(order);
-    return updateOrderData(allOrder);
+    return update_order_data(allOrder);
   } catch (e) {
     throw e;
   }
 }
-async function getOrderById(orderid) {
+async function get_order_by_id(orderid) {
   try {
-    const allOrder = await getOrderdata();
+    const allOrder = await get_order_data();
     for (let order of allOrder) {
       if (order.OrderId === orderid) {
         return order;
@@ -40,13 +41,13 @@ async function getOrderById(orderid) {
     throw e;
   }
 }
-async function updateOrder (orderid , neworder){
+async function update_order (orderid , neworder){
   try{
-    const allOrder = await getOrderdata();
+    const allOrder = await get_order_data();
     for(let order of allOrder){
       if(order.OrderId === orderid){
         allOrder[allOrder.indexOf(order)] = neworder;
-        return updateOrderData(allOrder)
+        return update_order_data(allOrder)
       }
     }
   }catch(e){
@@ -57,4 +58,4 @@ async function updateOrder (orderid , neworder){
 
 
 
- module.exports = {getOrderdata , updateOrderData, addOrder, getOrderById,updateOrder}
+ module.exports = {get_order_data , update_order_data, add_order, get_order_by_id,update_order}

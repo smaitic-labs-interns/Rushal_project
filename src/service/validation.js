@@ -1,7 +1,7 @@
 
 const joi = require('joi')
 
-const userValidation = (fname, lname, email, password, contact) => {
+const user_validation = (fname, lname, email, password, contact) => {
   const validation_rule = joi.object({
     fname: joi.string().required(),
     lname: joi.string().required(),
@@ -12,4 +12,4 @@ const userValidation = (fname, lname, email, password, contact) => {
 
   return validation_rule.validate(fname, lname, email, password, contact);
 };
-module.exports = {userValidation}
+module.exports = {user_validation}

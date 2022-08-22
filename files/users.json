@@ -1,18 +1,26 @@
 [
   {
-    "userID": "29b988b2-9653-4b1c-adad-587ac112066c",
-    "fname": "Rushal",
+    "userID": "25648ad7-188c-4799-900a-1feaa619c9d9",
+    "fname": "Rushal123",
     "lname": "Maharjan",
-    "password": "$2b$10$/wKeyY1y6o7k9L7iBeLJZ.HeWDyVU.sRQMkJ3fxYZ0qcOtfJj5JVi",
-    "email": "rushal@gmail.com",
+    "password": "$2b$10$wjNEG15Cgv0BUppruTq9kedrI6N2rhmZ5pE9AJ4qeUkshKbMkL7jq",
+    "email": "123@gmail.com",
     "contact": 9843437654
   },
   {
-    "userID": "6784bd36-282f-4e77-80de-8a50055916a0",
+    "userID": "144d374b-058f-4353-9969-593b2c26ba25",
     "fname": "Rushal123",
     "lname": "Maharjan",
-    "password": "$2b$10$jfrGyRrLboUZVZcd.vrC2OWXW3wQCFYnyGgDl1Nck.a9xLejhxJ7C",
-    "email": "rush234@gmail.com",
+    "password": "$2b$10$xlGst6YmjR7Y/g1uitk58.F87RchV7boqC7I9n0kv2X7o1LtrBL7m",
+    "email": "1234@gmail.com",
+    "contact": 9843437654
+  },
+  {
+    "userID": "2c0effdf-236e-45b8-a058-aa6cf67512fe",
+    "fname": "Rushal123",
+    "lname": "Maharjan",
+    "password": "$2b$10$GBZ45R.dz3bT/bd1mhnKdeHe6WP9M8HxmXthk7nPAntg8kQIuEFde",
+    "email": "rus@gmail.com",
     "contact": 9843437654
   }
 ]
