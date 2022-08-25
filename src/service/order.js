@@ -187,7 +187,7 @@ async function update_shipment_status(order_id, Status) {
     throw err;
   }
 }
-// update_shipment_status("3ac588fe-5fbf-4246-8a9e-0b9e879c743d" , "vendor_sourcing")
+update_shipment_status("7e04f6e1-81ef-4ab8-8504-e17950ada730" , "vendor_sourcing")
 
 const trackrefund_update = async (orderid) => {
   try {
@@ -218,4 +218,4 @@ const shipment_update = async (orderid) => {
     console.log(e.message);
   }
 };
-shipment_update("7e04f6e1-81ef-4ab8-8504-e17950ada730")
+// shipment_update("7e04f6e1-81ef-4ab8-8504-e17950ada730")

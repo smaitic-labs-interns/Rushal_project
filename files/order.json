@@ -14,12 +14,12 @@
       "city": "Ktm",
       "name": "Inside Ringroad",
       "charge": 150,
-      "status": "on the way"
+      "status": "vendor_sourcing"
     },
     "payment": {
       "type": "E-sewa",
       "status": "Paid"
     },
-    "orderStatus": "Review"
+    "orderStatus": "approved"
   }
 ]

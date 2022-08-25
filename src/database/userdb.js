@@ -2,23 +2,15 @@ const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
 const path = process.env.USER_PATH
 const Bcrypt = require('bcrypt')
-const {MongoClient} = require('mongodb');
-// require('dotenv').config();
-const url = process.env.MONGO_URL;
-const client = new MongoClient(url);
-const database = "Ecommerce_portal"
-const db_connect = async(collection)=>{
-    let result = await client.connect();
-    let db = result.db(database);
-    return db.collection(collection);
-}
+const db_connect = require('../config_database/mongoconfig')
+const mongodb = require('mongodb') 
 
-async function getUserData() {
+async function get_user_data() {
   let con = await db_connect("users")
   const data = await con.find().toArray()
   return data
 }
-async function updateUserData(user) {
+async function update_user_data(user) {
   try {
     fs.writeFile(path, JSON.stringify(user, null, 2), (error) => {
       if (error) {
@@ -30,40 +22,54 @@ async function updateUserData(user) {
     return false;
   }
 }
-async function addUser (user){
+async function add_user (user){
   try{
     let con = await db_connect("users")
     const data = await con.insertOne(user)
-      return  data.acknowledged
+      return data.acknowledged
   }catch(e){
 
   }
 }
-async function findUserFromEmail (email){
+async function find_user_from_email (email){
   try{
-  const peoples = await getUserData();
-  for (let i = 0; i < peoples.length; i++) {
-    if (email === peoples[i].email) {
-      return true
+    let con = await db_connect('users');
+    let user = await con.findOne({email: email});
+    if (user){
+      return user;
     }
-  }
   return false
 }catch (e){
   throw e
 }
 }
 
-async function findUserFromLoginDetails (email, password){
-  const peoples = await getUserData();
-    for (let i = 0; i < peoples.length; i++) {
-      if(peoples[i].email === email){
-      if (Bcrypt.compareSync(password, peoples[i].password)){
-        return true
-      }
+async function find_user_from_login_details (email, password){
+ try{
+  let con = await db_connect('users');
+  let user = await con.findOne({email: email})
+  if(user){
+    if (Bcrypt.compareSync(password, user.password)){
+      return user;
     }
   }
-  return false
+  throw new Error("Invalid login Credentials")
+ }catch(e){
+throw e
+ }
+}
+async function get_user_by_id(id) {
+  try {
+    let con = await db_connect("users");
+    let user = await con.findOne({ _id: new mongodb.ObjectId(id) });
+    if (user) {
+      return user;
+    }
+    return false;
+  } catch (e) {
+    throw e;
+  }
 }
 
 
-module.exports = { getUserData, updateUserData,addUser,findUserFromEmail ,findUserFromLoginDetails };
+module.exports = {get_user_data, update_user_data,add_user,find_user_from_email ,find_user_from_login_details, get_user_by_id};

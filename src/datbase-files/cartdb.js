@@ -1,14 +1,11 @@
 const fs = require('fs/promises');
 require("dotenv").config({path: "../../.env"});
 const path = process.env.CART_PATH
-const db_connect = require('../config_database/mongoconfig')
-const mongodb = require('mongodb')
 //const path = "../../files/cart.json"
 
 async function get_cart_data (){
-  let con = await db_connect('cart');
-  let data = await con.find().toArray();
-  return data;
+  const file = await fs.readFile(path ,{encoding:'utf8' })
+  return JSON.parse(file);
 }
 
 async function update_cart(cart) {
@@ -23,21 +20,26 @@ async function update_cart(cart) {
   
 async function update_cart_data(cart){
   try{
-    let con = await db_connect('cart');
-    let res = await con.updateOne({_id:new mongodb.ObjectId(cart._id)}, {$set:cart})
-    return res.acknowledged
+    const allCart = await get_cart_data();
+    for(let Acart of allCart){
+      if(Acart.CartId === cart.CartId){
+        allCart[allCart.indexOf(Acart)] = cart;
+        return update_cart(allCart)
+      }
+    }
   }catch(e){
     throw e
   }
 }
 
-async function get_active_cart_data(user_id){
+async function get_active_cart_data(userid){
   try{
-    let con = await db_connect('cart');
-    let cart = await con.findOne({UserId: user_id, status:"active"});
-    if(cart){
+  const allCart = await get_cart_data()
+  for(let cart of allCart){
+    if(cart.UserId === userid && cart.status ==="active"){
       return cart
     }
+  }
   return false
 }catch(e){
   throw e
@@ -45,42 +47,29 @@ async function get_active_cart_data(user_id){
 }
 async function add_to_cart (cart){
   try {
-    let con = await db_connect('cart');
-    let result = await con.insertOne(cart);
-    return result.acknowledged;
+  const allCart = await get_cart_data()
+  allCart.push(cart)
+  return update_cart(allCart);
 }catch(e){
 throw e
 }
 }
 async function update_quantity_from_cart(cartid, productid, quantity) {
   try {
-
-    let con = await db_connect('cart');
-    let cart = await con.findOne({_id : new mongodb.ObjectId(cartid)});
-    if(cart){
-      for (var product of cart.Products) {
-              if (product.id === productid) {
-                product.Quantity = quantity;
-                let res = await con.updateOne({_id : new mongodb.ObjectId(cartid)}, {$set : cart});
-                return res.acknowledged
-              }
+    const allCart = await get_cart_data();
+    for (let oldCart of allCart) {
+      if (oldCart.CartId === cartid) {
+        for (var product of oldCart.Products) {
+          if (product.id === productid) {
+            product.Quantity = quantity;
+            if (update_cart(allCart)) {
+              return true;
             }
-            
+          }
+        }
+        return false;
+      }
     }
-    // const allCart = await get_cart_data();
-    // for (let oldCart of allCart) {
-    //   if (oldCart.CartId === cartid) {
-    //     for (var product of oldCart.Products) {
-    //       if (product.id === productid) {
-    //         product.Quantity = quantity;
-    //         if (update_cart(allCart)) {
-    //           return true;
-    //         }
-    //       }
-    //     }
-    //     return false;
-    //   }
-    // }
     throw new Error("no Cart found for id:" + cartid);
   } catch (e) {
     throw e;

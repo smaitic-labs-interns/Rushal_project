@@ -1,5 +1,6 @@
 const product = require('../database/productdb.js')
-const {v4 : uuidv4} = require('uuid')
+// const {v4 : uuidv4} = require('uuid')
+const Schema = require('../models/productModel')
 
 
 
@@ -20,14 +21,7 @@ const search_product = async(keyword) => {
 
 const add_product = async(category, name, price, brand, quantity) => {
   try {
-    const item = {
-      product_id: uuidv4(),
-      category: category,
-      name: name,
-      price: price,
-      brand: brand,
-      Quantity: quantity,
-    };
+    const item =  Schema.product_schema(category, name, price, brand, quantity);
     if (product.add_product(item)) {
       console.log("item added");
     } else {
@@ -37,7 +31,7 @@ const add_product = async(category, name, price, brand, quantity) => {
     console.log(err.message);
   }
 };
-// add_product("mobile","any" ,  100, "dell", 1);
+// add_product("Gaming chair","logitech" ,  100, "dell", 1);
 
 
 const remove_product = async(productid) => {
@@ -51,7 +45,7 @@ const remove_product = async(productid) => {
     console.log(err.message);
   }
 };
-// remove_product("8429c11c-115d-4914-a1b7-66dadc22646d");
+remove_product("6307779f619ef08485006bdb");
 
 
 
@@ -67,5 +61,5 @@ const update_product = async(productid , productinfo) => {
   }
 };
 
-const pro = { category: "keyboard", name: "5r32e423" ,  price: 100, brand: "protech", Quantity:2 };
-// update_product("8429c11c-115d-4914-a1b7-66dadc22646d", pro);
+const pro = { category: "Laptop", name: "legion" , price: 100, brand: "lenovo", Quantity:2 };
+// update_product("63075cac4f233b1e01250096", pro);

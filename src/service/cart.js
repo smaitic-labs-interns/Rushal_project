@@ -1,7 +1,7 @@
 const cart = require('../database/cartdb')
 const {getProductdata} = require ('../database/productdb')
 const {v4 : uuidv4} = require('uuid')
-const user = require ('../database/userdb_files')
+const user = require ('../database/userdb')
 
 
 const addto_cart = async (Userid, newProduct) => {
@@ -16,7 +16,7 @@ const addto_cart = async (Userid, newProduct) => {
       for (let i of Cart.Products) {
         if (newProduct.Productid === i.id) {
           i.Quantity += newProduct.Quantity;
-          if (cart.update_cart_data(Cart.CartId, Cart)) {
+          if (cart.update_cart_data(Cart)) {
             console.log("data added to cart");
             return;
           }
@@ -27,7 +27,7 @@ const addto_cart = async (Userid, newProduct) => {
         id: newProduct["Productid"],
         Quantity: newProduct["Quantity"],
       });
-      if (cart.update_cart_data(Cart.CartId, Cart)) {
+      if (cart.update_cart_data(Cart)) {
         console.log("data added to cart");
         return;
       }
@@ -38,7 +38,7 @@ const addto_cart = async (Userid, newProduct) => {
       CartId: uuidv4(),
       UserId: Userid,
       Products: [],
-      status: "active",
+      status: "active"
     };
     carts["Products"].push({
       id: newProduct["Productid"],
@@ -54,8 +54,8 @@ const addto_cart = async (Userid, newProduct) => {
     console.log(e.message);
   }
 };
-const cartinfo = {Productid: "2065e804-0034-44a2-b091-dcbcb92dd7ec",Quantity: 2,};
-addto_cart("25648ad7-188c-4799-900a-1feaa619c9d9" , cartinfo);
+const cartinfo = {Productid: "63075cac4f233b1e01250096",Quantity: 2,};
+addto_cart("630751bda681e76eb4596b94" , cartinfo);
 
 
 const updatecart_quantity = async (CartID, ProductID, Quantity) => {

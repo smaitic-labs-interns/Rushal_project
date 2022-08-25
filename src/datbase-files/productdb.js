@@ -1,13 +1,11 @@
 const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
-const db_connect = require('../config_database/mongoconfig')
+//const path = "../../files/product.json"
 const path = process.env.PRODUCT_PATH
-const mongodb = require('mongodb')
 
 async function get_product_data() {
-  let con = await db_connect('products');
-  let data = await con.find().toArray();
-  return data;
+  const file = await fs.readFile(path, {encoding: "utf8",});
+  return JSON.parse(file);
 }
 
 async function update_product_data(product) {
@@ -31,9 +29,9 @@ async function get_product_by_id(id) {
 }
 async function add_product (product){
   try{
-    let con = await db_connect('products');
-    let result = await con.insertOne(product);
-    return result.acknowledged;
+    const allProduct = await get_product_data ()
+    allProduct.push(product)
+    return update_product_data(allProduct)
   }catch(e){
     throw e
   }
@@ -65,23 +63,41 @@ try{
 
 }
 
-async function remove_product_from_data(id) {
-  try {
-    let con = await db_connect("products");
-    let res = await con.deleteOne({_id :new mongodb.ObjectId(id)});
-    return res.acknowledged;
-  } catch (e) {
-    throw e;
+async function remove_product_from_data (id){
+try{
+  const allProduct = await get_product_data()
+  var i = 0
+  for (let Product of allProduct) {
+    if (Product.product_id === id) {
+      allProduct.splice(i,1)
+      if (update_product_data(allProduct)) {
+        return true;
+      } 
+    }
+    i +=1
   }
+  throw new Error("error occur while saving on database");
+}catch(e){
+throw e
+}
 }
 
-async function update_product_from_data(id, productinfo) {
-  try {
-    let con = await db_connect("products");
-    let res = await con.updateOne({_id : new mongodb.ObjectId(id)},{ $set: productinfo });
-    return res.acknowledged;
-  } catch (e) {
-    throw e;
+async function update_product_from_data(id , productinfo){
+  try{
+    const allProduct = await get_product_data()
+    for (let Product of allProduct) {
+      if (Product.product_id === id) {
+        for (let key in productinfo) {
+          Product[key] = productinfo[key];
+        }
+        if (update_product_data(allProduct)) {
+          return true;
+        }
+  }
+}
+return false;
+  }catch (e){
+    throw e
   }
 }
 async function checking_product(productid){
@@ -97,33 +113,35 @@ async function checking_product(productid){
     throw e;
   }
 };
-async function update_quantity(id, quantity) {
-  const allProduct = await get_product_data();
-  for (product of allProduct) {
-    if (product.product_id === id) {
-      product.Quantity -= quantity;
-    }
-  }
-  if (update_product_data(allProduct)) {
-    return true;
-  } else {
-    console.log("error Occured");
-  }
-}
+async function update_quantity(id , quantity) {
 
-  async function update_increase_quantity(id, quantity) {
-    const allProduct = await get_product_data();
-    for (product of allProduct) {
-      if (product.product_id === id) {
-        product.Quantity += quantity;
+  const allProduct = await get_product_data()
+  for(product of allProduct){
+      if (product.product_id === id){
+          product.Quantity -= quantity
       }
-    }
-    if (update_product_data(allProduct)) {
-      return true;
-    } else {
-      console.log("error Occured");
-    }
   }
+  if(update_product_data(allProduct)){
+      return true
+  }else{
+      console.log("error Occured");
+  }
+  }
+
+  async function update_increase_quantity(id , quantity) {
+
+    const allProduct = await get_product_data()
+    for(product of allProduct){
+        if (product.product_id === id){
+            product.Quantity += quantity
+        }
+    }
+    if(update_product_data(allProduct)){
+        return true
+    }else{
+        console.log("error Occured");
+    }
+    }
 
   async function update_product(id, newproduct) {
     const allProduct = await get_product_data();
