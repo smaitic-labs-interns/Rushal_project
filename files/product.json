@@ -1,18 +1,18 @@
 [
   {
-    "product_id": "bb21e162-973e-4067-bdd5-dc3f80a7beda",
-    "category": "keyboard",
-    "name": "fantech",
+    "product_id": "8fd3ea65-7bd4-4f26-a13d-c815c4b50933",
+    "category": "Gaming chair",
+    "name": "logitech",
     "price": 100,
-    "brand": "protech",
+    "brand": "dell",
     "Quantity": 50
   },
   {
-    "product_id": "2065e804-0034-44a2-b091-dcbcb92dd7ec",
-    "category": "computer",
-    "name": "fantech",
-    "price": 100,
-    "brand": "samsung",
-    "Quantity": 48
+    "product_id": "2ce29e55-1dd2-4b79-9cfc-47e45845fcae",
+    "category": "laptop",
+    "name": "legion",
+    "price": 200,
+    "brand": "lenovo",
+    "Quantity": 4
   }
 ]

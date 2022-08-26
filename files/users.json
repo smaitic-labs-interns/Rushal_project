@@ -1,26 +1,10 @@
 [
   {
-    "userID": "25648ad7-188c-4799-900a-1feaa619c9d9",
+    "user_id": "98b69436-d691-47ff-904b-d29e5501b25a",
     "fname": "Rushal123",
     "lname": "Maharjan",
-    "password": "$2b$10$wjNEG15Cgv0BUppruTq9kedrI6N2rhmZ5pE9AJ4qeUkshKbMkL7jq",
-    "email": "123@gmail.com",
-    "contact": 9843437654
-  },
-  {
-    "userID": "144d374b-058f-4353-9969-593b2c26ba25",
-    "fname": "Rushal123",
-    "lname": "Maharjan",
-    "password": "$2b$10$xlGst6YmjR7Y/g1uitk58.F87RchV7boqC7I9n0kv2X7o1LtrBL7m",
-    "email": "1234@gmail.com",
-    "contact": 9843437654
-  },
-  {
-    "userID": "2c0effdf-236e-45b8-a058-aa6cf67512fe",
-    "fname": "Rushal123",
-    "lname": "Maharjan",
-    "password": "$2b$10$GBZ45R.dz3bT/bd1mhnKdeHe6WP9M8HxmXthk7nPAntg8kQIuEFde",
-    "email": "rus@gmail.com",
+    "password": "$2b$10$BGg4fHBOeyuP0SwOaSoW2O7CsxxCxb0EtdI2gAAp1elUVPpLUHVFK",
+    "email": "rus123@gmail.com",
     "contact": 9843437654
   }
 ]

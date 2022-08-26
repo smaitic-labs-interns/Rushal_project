@@ -52,62 +52,47 @@ async function add_to_cart (cart){
 throw e
 }
 }
-async function update_quantity_from_cart(cartid, productid, quantity) {
+async function update_quantity_from_cart(userid, productid, quantity) {
   try {
-
-    let con = await db_connect('cart');
-    let cart = await con.findOne({_id : new mongodb.ObjectId(cartid)});
-    if(cart){
+    let con = await db_connect("cart");
+    let cart = await con.findOne({UserId: userid , status: "active" });
+    // let cart = await con.findOne({_id: new mongodb.ObjectId(userid) });
+     if(cart.UserId === userid) {
       for (var product of cart.Products) {
-              if (product.id === productid) {
-                product.Quantity = quantity;
-                let res = await con.updateOne({_id : new mongodb.ObjectId(cartid)}, {$set : cart});
-                return res.acknowledged
-              }
-            }
-            
-    }
-    // const allCart = await get_cart_data();
-    // for (let oldCart of allCart) {
-    //   if (oldCart.CartId === cartid) {
-    //     for (var product of oldCart.Products) {
-    //       if (product.id === productid) {
-    //         product.Quantity = quantity;
-    //         if (update_cart(allCart)) {
-    //           return true;
-    //         }
-    //       }
-    //     }
-    //     return false;
-    //   }
-    // }
-    throw new Error("no Cart found for id:" + cartid);
+        if (product.id === productid) {
+          product.Quantity = quantity;
+          let res = await con.updateOne(
+            { _id: cart._id},
+            { $set: cart }
+          );
+          return res.acknowledged;
+        }
+      }  
+  }
+    throw new Error("no Cart found for id:" + userid);
   } catch (e) {
     throw e;
   }
 }
 
-async function remove_product_from_cart(cartid , productid){
-  try{
-    const allCart = await get_cart_data();
-    var i = 0
-    for(oldCart of allCart) {
-      if(oldCart.CartId === cartid){
-     for(let product of oldCart.Products){
-      if(product.id === productid){ 
-        oldCart.Products.splice(i,1) 
-        if(update_cart(allCart)){
-          return true;
+async function remove_product_from_cart(userid , productid){
+  try {
+    let con = await db_connect("cart");
+    let cart = await con.findOne({UserId :userid , status : "active"});
+    if(cart) {
+      let i = 0
+      for(var product of cart.Products) {
+        if (product.id === productid) {
+          cart.Products.splice(i,1)
+          let res = await con.updateOne({_id: new mongodb.ObjectId(cart._id)}, {$set : cart})
+          return res.acknowledged;
         }
-      }  
-      i += 1 
-     }
+        i += 1
       }
-      return false;
     }
-    throw new Error("error occured")
-  }catch(e){
-    throw e
+    throw new Error("no Cart found for id:" + userid);
+  } catch (e) {
+    throw e;
   }
 }
 async function find_cart (cartId) {

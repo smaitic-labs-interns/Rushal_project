@@ -32,34 +32,42 @@ async function find_user_from_email (email){
   const peoples = await get_user_data();
   for (let i = 0; i < peoples.length; i++) {
     if (email === peoples[i].email) {
-      return true
+      return;
     }
   }
-  return false
+ 
 }catch (e){
   throw e
 }
 }
 
-async function find_user_from_login_details (email, password){
-  const peoples = await get_user_data();
+async function find_user_from_login_details(email, password) {
+  try {
+    const peoples = await get_user_data();
     for (let i = 0; i < peoples.length; i++) {
-      if(peoples[i].email === email){
-      if (Bcrypt.compareSync(password, peoples[i].password)){
-        return true
+      if (peoples[i].email === email) {
+        if (Bcrypt.compareSync(password, peoples[i].password)) {
+          return true;
+        }
       }
     }
+    throw new Error("Invalid login Credentials");
+  } catch (e) {
+    throw e;
   }
-  return false
 }
 async function get_user_by_id (id){
+  try{
   const peoples = await get_user_data();
     for (let i = 0; i < peoples.length; i++) {
-      if(peoples[i].userID === id){
+      if(peoples[i].user_id === id){
     return peoples[i]
     }
   }
   return false
+}catch(e){
+  throw e
+}
 }
 
 

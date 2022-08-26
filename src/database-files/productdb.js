@@ -76,7 +76,7 @@ try{
     }
     i +=1
   }
-  throw new Error("error occur while saving on database");
+  throw new Error ("no product found for id :" + id)
 }catch(e){
 throw e
 }
@@ -95,7 +95,7 @@ async function update_product_from_data(id , productinfo){
         }
   }
 }
-return false;
+throw new Error ("no product found for id :" + id)
   }catch (e){
     throw e
   }

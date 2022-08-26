@@ -17,7 +17,7 @@ const search_product = async(keyword) => {
   }
 };
 
-// search_product("r");
+search_product("l");
 
 const add_product = async(category, name, price, brand, quantity) => {
   try {
@@ -31,21 +31,21 @@ const add_product = async(category, name, price, brand, quantity) => {
     console.log(err.message);
   }
 };
-// add_product("Gaming chair","logitech" ,  100, "dell", 1);
+// add_product("mouse","logitech" ,  100, "dell", 50);
 
 
-const remove_product = async(productid) => {
+const remove_product = async (productid) => {
   try {
-    if(await product.remove_product_from_data(productid)){
-        console.log("removed successfully");
-        return;
-      }
-    console.log("no product on this id :" + productid);
+    const res = await product.remove_product_from_data(productid)
+    if (res) {
+      console.log("removed successfully");
+      return;
+    }
   } catch (err) {
     console.log(err.message);
   }
 };
-remove_product("6307779f619ef08485006bdb");
+// remove_product("2ce29e55-1dd2-4b79-9cfc-47e45845fcae");
 
 
 
@@ -53,13 +53,12 @@ const update_product = async(productid , productinfo) => {
   try {
     if(await product.update_product_from_data(productid ,productinfo)){
         console.log("updated successfully");
-        return;
-      }
-    console.log("no product found for this id :" + productid);
+        return ;
+      } 
   } catch (err) {
     console.log(err.message);
   }
 };
 
-const pro = { category: "Laptop", name: "legion" , price: 100, brand: "lenovo", Quantity:2 };
-// update_product("63075cac4f233b1e01250096", pro);
+const pro = {price: 150 , Quantity: 4 };
+// update_product("6308b359341824941e94f3b9", pro);

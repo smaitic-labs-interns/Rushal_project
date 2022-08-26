@@ -7,14 +7,13 @@ const login = async (email, password) => {
   try {
   if( await User.find_user_from_login_details(email, password)) {
     console.log("login successfull");
-    return true
+    return true;
   }
-    return false
   } catch (err) {
     console.log(err.message);
   }
 };
-login("rus@gmail.com", "123456789");
+login("rus123@gmail.com", "123456789");
 
 //sign up
 
