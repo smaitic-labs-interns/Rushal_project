@@ -1,18 +1,18 @@
 [
   {
-    "product_id": "8fd3ea65-7bd4-4f26-a13d-c815c4b50933",
-    "category": "Gaming chair",
-    "name": "logitech",
+    "_id": "63075cac4f233b1e01250096",
+    "category": "Laptop",
+    "name": "legion",
     "price": 100,
-    "brand": "dell",
+    "brand": "lenovo",
     "Quantity": 50
   },
   {
-    "product_id": "2ce29e55-1dd2-4b79-9cfc-47e45845fcae",
-    "category": "laptop",
-    "name": "legion",
-    "price": 200,
-    "brand": "lenovo",
+    "_id": "6308b359341824941e94f3b9",
+    "category": "Gaming chair",
+    "name": "logitech",
+    "price": 150,
+    "brand": "dell",
     "Quantity": 4
   }
 ]

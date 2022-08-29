@@ -109,17 +109,15 @@ async function find_cart (cartId) {
   }
 }
 
-async function deactive_cart(cartid){
+async function deactive_cart(user_id){
   try{
-  const allCart = await get_cart_data()
-  for(let cart of allCart){
-    if(cart.CartId === cartid){
-    cart.status = "deactive"
-    // console.log(cart);
-    return await update_cart(allCart)
-    }
-  }
-  return false
+    let con = await db_connect('cart');
+    let cart = await con.findOne({UserId: user_id, status:"active"});
+ if(cart){
+  let res = await con.updateOne({_id: new mongodb.ObjectId(cart._id)} , {$set : {status:"deactive"}})
+  return res.acknowledged
+ }
+  throw new Error("no active cart found :" + user_id)
 }catch(e){
   throw e
 }

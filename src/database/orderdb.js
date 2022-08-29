@@ -1,10 +1,13 @@
 const fs = require('fs/promises');
 require("dotenv").config({ path: "../../.env" });
 const path = process.env.ORDER_PATH
+const db_connect = require('../config_database/mongoconfig')
+const mongodb = require('mongodb')
 
 async function get_order_data (){
-    const file = await fs.readFile(path, {encoding:'utf8'});
-return JSON.parse(file) ;
+  let con = await db_connect('order');
+  let data = await con.find().toArray();
+  return data;
 }
 
 async function update_order_data(order) {
@@ -19,11 +22,9 @@ async function update_order_data(order) {
 
 async function add_order(order) {
   try {
-    const allOrder = await get_order_data();
-    delete order.status
-    delete order.CartId
-    allOrder.push(order);
-    return update_order_data(allOrder);
+    let con = await db_connect('order');
+    let result = await con.insertOne(order);
+    return result.acknowledged;
   } catch (e) {
     throw e;
   }

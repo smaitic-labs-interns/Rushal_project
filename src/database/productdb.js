@@ -97,28 +97,28 @@ async function update_product_from_data(id, productinfo) {
 }
 async function checking_product(productid){
   try {
-      const allProduct = await get_product_data()
-    for (var product of allProduct) {
-      if (product.product_id === productid) {
-        return product;
+    let db = await db_connect("products");
+    const product = await db.findOne({_id : new mongodb.ObjectId(productid)})
+      if(product){
+        return product
       }
-    }
     throw new Error("no product found for id:" + productid);
   } catch (e) {
     throw e;
   }
 };
+
 async function update_quantity(id, quantity) {
-  const allProduct = await get_product_data();
-  for (product of allProduct) {
-    if (product.product_id === id) {
-      product.Quantity -= quantity;
+  try{
+    let con = await db_connect("products");
+    let product = await con.findOne({_id : new mongodb.ObjectId(id)});
+    if(product){
+      let res = await con.updateOne({_id : new mongodb.ObjectId(id)},{$set:{Quantity:(product.Quantity - quantity)}});
+      return res.acknowledged
     }
-  }
-  if (update_product_data(allProduct)) {
-    return true;
-  } else {
-    console.log("error Occured");
+    throw new Error ("no product found for id:" + id);
+  }catch(e){
+    throw e
   }
 }
 

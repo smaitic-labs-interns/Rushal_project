@@ -2,16 +2,16 @@ const Order = require('../database/orderdb')
 const cartDb = require('../database/cartdb.js')
 const{v4: uuidv4} = require('uuid')
 const store = require('../database/productdb')
+const Schema = require('../models/orderModel')
 
 
-
-const place_order = async (user_id, ShipementAddress, Payment) => {
+const place_order = async (user_id, shipementAddress, Payment) => {
   try {
-    const PAYMENT_TYPES = ["E-sewa", "Khalti", "CONNECT-IPS", "CASH"];
+    const PAYMENT_TYPES = ["E-sewa", "Khalti", "fone pay", "CASH"];
     if (!PAYMENT_TYPES.includes(Payment.type)) {
       throw new Error("Invalid Payment");
     }
-    let totalcost = 0;
+   let totalcost = 0;
     const cartResult = await cartDb.get_active_cart_data(user_id);
     if (cartResult.status !== "active") {
       throw new Error(`Cart has been already placed for order`);
@@ -25,17 +25,11 @@ const place_order = async (user_id, ShipementAddress, Payment) => {
         totalcost += product.Quantity * productResult["price"];
       }
     }
-    const order = {
-      OrderId: uuidv4(),
-      ...cartResult,
-      totalcost,
-      shipementAddress: ShipementAddress,
-      payment: Payment,
-      orderStatus: "Review",
-    };
-    if (await Order.add_order(order)) {
-      if (await cartDb.deactive_cart(cartResult.CartId)) {
-        console.log("order palce successfully");
+    const new_order = Schema.order_schema(cartResult,shipementAddress, Payment, totalcost)
+    
+    if (await Order.add_order(new_order)) {
+      if (await cartDb.deactive_cart(user_id)) {
+        console.log("order place successfully");
         return;
       }
       throw new Error("error occur while deactivating cart");
@@ -52,7 +46,7 @@ const shipments = {
 };
 const address = { country: "Nepal", city: "Ktm", ...shipments };
 const Pay = { type: "E-sewa", status: "Paid" };
-// place_order("25648ad7-188c-4799-900a-1feaa619c9d9" ,address,Pay)
+place_order("630751bda681e76eb4596b95" ,address,Pay) 
 
 const update_order_quantity = async (orderid, productid, quantity) => {
   try {
@@ -187,7 +181,7 @@ async function update_shipment_status(order_id, Status) {
     throw err;
   }
 }
-update_shipment_status("7e04f6e1-81ef-4ab8-8504-e17950ada730" , "vendor_sourcing")
+// update_shipment_status("7e04f6e1-81ef-4ab8-8504-e17950ada730" , "vendor_sourcing")
 
 const trackrefund_update = async (orderid) => {
   try {
