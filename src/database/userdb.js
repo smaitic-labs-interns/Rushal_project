@@ -10,18 +10,18 @@ async function get_user_data() {
   const data = await con.find().toArray()
   return data
 }
-async function update_user_data(user) {
-  try {
-    fs.writeFile(path, JSON.stringify(user, null, 2), (error) => {
-      if (error) {
-        throw error;
-      }
-      return true;
-    });
-  } catch (e) {
-    return false;
-  }
-}
+// async function update_user_data(user) {
+//   try {
+//     fs.writeFile(path, JSON.stringify(user, null, 2), (error) => {
+//       if (error) {
+//         throw error;
+//       }
+//       return true;
+//     });
+//   } catch (e) {
+//     return false;
+//   }
+// }
 async function add_user (user){
   try{
     let con = await db_connect("users")
@@ -72,4 +72,4 @@ async function get_user_by_id(id) {
 }
 
 
-module.exports = {get_user_data, update_user_data,add_user,find_user_from_email ,find_user_from_login_details, get_user_by_id};
+module.exports = {get_user_data, add_user,find_user_from_email ,find_user_from_login_details, get_user_by_id};

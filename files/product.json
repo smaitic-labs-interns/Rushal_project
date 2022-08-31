@@ -1,6 +1,6 @@
 [
   {
-    "_id": "63075cac4f233b1e01250096",
+    "product_id": "63075cac4f233b1e01250096",
     "category": "Laptop",
     "name": "legion",
     "price": 100,
@@ -13,6 +13,6 @@
     "name": "logitech",
     "price": 150,
     "brand": "dell",
-    "Quantity": 4
+    "Quantity": 50
   }
 ]

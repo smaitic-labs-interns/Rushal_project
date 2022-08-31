@@ -11,15 +11,15 @@ async function get_cart_data (){
   return data;
 }
 
-async function update_cart(cart) {
-  try {
-    await fs.writeFile(path, JSON.stringify(cart,null ,2))
-    return true;
-  } catch (e) {
-    console.log(`${e.name} => ${e.message}`);
-    return false;
-  }
-}
+// async function update_cart(cart) {
+//   try {
+//     await fs.writeFile(path, JSON.stringify(cart,null ,2))
+//     return true;
+//   } catch (e) {
+//     console.log(`${e.name} => ${e.message}`);
+//     return false;
+//   }
+// }
   
 async function update_cart_data(cart){
   try{
@@ -125,7 +125,6 @@ async function deactive_cart(user_id){
 
 module.exports = {
   get_cart_data,
-  update_cart,
   update_cart_data,
   get_active_cart_data,
   add_to_cart,

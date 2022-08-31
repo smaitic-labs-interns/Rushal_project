@@ -2,7 +2,8 @@ const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
 const db_connect = require('../config_database/mongoconfig')
 const path = process.env.PRODUCT_PATH
-const mongodb = require('mongodb')
+const mongodb = require('mongodb');
+
 
 async function get_product_data() {
   let con = await db_connect('products');
@@ -10,16 +11,16 @@ async function get_product_data() {
   return data;
 }
 
-async function update_product_data(product) {
-  try {
-    await fs.writeFile(path, JSON.stringify(product,null ,2))
-    return true;
+// async function update_product_data(product) {
+//   try {
+//     await fs.writeFile(path, JSON.stringify(product,null ,2))
+//     return true;
 
-  } catch (e) {
-    console.log(`${e.name} => ${e.message}`);
-    return false;
-  }
-}
+//   } catch (e) {
+//     console.log(`${e.name} => ${e.message}`);
+//     return false;
+//   }
+// }
 async function get_product_by_id(id) {
   try {
     let con = await db_connect("products");
@@ -65,7 +66,6 @@ try{
 }catch(e){
   console.log(e.message);
 }
-
 }
 
 async function remove_product_from_data(id) {
@@ -121,7 +121,6 @@ async function update_quantity(id, quantity) {
     throw e
   }
 }
-
   async function update_increase_quantity(id, quantity) {
     const allProduct = await get_product_data();
     for (product of allProduct) {
@@ -137,23 +136,22 @@ async function update_quantity(id, quantity) {
   }
 
   async function update_product(id, newproduct) {
-    const allProduct = await get_product_data();
-    for (product of allProduct) {
-      if (product.product_id === id) {
-        allProduct[allProduct.indexOf(product)] = newproduct;
-        if (update_product_data(allProduct)) {
-          return true;
-        }
-      }
+   try{
+    let con = await db_connect("products");
+    let product = await con.findOne({_id : new mongodb.ObjectId(id)});
+    if(product){
+      let res = await con.updateOne({_id : new mongodb.ObjectId(id)},{ $set: newproduct });
+    return res.acknowledged;
     }
-
-    throw new Error("error Occured");
+    throw new Error("no product found for this id :" + id);
+   }catch(e){
+    throw e
+   }
   }
 
 
 module.exports = {
   get_product_data,
-  update_product_data,
   get_product_by_id,
   add_product,
   find_product_from_data,

@@ -12,7 +12,6 @@ async function update_product_data(product) {
   try {
     await fs.writeFile(path, JSON.stringify(product,null ,2))
     return true;
-
   } catch (e) {
     console.log(`${e.name} => ${e.message}`);
     return false;
@@ -113,7 +112,7 @@ async function checking_product(productid){
     throw e;
   }
 };
-async function update_quantity(id , quantity) {
+async function update_increase_quantity(id , quantity) {
 
   const allProduct = await get_product_data()
   for(product of allProduct){
@@ -165,7 +164,7 @@ module.exports = {
   remove_product_from_data,
   update_product_from_data,
   checking_product,
-  update_quantity,
+  update_increase_quantity,
   update_product,
   update_increase_quantity
 };

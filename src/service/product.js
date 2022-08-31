@@ -17,7 +17,7 @@ const search_product = async(keyword) => {
   }
 };
 
-search_product("l");
+// search_product("l");
 
 const add_product = async(category, name, price, brand, quantity) => {
   try {
@@ -31,7 +31,7 @@ const add_product = async(category, name, price, brand, quantity) => {
     console.log(err.message);
   }
 };
-// add_product("mouse","logitech" ,  100, "dell", 50);
+add_product("ssss","logitech" ,  100, "dell", 50);
 
 
 const remove_product = async (productid) => {

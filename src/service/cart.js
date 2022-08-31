@@ -58,7 +58,7 @@ const addto_cart = async (Userid, newProduct) => {
   }
 };
 const cart_info = {Productid: "63075cac4f233b1e01250096",Quantity: 2};
-addto_cart("630751bda681e76eb4596b95" , cart_info);
+addto_cart("63075bfd0529b276f4bfdeeb" , cart_info);
 
 
 const updatecart_quantity = async (userid, productid, quantity) => {

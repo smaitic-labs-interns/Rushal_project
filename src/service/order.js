@@ -21,7 +21,7 @@ const place_order = async (user_id, shipementAddress, Payment) => {
       if (productResult.Quantity < product.Quantity) {
         throw new Error("not sufficient product on store");
       }
-      if (store.update_quantity(product.id, product.Quantity)) {
+      if (store.update_increase_quantity(product.id, product.Quantity)) {
         totalcost += product.Quantity * productResult["price"];
       }
     }
@@ -46,12 +46,12 @@ const shipments = {
 };
 const address = { country: "Nepal", city: "Ktm", ...shipments };
 const Pay = { type: "E-sewa", status: "Paid" };
-place_order("630751bda681e76eb4596b95" ,address,Pay) 
+// place_order("63075bfd0529b276f4bfdeeb" ,address,Pay) 
 
 const update_order_quantity = async (orderid, productid, quantity) => {
   try {
-    let productData = await store.get_product_by_id(productid);
-    if (productData.length <= 0) {
+    let productdata = await store.get_product_by_id(productid);
+    if (productdata.length <= 0) {
       throw new Error("no Product in this order");
     }
     const order = await Order.get_order_by_id(orderid);
@@ -59,13 +59,13 @@ const update_order_quantity = async (orderid, productid, quantity) => {
     if (order) {
       for (let product of order.Products) {
         if (product.id === productid) {
-          productData.Quantity += product.Quantity;
-          let tempCost = order.totalcost - productData.price * product.Quantity;
+          productdata.Quantity += product.Quantity;
+          let tempCost = order.totalcost - productdata.price * product.Quantity;
           product.Quantity = quantity;
-          productData.Quantity -= quantity;
-          order.totalcost = tempCost + productData.price * quantity;
+          productdata.Quantity -= quantity;
+          order.totalcost = tempCost + productdata.price * quantity;
           if (Order.update_order(orderid, order)) {
-            if (store.update_product(productid, productData)) {
+            if (store.update_product(productid, productdata)) {
               console.log("updated successfully");
               return;
             }
@@ -80,7 +80,43 @@ const update_order_quantity = async (orderid, productid, quantity) => {
     console.log(err.message);
   }
 };
-// update_order_quantity("", "2065e804-0034-44a2-b091-dcbcb92dd7ec", 5);
+// update_order_quantity("630f4dfb45d7aa4b4e97e69d", "63075cac4f233b1e01250096", 5);
+
+
+async function update_shipment_status(order_id, Status) {
+  try {
+    const order = await Order.get_order_by_id(order_id);
+    if (order) {
+      order.shipementAddress.status = Status;
+      switch (Status) {
+        case "awaiting":
+          order.orderStatus = "placed";
+          break;
+        case "vendor_sourcing":
+          order.orderStatus = "approved";
+          break;
+        case "on_route":
+          order.orderStatus = "in progress";
+          break;
+        case "delivered":
+          order.orderStatus = "delivered";
+          break;
+        default:
+          order.orderStatus = "active";
+          break;
+      }
+      if (await Order.update_order(order_id, order)) {
+        console.log("shipment status updated");
+        return;
+      }
+      throw new Error("error updating order");
+    }
+    throw new Error("no order found");
+  } catch (err) {
+    throw err;
+  }
+}
+// update_shipment_status("630f4dfb45d7aa4b4e97e69d" , "on_route")
 
 const cancel_order = async (orderid) => {
   try {
@@ -89,8 +125,8 @@ const cancel_order = async (orderid) => {
     if (order) {
       order.orderStatus = "canceled";
       order.payment.status = "canceled";
-      order.shipment.charge = 0;
-      order.shipment.status = "canceled";
+      order.shipementAddress.charge = 0;
+      order.shipementAddress.status = "canceled";
       for (product of order.Products) {
         // console.log(product);
         let product_res = await store.get_product_by_id(product.id);
@@ -108,7 +144,7 @@ const cancel_order = async (orderid) => {
     console.log(e.message);
   }
 };
-// cancel_order ("118b91f3-0c46-48e2-80fd-6e2dc834e829")
+// cancel_order ("630cb26f49615b4fa51eb69f")
 
 async function return_replace_order(order_id, action) {
   try {
@@ -146,49 +182,14 @@ async function return_replace_order(order_id, action) {
     console.log(err.message);
   }
 }
-// return_replace_order("3ac588fe-5fbf-4246-8a9e-0b9e879c743d" , "replace")
-
-async function update_shipment_status(order_id, Status) {
-  try {
-    const order = await Order.get_order_by_id(order_id);
-    if (order) {
-      order.shipementAddress.status = Status;
-      switch (Status) {
-        case "awaiting":
-          order.orderStatus = "placed";
-          break;
-        case "vendor_sourcing":
-          order.orderStatus = "approved";
-          break;
-        case "on_route":
-          order.orderStatus = "in progress";
-          break;
-        case "delivered":
-          order.orderStatus = "delivered";
-          break;
-        default:
-          order.orderStatus = "active";
-          break;
-      }
-      if (await Order.update_order(order_id, order)) {
-        console.log("shipment status updated");
-        return;
-      }
-      throw new Error("error updating order");
-    }
-    throw new Error("no order found");
-  } catch (err) {
-    throw err;
-  }
-}
-// update_shipment_status("7e04f6e1-81ef-4ab8-8504-e17950ada730" , "vendor_sourcing")
+// return_replace_order("630cb26f49615b4fa51eb69f" , "return")
 
 const trackrefund_update = async (orderid) => {
   try {
     const order = await Order.get_order_by_id(orderid);
     if (order) {
-      if (order.status === "returned") {
-        console.log(order.payment.status);
+      if (order.orderStatus === "returned") {
+        console.log(order.payment);
         return;
       }
       throw new Error("no return order found");
@@ -198,7 +199,7 @@ const trackrefund_update = async (orderid) => {
     console.log(e.message);
   }
 };
-// trackrefund_update("7e04f6e1-81ef-4ab8-8504-e17950ada730");
+// trackrefund_update("630cb26f49615b4fa51eb69f");
 
 const shipment_update = async (orderid) => {
   try {
@@ -212,4 +213,4 @@ const shipment_update = async (orderid) => {
     console.log(e.message);
   }
 };
-// shipment_update("7e04f6e1-81ef-4ab8-8504-e17950ada730")
+// shipment_update("630cb26f49615b4fa51eb69f")
