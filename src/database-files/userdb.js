@@ -2,7 +2,10 @@ const fs = require("fs/promises");
 require("dotenv").config({ path: "../../.env" });
 //const path = "../../files/users.json"
 const path = process.env.USER_PATH
-const Bcrypt = require('bcrypt')
+// const path = require('path')
+//  let path1 =  path.resolve(__dirname ,"../../files/users.json")
+const Bcrypt = require('bcrypt');
+
 
 async function get_user_data() {
   const data = await fs.readFile(path, { encoding: "utf8" });
@@ -19,23 +22,22 @@ async function update_user_data(user) {
 }
 async function add_user (user){
   try{
-   
     const peoples = await get_user_data();
     peoples.push(user);
    return await update_user_data(peoples)
   }catch(e){
-
+    throw e
   }
 }
 async function find_user_from_email (email){
   try{
   const peoples = await get_user_data();
-  for (let i = 0; i < peoples.length; i++) {
-    if (email === peoples[i].email) {
-      return;
+  for (let user of peoples) {
+    if (email === user.email) {
+      return user;
     }
   }
- 
+  return false
 }catch (e){
   throw e
 }

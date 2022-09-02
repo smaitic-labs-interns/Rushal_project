@@ -5,38 +5,48 @@ const Schema = require('../models/userModel');
 //sign in
 const login = async (email, password) => {
   try {
-  if( await User.find_user_from_login_details(email, password)) {
+  if(await User.find_user_from_login_details(email, password)) {
     console.log("login successfull");
-    return true;
+    return "login successfull"
+    // return true;
   }
   } catch (err) {
     console.log(err.message);
+    return err.message
   }
 };
-login("rus123@gmail.com", "123456789");
+// login("rushal123@gmail.com", "123456789");
 
 //sign up
 
 const sign_up = async (fname, lname, password, email, contact) => {
   try {
+    // console.log(fname);
     const user = Schema.User({fname, lname, password, email, contact});
+    // console.log(user);
     if (await User.find_user_from_email(user.email)) {
       throw new Error("email already exist");
     }
-    if (User.add_user(user)) {
-      console.log("user registered");
+    if (await User.add_user(user)) {
+     console.log("user registered");
+     return "user registered"
     } else {
       throw new Error("error occured while registering");
     }
   } catch (err) {
     console.log(err.message);
+    return err.message 
   }
 };
 // sign_up({
 //   fname: "Rushal123",
 //   lname: "Maharjan",
 //   password: "123456789",
-//   email: "rus123@gmail.com",
+//   email: "hell@gmail.com",
 //   contact: "9843437654",
 // });
+
+
+module.exports = {
+  login , sign_up}
 

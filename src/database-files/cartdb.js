@@ -54,11 +54,11 @@ async function add_to_cart (cart){
 throw e
 }
 }
-async function update_quantity_from_cart(cartid, productid, quantity) {
+async function update_quantity_from_cart(userid, productid, quantity) {
   try {
     const allCart = await get_cart_data();
     for (let oldCart of allCart) {
-      if (oldCart.CartId === cartid) {
+      if (oldCart.UserId === userid) {
         for (var product of oldCart.Products) {
           if (product.id === productid) {
             product.Quantity = quantity;
@@ -70,18 +70,18 @@ async function update_quantity_from_cart(cartid, productid, quantity) {
         return false;
       }
     }
-    throw new Error("no Cart found for id:" + cartid);
+    throw new Error("no user found for id:" + userid);
   } catch (e) {
     throw e;
   }
 }
 
-async function remove_product_from_cart(cartid , productid){
+async function remove_product_from_cart(userid , productid){
   try{
     const allCart = await get_cart_data();
     var i = 0
     for(oldCart of allCart) {
-      if(oldCart.CartId === cartid){
+      if(oldCart.UserId === userid){
      for(let product of oldCart.Products){
       if(product.id === productid){ 
         oldCart.Products.splice(i,1) 
@@ -117,10 +117,10 @@ async function deactive_cart(cartid){
   try{
   const allCart = await get_cart_data()
   for(let cart of allCart){
-    if(cart.CartId === cartid){
+    if(cart.UserId === cartid){
     cart.status = "deactive"
     // console.log(cart);
-    return await update_cart(allCart)
+    return update_cart(allCart)
     }
   }
   return false

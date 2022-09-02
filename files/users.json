@@ -6,5 +6,29 @@
     "password": "$2b$10$BGg4fHBOeyuP0SwOaSoW2O7CsxxCxb0EtdI2gAAp1elUVPpLUHVFK",
     "email": "rus123@gmail.com",
     "contact": 9843437654
+  },
+  {
+    "user_id": "888bef42-c611-4e29-bca3-85038a8b9bc4",
+    "fname": "Rushal123",
+    "lname": "Maharjan",
+    "password": "$2b$10$djKqJ/ZECX9qhLMZmw.2/uQBkGAODFGRubpqO8x/bfZti8fxfPuAq",
+    "email": "rushal123@gmail.com",
+    "contact": 9843437654
+  },
+  {
+    "user_id": "e7735499-31e8-4c2a-b2fa-b9612cca1999",
+    "fname": "rushal",
+    "lname": "maharjan",
+    "password": "$2b$10$fm7E1rB3jLqBebRmO5txmeuxtiaD7XOJqZ42x37Llen8EJQ3/Xn4a",
+    "email": "r123@gmail.com",
+    "contact": 9843438496
+  },
+  {
+    "user_id": "3d591804-6c58-4836-a362-ff5a23d32e97",
+    "fname": "Rushal123",
+    "lname": "Maharjan",
+    "password": "$2b$10$BT/pDLUp.Y3iLs1Jf6JJK.aIAnsJBxfhKJyB6AUAxDnp0QYZh9U5e",
+    "email": "hell@gmail.com",
+    "contact": 9843437654
   }
 ]

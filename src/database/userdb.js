@@ -61,8 +61,8 @@ throw e
 async function get_user_by_id(id) {
   try {
     let con = await db_connect("users");
-    let user = await con.findOne({ _id: new mongodb.ObjectId(id) });
-    if (user) {
+    let user = await con.findOne({_id: new mongodb.ObjectId(id) });
+    if(user) {
       return user;
     }
     return false;

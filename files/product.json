@@ -1,18 +1,10 @@
 [
   {
-    "product_id": "63075cac4f233b1e01250096",
-    "category": "Laptop",
-    "name": "legion",
-    "price": 100,
-    "brand": "lenovo",
-    "Quantity": 50
-  },
-  {
-    "_id": "6308b359341824941e94f3b9",
-    "category": "Gaming chair",
-    "name": "logitech",
+    "product_id": "30939740-d5df-4fc8-928c-5af178c0c832",
+    "category": "mobile",
+    "name": "galaxy",
     "price": 150,
-    "brand": "dell",
-    "Quantity": 50
+    "brand": "samsung",
+    "Quantity": 55
   }
 ]

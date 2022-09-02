@@ -112,7 +112,7 @@ async function checking_product(productid){
     throw e;
   }
 };
-async function update_increase_quantity(id , quantity) {
+async function update_decrease_quantity(id , quantity) {
 
   const allProduct = await get_product_data()
   for(product of allProduct){
@@ -164,7 +164,7 @@ module.exports = {
   remove_product_from_data,
   update_product_from_data,
   checking_product,
-  update_increase_quantity,
+  update_decrease_quantity,
   update_product,
   update_increase_quantity
 };

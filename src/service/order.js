@@ -21,7 +21,7 @@ const place_order = async (user_id, shipementAddress, Payment) => {
       if (productResult.Quantity < product.Quantity) {
         throw new Error("not sufficient product on store");
       }
-      if (store.update_increase_quantity(product.id, product.Quantity)) {
+      if (store.update_decrease_quantity(product.id, product.Quantity)) {
         totalcost += product.Quantity * productResult["price"];
       }
     }
@@ -30,13 +30,14 @@ const place_order = async (user_id, shipementAddress, Payment) => {
     if (await Order.add_order(new_order)) {
       if (await cartDb.deactive_cart(user_id)) {
         console.log("order place successfully");
-        return;
+        return "order place successfully"
       }
       throw new Error("error occur while deactivating cart");
     }
     throw new Error("error occured");
   } catch (err) {
     console.log(err.message);
+    return err.message
   }
 };
 const shipments = {
@@ -45,8 +46,8 @@ const shipments = {
   status: "on the way",
 };
 const address = { country: "Nepal", city: "Ktm", ...shipments };
-const Pay = { type: "E-sewa", status: "Paid" };
-// place_order("63075bfd0529b276f4bfdeeb" ,address,Pay) 
+const Pay = { type: "Khalti", status: "Paid" };
+// place_order("98b69436-d691-47ff-904b-d29e5501b25a" ,address,Pay) 
 
 const update_order_quantity = async (orderid, productid, quantity) => {
   try {
@@ -67,7 +68,7 @@ const update_order_quantity = async (orderid, productid, quantity) => {
           if (Order.update_order(orderid, order)) {
             if (store.update_product(productid, productdata)) {
               console.log("updated successfully");
-              return;
+              return "updated successfully";
             }
             throw new Error("error occur while updating in store");
           }
@@ -78,9 +79,10 @@ const update_order_quantity = async (orderid, productid, quantity) => {
     throw new Error("No Order Found For Id: " + orderid);
   } catch (err) {
     console.log(err.message);
+    return err.message
   }
 };
-// update_order_quantity("630f4dfb45d7aa4b4e97e69d", "63075cac4f233b1e01250096", 5);
+// update_order_quantity("fe9a365e-579c-402d-8414-eb6dd7fe5528", "30939740-d5df-4fc8-928c-5af178c0c832", 5);
 
 
 async function update_shipment_status(order_id, Status) {
@@ -116,7 +118,7 @@ async function update_shipment_status(order_id, Status) {
     throw err;
   }
 }
-// update_shipment_status("630f4dfb45d7aa4b4e97e69d" , "on_route")
+// update_shipment_status("fe9a365e-579c-402d-8414-eb6dd7fe5528" , "delivered")
 
 const cancel_order = async (orderid) => {
   try {
@@ -182,7 +184,7 @@ async function return_replace_order(order_id, action) {
     console.log(err.message);
   }
 }
-// return_replace_order("630cb26f49615b4fa51eb69f" , "return")
+// return_replace_order("fe9a365e-579c-402d-8414-eb6dd7fe5528" , "return")
 
 const trackrefund_update = async (orderid) => {
   try {
@@ -199,7 +201,7 @@ const trackrefund_update = async (orderid) => {
     console.log(e.message);
   }
 };
-// trackrefund_update("630cb26f49615b4fa51eb69f");
+// trackrefund_update("fe9a365e-579c-402d-8414-eb6dd7fe5528");
 
 const shipment_update = async (orderid) => {
   try {
@@ -213,4 +215,13 @@ const shipment_update = async (orderid) => {
     console.log(e.message);
   }
 };
-// shipment_update("630cb26f49615b4fa51eb69f")
+// shipment_update("fe9a365e-579c-402d-8414-eb6dd7fe5528")
+module.exports = {
+  place_order,
+  update_order_quantity,
+  update_shipment_status,
+  cancel_order,
+  return_replace_order,
+  trackrefund_update,
+  shipment_update,
+};

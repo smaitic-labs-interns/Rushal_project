@@ -23,9 +23,9 @@ const addto_cart = async (Userid, newProduct) => {
       for (let i of Cart.Products) {
         if (newProduct.Productid === i.id) {
           i.Quantity += newProduct.Quantity;
-          if (cart.update_cart_data(Cart)) {
-            console.log("data added to cart");
-            return;
+          if (await cart.update_cart_data(Cart)) {
+            console.log("quantity added to cart");
+            return "quantity added to cart";
           }
           throw new Error("error occur while adding data on cart ")
         }
@@ -34,9 +34,9 @@ const addto_cart = async (Userid, newProduct) => {
         id: newProduct["Productid"],
         Quantity: newProduct["Quantity"],
       });
-      if (cart.update_cart_data(Cart)) {
+      if (await cart.update_cart_data(Cart)) {
         console.log("data added to cart");
-        return;
+        return "data added to cart";
       }
       throw new Error("error occur while adding data on cart")
     }
@@ -48,46 +48,53 @@ const addto_cart = async (Userid, newProduct) => {
       Quantity: newProduct["Quantity"],
     });
 
-    if (cart.add_to_cart(new_cart)) {
+    if (await cart.add_to_cart(new_cart)) {
       console.log("data added to cart");
+      return "data added to cart"
     } else {
       throw new Error("error Occured");
     }
   } catch (e) {
     console.log(e.message);
+    return e.message
   }
 };
-const cart_info = {Productid: "63075cac4f233b1e01250096",Quantity: 2};
-addto_cart("63075bfd0529b276f4bfdeeb" , cart_info);
+const cart_info = {Productid: "30939740-d5df-4fc8-928c-5af178c0c832",Quantity: 2};
+// addto_cart("98b69436-d691-47ff-904b-d29e5501b25a" , cart_info);
 
 
-const updatecart_quantity = async (userid, productid, quantity) => {
+const updatecart_quantity = async (userid, data) => {
   try {
-    const res = await cart.update_quantity_from_cart(userid, productid, quantity);
+    const res = await cart.update_quantity_from_cart(userid, data);
+    console.log(res)
     if (res) {
       console.log("Quantity updated succesfully");
-      return;
+      return "Quantity updated succesfully" 
     }
-    console.log("no Product found for id:" + productid);
+    throw new Error ("no Product found for id:" + productid);
   } catch (e) {
     console.log(e.message);
+    return e.message
   }
 };
-// updatecart_quantity("63075bfd0529b276f4bfdeeb", "63077ae843a5fcaa31c18648", 5);
+// updatecart_quantity("98b69436-d691-47ff-904b-d29e5501b25a", "30939740-d5df-4fc8-928c-5af178c0c832", 10);
 
 const removeproduct_fromcart = async (userid, productid) => {
   try {
     const res = await cart.remove_product_from_cart(userid, productid);
     if (res) {
       console.log("removed product from cart successfully");
-      return;
+      return "removed product from cart successfully"
     }
-    console.log("no product on this id :" + productid);
+    console.log("no product or user on this id :" + productid +" "+ userid);
   } catch (e) {
     console.log(e.message);
+    return e.message
   }
 };
-// removeproduct_fromcart("630751bda681e76eb4596b95" , "6308b359341824941e94f3b9")
+// removeproduct_fromcart("98b69436-d691-47ff-904b-d29e5501b25a" , "30939740-d5df-4fc8-928c-5af178c0c832")
+
+module.exports = {addto_cart, updatecart_quantity , removeproduct_fromcart}
 
 
 

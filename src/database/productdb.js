@@ -87,7 +87,8 @@ async function update_product_from_data(id, productinfo) {
     let con = await db_connect("products");
     let product = await con.findOne({_id : new mongodb.ObjectId(id)});
     if(product){
-      let res = await con.updateOne({_id : new mongodb.ObjectId(id)},{ $set: productinfo });
+      console.log(productinfo);
+      let res = await con.updateOne({_id : new mongodb.ObjectId(id)},{ $set:productinfo});
     return res.acknowledged;
     }
     throw new Error("no product found for this id :" + id);
@@ -108,7 +109,7 @@ async function checking_product(productid){
   }
 };
 
-async function update_quantity(id, quantity) {
+async function update_decrease_quantity(id, quantity) {
   try{
     let con = await db_connect("products");
     let product = await con.findOne({_id : new mongodb.ObjectId(id)});
@@ -158,7 +159,7 @@ module.exports = {
   remove_product_from_data,
   update_product_from_data,
   checking_product,
-  update_quantity,
+  update_decrease_quantity,
   update_product,
   update_increase_quantity,
 };

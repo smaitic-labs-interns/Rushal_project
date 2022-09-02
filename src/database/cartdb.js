@@ -52,24 +52,27 @@ async function add_to_cart (cart){
 throw e
 }
 }
-async function update_quantity_from_cart(userid, productid, quantity) {
+async function update_quantity_from_cart(userid, data) {
   try {
     let con = await db_connect("cart");
-    let cart = await con.findOne({UserId: userid , status: "active" });
+    let cart = await con.findOne({UserId:"630751bda681e76eb4596b95" , status: "active" });
     // let cart = await con.findOne({_id: new mongodb.ObjectId(userid) });
-     if(cart.UserId === userid) {
+    // console.log(cart);
+     if(cart) {
       for (var product of cart.Products) {
-        if (product.id === productid) {
-          product.Quantity = quantity;
+        console.log(product, data.productid);
+        if (product.id === data.productid) { 
+          product.Quantity = data.quantity;
           let res = await con.updateOne(
             { _id: cart._id},
             { $set: cart }
           );
+          // console.log(res);
           return res.acknowledged;
         }
       }  
   }
-    throw new Error("no Cart found for id:" + userid);
+    throw new Error("no user found for id:" + userid);
   } catch (e) {
     throw e;
   }
@@ -90,7 +93,7 @@ async function remove_product_from_cart(userid , productid){
         i += 1
       }
     }
-    throw new Error("no Cart found for id:" + userid);
+    throw new Error("no user found for id:" + userid);
   } catch (e) {
     throw e;
   }

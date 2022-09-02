@@ -9,56 +9,63 @@ const search_product = async(keyword) => {
     const result = await product.find_product_from_data(keyword)
     if (result.length > 0) {
      console.log(result);
-      return;
+      return result
     }
     throw new Error("no result found");
   }catch (err) {
     console.log(err.message);
+    return err.message
   }
 };
 
-// search_product("l");
+// search_product("s");
 
 const add_product = async(category, name, price, brand, quantity) => {
   try {
     const item =  Schema.product_schema(category, name, price, brand, quantity);
-    if (product.add_product(item)) {
+    if (await product.add_product(item)) {
       console.log("item added");
+      return "item added"
     } else {
       throw new Error("error while adding");
     }
   } catch (err) {
     console.log(err.message);
+    return err.message
   }
 };
-add_product("ssss","logitech" ,  100, "dell", 50);
+// add_product("mobile","galaxy" ,  100, "samsung", 50);
 
 
 const remove_product = async (productid) => {
   try {
     const res = await product.remove_product_from_data(productid)
     if (res) {
-      console.log("removed successfully");
-      return;
+      // console.log("removed successfully");
+      return "removed successfully";
     }
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
+    return err.message
   }
 };
-// remove_product("2ce29e55-1dd2-4b79-9cfc-47e45845fcae");
+// remove_product("09c8a116-c18e-447a-bd3f-d3a4af3c7783");
 
 
 
 const update_product = async(productid , productinfo) => {
   try {
     if(await product.update_product_from_data(productid ,productinfo)){
-        console.log("updated successfully");
-        return ;
+        // console.log("updated successfully");
+        return "updated successfully" ;
       } 
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
+    return err.message
   }
 };
 
-const pro = {price: 150 , Quantity: 4 };
-// update_product("6308b359341824941e94f3b9", pro);
+const pro = {price: 150 , Quantity: 50 };
+// update_product("30939740-d5df-4fc8-928c-5af178c0c832", pro);
+
+module.exports = {add_product ,search_product,update_product,remove_product}
