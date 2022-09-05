@@ -6,9 +6,9 @@ const add_cart = async (req, res) =>{
         const userid = req.params.userid;
         const store = req.body;
         const result = await cart.addto_cart(userid , store);
-        res.send(result)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 const update_cart_quantity = async (req, res) =>{
@@ -16,9 +16,9 @@ const update_cart_quantity = async (req, res) =>{
         const user_id = req.params.userid;
         const data = req.body;
         const result = await cart.updatecart_quantity(user_id,data);
-        res.send(result)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 
@@ -27,9 +27,9 @@ const remove_product_from_cart = async (req, res) =>{
         const user_id = req.params.userid;
         const data = req.body;
         const result = await cart.removeproduct_fromcart(user_id , data);
-        res.send(result)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 

@@ -14,7 +14,7 @@ const search_product = async(keyword) => {
     throw new Error("no result found");
   }catch (err) {
     console.log(err.message);
-    return err.message
+    throw err
   }
 };
 
@@ -31,7 +31,7 @@ const add_product = async(category, name, price, brand, quantity) => {
     }
   } catch (err) {
     console.log(err.message);
-    return err.message
+    throw err
   }
 };
 // add_product("mobile","galaxy" ,  100, "samsung", 50);
@@ -41,12 +41,12 @@ const remove_product = async (productid) => {
   try {
     const res = await product.remove_product_from_data(productid)
     if (res) {
-      // console.log("removed successfully");
+      console.log("removed successfully");
       return "removed successfully";
     }
   } catch (err) {
-    // console.log(err.message);
-    return err.message
+    console.log(err.message);
+    throw err
   }
 };
 // remove_product("09c8a116-c18e-447a-bd3f-d3a4af3c7783");
@@ -56,12 +56,12 @@ const remove_product = async (productid) => {
 const update_product = async(productid , productinfo) => {
   try {
     if(await product.update_product_from_data(productid ,productinfo)){
-        // console.log("updated successfully");
+        console.log("updated successfully");
         return "updated successfully" ;
       } 
   } catch (err) {
-    // console.log(err.message);
-    return err.message
+    console.log(err.message);
+    throw err
   }
 };
 

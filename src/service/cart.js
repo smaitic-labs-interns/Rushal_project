@@ -56,7 +56,7 @@ const addto_cart = async (Userid, newProduct) => {
     }
   } catch (e) {
     console.log(e.message);
-    return e.message
+    throw e
   }
 };
 const cart_info = {Productid: "30939740-d5df-4fc8-928c-5af178c0c832",Quantity: 2};
@@ -74,7 +74,7 @@ const updatecart_quantity = async (userid, data) => {
     throw new Error ("no Product found for id:" + productid);
   } catch (e) {
     console.log(e.message);
-    return e.message
+    throw e
   }
 };
 // updatecart_quantity("98b69436-d691-47ff-904b-d29e5501b25a", "30939740-d5df-4fc8-928c-5af178c0c832", 10);
@@ -89,7 +89,7 @@ const removeproduct_fromcart = async (userid, productid) => {
     console.log("no product or user on this id :" + productid +" "+ userid);
   } catch (e) {
     console.log(e.message);
-    return e.message
+    throw e
   }
 };
 // removeproduct_fromcart("98b69436-d691-47ff-904b-d29e5501b25a" , "30939740-d5df-4fc8-928c-5af178c0c832")

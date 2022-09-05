@@ -78,16 +78,17 @@ async function update_quantity_from_cart(userid, data) {
   }
 }
 
-async function remove_product_from_cart(userid , productid){
+async function remove_product_from_cart(userid , data){
   try {
     let con = await db_connect("cart");
     let cart = await con.findOne({UserId :userid , status : "active"});
     if(cart) {
       let i = 0
       for(var product of cart.Products) {
-        if (product.id === productid) {
+        if (product.id === data.productid) {
           cart.Products.splice(i,1)
-          let res = await con.updateOne({_id: new mongodb.ObjectId(cart._id)}, {$set : cart})
+          let res = await con.updateOne({_id: cart._id}, {$set : cart})
+          // console.log(res);
           return res.acknowledged;
         }
         i += 1

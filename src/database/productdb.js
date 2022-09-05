@@ -49,7 +49,7 @@ try{
   const result = [];
     for (let product of allProduct) {
       for (key in product) {
-        if(key === "product_id" || key === "brand"){
+        if(key === "product_id"){
           continue
         }else{
         if (typeof product[key] === "string" && typeof keyword === "string") {
@@ -123,16 +123,16 @@ async function update_decrease_quantity(id, quantity) {
   }
 }
   async function update_increase_quantity(id, quantity) {
-    const allProduct = await get_product_data();
-    for (product of allProduct) {
-      if (product.product_id === id) {
-        product.Quantity += quantity;
+    try{
+      let con = await db_connect("products");
+      let product = await con.findOne({_id : new mongodb.ObjectId(id)});
+      if(product){
+        let res = await con.updateOne({_id : new mongodb.ObjectId(id)},{$set:{Quantity:(product.Quantity + quantity)}});
+        return res.acknowledged
       }
-    }
-    if (update_product_data(allProduct)) {
-      return true;
-    } else {
-      console.log("error Occured");
+      throw new Error ("no product found for id:" + id);
+    }catch(e){
+      throw e
     }
   }
 

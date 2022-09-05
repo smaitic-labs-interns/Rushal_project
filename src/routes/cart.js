@@ -8,6 +8,6 @@ router.get('/', (req, res) =>{
 
 router.post("/cart/addcart/:userid", cart.add_cart)
 router.put("/cart/updatecart/:userid" , cart.update_cart_quantity)
-router.put("/cart/removecartproduct/:userid" ,cart.remove_product_from_cart)
+router.delete("/cart/removecartproduct/:userid" ,cart.remove_product_from_cart)
 
 module.exports = router;

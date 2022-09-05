@@ -12,7 +12,7 @@ const login = async (email, password) => {
   }
   } catch (err) {
     console.log(err.message);
-    return err.message
+    throw err
   }
 };
 // login("rushal123@gmail.com", "123456789");
@@ -35,7 +35,7 @@ const sign_up = async (fname, lname, password, email, contact) => {
     }
   } catch (err) {
     console.log(err.message);
-    return err.message 
+    throw err
   }
 };
 // sign_up({

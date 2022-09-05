@@ -4,10 +4,10 @@ const product = require('../service/product')
 const add_product = async (req, res) =>{
     try{
         const data = req.body
-        const result = await product.add_product(data.category , data.name , data.price , data.brand , data.Quantity)
-        res.send(result)
+        const result = await product.add_product(data.category , data.name , data.price , data.brand , data.uantity)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 
@@ -15,9 +15,9 @@ const remove_product = async (req , res) =>{
     try{
         const productid = req.params.id
         const result = await product.remove_product(productid)
-        res.send(result)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 const update_product = async (req , res) =>{
@@ -26,18 +26,18 @@ const update_product = async (req , res) =>{
         const data = req.body
         // console.log(data.Quantity)
         const result = await product.update_product(productid, data)
-        res.send(result)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 const search_product = async (req , res) =>{
     try{
         const keyword = req.params.keyword
         const result = await product.search_product(keyword)
-        res.send(result)
+        res.status(200).send(result)
     }catch(err){
-        res.send(err.message)
+        res.status(400).send(err.message);
     }
 }
 

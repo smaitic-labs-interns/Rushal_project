@@ -3,10 +3,15 @@ const cartDb = require('../database/cartdb.js')
 const{v4: uuidv4} = require('uuid')
 const store = require('../database/productdb')
 const Schema = require('../models/orderModel')
+const user = require('../database/userdb')
 
 
 const place_order = async (user_id, shipementAddress, Payment) => {
   try {
+    const user_res = await user.get_user_by_id(user_id)
+    if(!user_res){
+      throw new Error("no user found for id :" + user_id)
+    }
     const PAYMENT_TYPES = ["E-sewa", "Khalti", "fone pay", "CASH"];
     if (!PAYMENT_TYPES.includes(Payment.type)) {
       throw new Error("Invalid Payment");
@@ -37,7 +42,7 @@ const place_order = async (user_id, shipementAddress, Payment) => {
     throw new Error("error occured");
   } catch (err) {
     console.log(err.message);
-    return err.message
+    throw err
   }
 };
 const shipments = {
@@ -79,7 +84,7 @@ const update_order_quantity = async (orderid, productid, quantity) => {
     throw new Error("No Order Found For Id: " + orderid);
   } catch (err) {
     console.log(err.message);
-    return err.message
+    throw err
   }
 };
 // update_order_quantity("fe9a365e-579c-402d-8414-eb6dd7fe5528", "30939740-d5df-4fc8-928c-5af178c0c832", 5);
@@ -109,12 +114,13 @@ async function update_shipment_status(order_id, Status) {
       }
       if (await Order.update_order(order_id, order)) {
         console.log("shipment status updated");
-        return;
+        return "shipment status updated";
       }
       throw new Error("error updating order");
     }
     throw new Error("no order found");
   } catch (err) {
+    console.log(err.message);
     throw err;
   }
 }
@@ -138,12 +144,13 @@ const cancel_order = async (orderid) => {
       }
       if (await Order.update_order(orderid, order)) {
         console.log("order cancel successfully");
-        return;
+        return "order cancel successfully"
       }
     }
     throw new Error("no order found on id :" + orderid);
   } catch (e) {
     console.log(e.message);
+    throw e
   }
 };
 // cancel_order ("630cb26f49615b4fa51eb69f")
@@ -175,13 +182,14 @@ async function return_replace_order(order_id, action) {
       }
       if (await Order.update_order(order_id, order)) {
         console.log("order " + action + " successfully");
-        return;
+        return "order " + action + " successfully";
       }
       throw new Error("error occur while" + action);
     }
     throw new Error("no order found");
   } catch (err) {
     console.log(err.message);
+    throw err
   }
 }
 // return_replace_order("fe9a365e-579c-402d-8414-eb6dd7fe5528" , "return")
@@ -192,13 +200,14 @@ const trackrefund_update = async (orderid) => {
     if (order) {
       if (order.orderStatus === "returned") {
         console.log(order.payment);
-        return;
+        return order.payment;
       }
       throw new Error("no return order found");
     }
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {
     console.log(e.message);
+    throw e
   }
 };
 // trackrefund_update("fe9a365e-579c-402d-8414-eb6dd7fe5528");
@@ -213,6 +222,7 @@ const shipment_update = async (orderid) => {
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {
     console.log(e.message);
+    throw e
   }
 };
 // shipment_update("fe9a365e-579c-402d-8414-eb6dd7fe5528")
