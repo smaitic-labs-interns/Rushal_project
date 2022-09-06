@@ -69,6 +69,15 @@ const shipment_update = async (req, res) => {
         res.status(400).send(err.message);
     }
 }
+const track_order = async (req, res) => {
+    try{
+        const orderid = req.params.orderid;
+        const result = await order.track_order(orderid);
+        res.status(200).send(result)
+    }catch(err){
+        res.status(400).send(err.message)
+    }
+}
 
 module.exports = {
   place_order,
@@ -77,5 +86,6 @@ module.exports = {
   cancel_order,
   return_replace_order,
   track_refund_update,
-  shipment_update
+  shipment_update,
+  track_order
 };

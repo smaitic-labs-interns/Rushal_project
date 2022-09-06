@@ -55,9 +55,7 @@ throw e
 async function update_quantity_from_cart(userid, data) {
   try {
     let con = await db_connect("cart");
-    let cart = await con.findOne({UserId:"630751bda681e76eb4596b95" , status: "active" });
-    // let cart = await con.findOne({_id: new mongodb.ObjectId(userid) });
-    // console.log(cart);
+    let cart = await con.findOne({UserId: userid , status: "active" });
      if(cart) {
       for (var product of cart.Products) {
         console.log(product, data.productid);
@@ -70,6 +68,7 @@ async function update_quantity_from_cart(userid, data) {
           // console.log(res);
           return res.acknowledged;
         }
+        throw new Error("no product id found for this user id :" + data.productid)
       }  
   }
     throw new Error("no user found for id:" + userid);
@@ -93,6 +92,7 @@ async function remove_product_from_cart(userid , data){
         }
         i += 1
       }
+      throw new Error("no product found for this user id:" + data.productid)
     }
     throw new Error("no user found for id:" + userid);
   } catch (e) {

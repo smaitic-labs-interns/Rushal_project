@@ -61,6 +61,9 @@ const update_order_quantity = async (orderid, productid, quantity) => {
       throw new Error("no Product in this order");
     }
     const order = await Order.get_order_by_id(orderid);
+    if(order.orderStatus === "delivered" || order.orderStatus === "on the way"){
+      throw new Error("order already placed for " + order.orderStatus)
+    }
 
     if (order) {
       for (let product of order.Products) {
@@ -93,6 +96,9 @@ const update_order_quantity = async (orderid, productid, quantity) => {
 async function update_shipment_status(order_id, Status) {
   try {
     const order = await Order.get_order_by_id(order_id);
+    if (order.orderStatus === "canceled" || order.orderStatus === "returned") {
+      throw new Error("order has already been " + order.orderStatus);
+    }
     if (order) {
       order.shipementAddress.status = Status;
       switch (Status) {
@@ -103,14 +109,13 @@ async function update_shipment_status(order_id, Status) {
           order.orderStatus = "approved";
           break;
         case "on_route":
-          order.orderStatus = "in progress";
+          order.orderStatus = "on the way";
           break;
         case "delivered":
           order.orderStatus = "delivered";
           break;
         default:
-          order.orderStatus = "active";
-          break;
+          throw new Error("provide valid status");
       }
       if (await Order.update_order(order_id, order)) {
         console.log("shipment status updated");
@@ -130,6 +135,9 @@ const cancel_order = async (orderid) => {
   try {
     // const allOrder = await Order.getOrderdata();
     const order = await Order.get_order_by_id(orderid);
+    if (order.orderStatus === "canceled") {
+      throw new Error("order already been canceled");
+    }
     if (order) {
       order.orderStatus = "canceled";
       order.payment.status = "canceled";
@@ -226,6 +234,23 @@ const shipment_update = async (orderid) => {
   }
 };
 // shipment_update("fe9a365e-579c-402d-8414-eb6dd7fe5528")
+
+const track_order = async (orderid) => {
+  try {
+    const order = await Order.get_order_by_id(orderid);
+    if (order) {
+      console.log(order.orderStatus);
+      return order.orderStatus;
+    }
+    throw new Error("no order found for this id:" + orderid);
+  } catch (e) {
+    console.log(e.message);
+    throw e
+  }
+};
+//track_order("")
+
+
 module.exports = {
   place_order,
   update_order_quantity,
@@ -234,4 +259,5 @@ module.exports = {
   return_replace_order,
   trackrefund_update,
   shipment_update,
+  track_order
 };
