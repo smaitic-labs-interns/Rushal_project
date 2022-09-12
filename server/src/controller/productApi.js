@@ -1,6 +1,16 @@
 const product = require('../service/product')
 
 
+const all_products = async (req,res)=>{
+    try {
+        const products = await product.get_all_products()
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(400).json({
+            'message': 'somthing went wrong'
+        })
+    }
+}
 const add_product = async (req, res) =>{
     try{
         const data = req.body
@@ -41,4 +51,4 @@ const search_product = async (req , res) =>{
     }
 }
 
-module.exports = {add_product , remove_product , update_product , search_product}
+module.exports = {add_product , remove_product , update_product , search_product , all_products}

@@ -9,7 +9,7 @@ const user_registration = async(req, res) => {
         const result = await user.sign_up(data.fname, data.lname, data.password, data.email , data.contact);
         res.status(200).send({data:result})
     }catch(err){
-        res.status(400).send(err.message);
+        res.status(400).send({data:err.message});
     }
 }
 
@@ -17,9 +17,9 @@ const user_login = async (req, res) =>{
     try{
         const data = req.body
         const result = await user.login(data.email , data.password);
-        res.status(200).send(result)
+        res.status(200).send({data:result})
     }catch(err){
-        res.status(400).send(err.message);
+        res.status(400).send({data:err.message});
     }
 }
 

@@ -8,8 +8,10 @@ const mongodb = require('mongodb');
 async function get_product_data() {
   let con = await db_connect('products');
   let data = await con.find().toArray();
+  // console.log(data);
   return data;
 }
+
 
 // async function update_product_data(product) {
 //   try {

@@ -3,6 +3,23 @@ const product = require('../database/productdb.js')
 const Schema = require('../models/productModel')
 
 
+const get_all_products = async () =>{
+  try {
+    const products = await product.get_product_data()
+    if (products.length > 0) {
+      // console.log(products);
+      return products
+       
+     }else{
+      return ({
+        'message': 'no product found'
+      })
+     }
+  } catch (error) {
+    
+  }
+}
+get_all_products()
 
 const search_product = async(keyword) => {
   try {
@@ -68,4 +85,4 @@ const update_product = async(productid , productinfo) => {
 const pro = {price: 150 , Quantity: 50 };
 // update_product("30939740-d5df-4fc8-928c-5af178c0c832", pro);
 
-module.exports = {add_product ,search_product,update_product,remove_product}
+module.exports = {add_product ,search_product,update_product,remove_product , get_all_products}

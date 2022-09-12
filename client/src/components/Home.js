@@ -1,20 +1,25 @@
 import React from 'react';
-import Navbar from "react-bootstrap/Navbar";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
+import axios from 'axios'
+import Products from './Products';
 
 const Home = () => {
-  return (
+  const [products , setProducts] = React.useState()
+  React.useEffect(()=>{
+    const fethData = async ()=>{
+      const res = await axios.get('http://localhost:8000/api/product') 
+      const allProducts = res.data
+      setProducts(allProducts)
+    }
+    fethData()
+  }, [])
+  if(!products) return<div>loading</div>
+
+  
+  return products && (
     <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="#home">User-Registration</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Product</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
+      <h1>Home</h1>
+      
+      <Products products = {products} />
     </>
   );
 };
