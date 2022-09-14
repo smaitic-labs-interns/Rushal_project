@@ -43,11 +43,12 @@ const update_product = async (req , res) =>{
 }
 const search_product = async (req , res) =>{
     try{
-        const keyword = req.params.keyword
+        const {keyword} = req.query
+        console.log(keyword);
         const result = await product.search_product(keyword)
-        res.status(200).send(result)
+        res.status(200).send({data:result})
     }catch(err){
-        res.status(400).send(err.message);
+        res.status(400).send({data:err.message});
     }
 }
 

@@ -10,37 +10,59 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-hot-toast';
+import { useFormik } from 'formik'
+import { loginValidationSchema } from '../validation/validation';
 
 const Login = () => {
     const navigate = useNavigate()
-    const handlesubmit = async (e)=>{
-        e.preventDefault()
-        const data = new FormData(e.currentTarget);
-        const formData = {    
-          password : data.get('password'),
-          email: data.get('email')  
-        }
-        console.log(formData);
-        const res = await fetch('http://localhost:8000/api/user/signin' , {
-            method :  'POST' , 
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formData)
-          })
+    const formik =  useFormik({
+      initialValues: {
+        email: '',
+        password: '',
+      },
+    
+      validationSchema: loginValidationSchema,
+      onSubmit:  async (values) => {
+        const res =  await fetch('http://localhost:8000/api/user/signin' , {
+                  method :  'POST' , 
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values)
+                })
+                console.log(res);
+                // const resData =  res.json()
+      },
+    });
+    // const handlesubmit = async (e)=>{
+    //     e.preventDefault()
+    //     const data = new FormData(e.currentTarget);
+    //     const formData = {    
+    //       password : data.get('password'),
+    //       email: data.get('email')  
+    //     }
+    //     console.log(formData);
+    //     const res = await fetch('http://localhost:8000/api/user/signin' , {
+    //         method :  'POST' , 
+    //         headers: {
+    //           'Accept': 'application/json',
+    //           'Content-Type': 'application/json'
+    //       },
+    //       body: JSON.stringify(formData)
+    //       })
       
-          const resData = await res.json()
+    //       const resData = await res.json()
           
-          if(res.status === 400){
-            toast.error("Invalid password or email") 
-            return;
-          }else if(res.status === 200){
-            navigate('/')
-            toast.success(resData.data)
-          }
-          console.log(resData);
-        }
+    //       if(res.status === 400){
+    //         toast.error("Invalid password or email") 
+    //         return;
+    //       }else if(res.status === 200){
+    //         navigate('/')
+    //         toast.success(resData.data)
+    //       }
+    //       console.log(resData);
+    //     }
         
   return (
     <Container component="main" maxWidth="xs">
@@ -59,7 +81,7 @@ const Login = () => {
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
-      <Box component="form" onSubmit={handlesubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
@@ -69,6 +91,10 @@ const Login = () => {
           name="email"
           autoComplete="email"
           autoFocus
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
           margin="normal"
@@ -79,6 +105,10 @@ const Login = () => {
           type="password"
           id="password"
           autoComplete="current-password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <Button
           type="submit"

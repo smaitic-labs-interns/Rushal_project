@@ -3,44 +3,72 @@ import {Avatar, Button, Grid , TextField, Typography , Link ,Box , Container} fr
 import CssBaseline from '@mui/material/CssBaseline';
 import { toast } from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom'
-
+import { useFormik } from 'formik'
+import { registerValidationSchema } from "../validation/validation";
 const Signup = () => {
 
 const navigate = useNavigate()
-  const handlesubmit = async (e)=>{
-    e.preventDefault()
-    const data = new FormData(e.currentTarget);
-    const formData = {
-      fname: data.get('firstName'),
-      lname: data.get('lastName'),
-      password : data.get('password'),
-      email: data.get('email'),
-      contact: data.get('contact')
-    }
-    console.log(formData);
+const formik =  useFormik({
+  initialValues: {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    contact: ''
+  },
+
+  validationSchema: registerValidationSchema,
+  onSubmit:  async (values) => {
+    const res =  await fetch('http://localhost:8000/api/user/adduser' , {
+              method :  'POST' , 
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+            })
+            const resData = await res.json()
+            
+            console.log(resData);
+
+            
+            // const resData =  res.json()
+  },
+})
+  // const handlesubmit = async (e)=>{
+  //   e.preventDefault()
+  //   const data = new FormData(e.currentTarget);
+  //   const formData = {
+  //     fname: data.get('firstName'),
+  //     lname: data.get('lastName'),
+  //     password : data.get('password'),
+  //     email: data.get('email'),
+  //     contact: data.get('contact')
+  //   }
+  //   console.log(formData);
    
 
-    const res = await fetch('http://localhost:8000/api/user/adduser' , {
-      method :  'POST' , 
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(formData)
-    })
+  //   const res = await fetch('http://localhost:8000/api/user/adduser' , {
+  //     method :  'POST' , 
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(formData)
+  //   })
 
-    console.log(res.status);
-    const resData = await res.json()
+  //   console.log(res.status);
+  //   const resData = await res.json()
     
-    if(res.status === 400){
-      toast.error("Somthing went wrong") 
-      return
-    }else if(res.status === 200){
-      navigate('/login')
-      toast.success(resData.data)
-    }
-    console.log(resData);
-  }
+  //   if(res.status === 400){
+  //     toast.error("Somthing went wrong") 
+  //     return
+  //   }else if(res.status === 200){
+  //     navigate('/login')
+  //     toast.success(resData.data)
+  //   }
+  //   console.log(resData);
+  // }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -58,7 +86,7 @@ const navigate = useNavigate()
       <Typography component="h1" variant="h5">
         Sign up
       </Typography>
-      <Box component="form" noValidate onSubmit={handlesubmit} sx={{ mt: 3 }}>
+      <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -69,6 +97,10 @@ const navigate = useNavigate()
               id="firstName"
               label="First Name"
               autoFocus
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+              helperText={formik.touched.firstName && formik.errors.firstName}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -79,6 +111,10 @@ const navigate = useNavigate()
               label="Last Name"
               name="lastName"
               autoComplete="family-name"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+              helperText={formik.touched.lastName && formik.errors.lastName}
             />
           </Grid>
           <Grid item xs={12}>
@@ -90,6 +126,10 @@ const navigate = useNavigate()
               label="Email Address"
               name="email"
               autoComplete="email"
+              value={formik.values.email}
+               onChange={formik.handleChange}
+               error={formik.touched.email && Boolean(formik.errors.email)}
+               helperText={formik.touched.email && formik.errors.email}
             />
           </Grid>
           <Grid item xs={12}>
@@ -101,6 +141,10 @@ const navigate = useNavigate()
               type="password"
               id="password"
               autoComplete="new-password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
             />
           </Grid>
           <Grid item xs={12}>
@@ -112,6 +156,10 @@ const navigate = useNavigate()
               label="Contact"
               name="contact"
               autoComplete="phone no."
+              value={formik.values.contact}
+              onChange={formik.handleChange}
+              error={formik.touched.contact && Boolean(formik.errors.contact)}
+              helperText={formik.touched.contact && formik.errors.contact}
             />
           </Grid>
         </Grid>
