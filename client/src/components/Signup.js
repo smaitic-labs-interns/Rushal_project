@@ -5,6 +5,10 @@ import { toast } from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom'
 import { useFormik } from 'formik'
 import { registerValidationSchema } from "../validation/validation";
+import axios from "axios";
+
+
+
 const Signup = () => {
 
 const navigate = useNavigate()
@@ -14,61 +18,33 @@ const formik =  useFormik({
     lastName: '',
     email: '',
     password: '',
+    confirmPassword: '',
     contact: ''
   },
 
   validationSchema: registerValidationSchema,
   onSubmit:  async (values) => {
-    const res =  await fetch('http://localhost:8000/api/user/adduser' , {
-              method :  'POST' , 
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(values)
-            })
-            const resData = await res.json()
-            
+    console.log(values);
+    const res =  await axios.post('http://localhost:8000/api/user/adduser',
+    values
+     )
+
+    console.log(res.status);
+            const resData = await res.data
+            if(res.status === 400){
+                  toast.error("Somthing went wrong") 
+                  return
+                }else if(res.status === 200){
+                  navigate('/login')
+                  toast.success(resData.data)
+                }
             console.log(resData);
 
             
             // const resData =  res.json()
   },
 })
-  // const handlesubmit = async (e)=>{
-  //   e.preventDefault()
-  //   const data = new FormData(e.currentTarget);
-  //   const formData = {
-  //     fname: data.get('firstName'),
-  //     lname: data.get('lastName'),
-  //     password : data.get('password'),
-  //     email: data.get('email'),
-  //     contact: data.get('contact')
-  //   }
-  //   console.log(formData);
-   
 
-  //   const res = await fetch('http://localhost:8000/api/user/adduser' , {
-  //     method :  'POST' , 
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Content-Type': 'application/json'
-  //   },
-  //   body: JSON.stringify(formData)
-  //   })
-
-  //   console.log(res.status);
-  //   const resData = await res.json()
-    
-  //   if(res.status === 400){
-  //     toast.error("Somthing went wrong") 
-  //     return
-  //   }else if(res.status === 200){
-  //     navigate('/login')
-  //     toast.success(resData.data)
-  //   }
-  //   console.log(resData);
-  // }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -145,6 +121,21 @@ const formik =  useFormik({
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              autoComplete="new-password"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
             />
           </Grid>
           <Grid item xs={12}>

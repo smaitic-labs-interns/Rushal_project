@@ -9,8 +9,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 
 
@@ -42,7 +41,7 @@ export default function Products({products}) {
                       // 16:9
                       pt: '56.25%',
                     }}
-                    image="https://api.lorem.space/image/game?w=150&h=220"
+                    image="https://api.lorem.space/image/movie?w=150&h=220"
                     alt="random"
                   />
                   <CardContent sx={{ flexGrow: 1 }}>

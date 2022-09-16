@@ -17,7 +17,15 @@ const user_login = async (req, res) =>{
     try{
         const data = req.body
         const result = await user.login(data.email , data.password);
+        console.log(result);
+        if(result === 'Invalid login Credentials'){
+            res.status(400).json({
+                'message' : 'Invalid login Credentials' 
+            })
+            return
+        }
         res.status(200).send({data:result})
+        
     }catch(err){
         res.status(400).send({data:err.message});
     }

@@ -22,7 +22,7 @@ const login = async (email, password) => {
 const sign_up = async (fname, lname, password, email, contact) => {
   try {
     // console.log(fname);
-    const user = Schema.User({fname, lname, password, email, contact});
+    const user = Schema.User({firstName : fname, lastName : lname, password, email, contact});
     // console.log(user);
     if (await User.find_user_from_email(user.email)) {
       throw new Error("email already exist");

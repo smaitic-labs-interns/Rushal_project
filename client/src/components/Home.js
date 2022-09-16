@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import Products from './Products';
-import { Grid , Link } from '@mui/material';
+import Navbar from '../features/navbar';
 
 const Home = () => {
   
@@ -19,12 +19,9 @@ const Home = () => {
   
   return products && (
     <>
+    <Navbar />
       <h1>Ecommerce portal</h1>
-      <Grid item>
-            <Link href="search" variant="body2">
-              Search for items?
-            </Link>
-          </Grid>
+   
   
       <Products products = {products} />
       

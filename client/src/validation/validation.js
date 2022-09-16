@@ -28,6 +28,10 @@ import * as yup from 'yup';
       .string('Enter your password')
       .min(8, 'Password should be of minimum 8 characters length')
       .required('Password is required'),
+ confirmPassword: yup
+      .string('Confirm your password')
+      .oneOf([yup.ref('password'), null], 'Passwords must match')
+      .required('Confirm Password is required'),
   contact: yup
       .string('Enter your contact')
       .required('Last Name is required')

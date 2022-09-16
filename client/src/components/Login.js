@@ -12,6 +12,7 @@ import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-hot-toast';
 import { useFormik } from 'formik'
 import { loginValidationSchema } from '../validation/validation';
+import axios from 'axios';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -23,47 +24,21 @@ const Login = () => {
     
       validationSchema: loginValidationSchema,
       onSubmit:  async (values) => {
-        const res =  await fetch('http://localhost:8000/api/user/signin' , {
-                  method :  'POST' , 
-                  headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(values)
-                })
+        const res =  await axios.post(`http://localhost:8000/api/user/signin` ,
+        values
+        )
+            const resData = res.data
+             console.log(resData);
+            if(res.status === 400){
+              toast.error("Invalid password or email") 
+                return;
+            }else if(res.status === 200){
+                   navigate('/')
+             toast.success("Login successfull")
+                        }
                 console.log(res);
-                // const resData =  res.json()
       },
     });
-    // const handlesubmit = async (e)=>{
-    //     e.preventDefault()
-    //     const data = new FormData(e.currentTarget);
-    //     const formData = {    
-    //       password : data.get('password'),
-    //       email: data.get('email')  
-    //     }
-    //     console.log(formData);
-    //     const res = await fetch('http://localhost:8000/api/user/signin' , {
-    //         method :  'POST' , 
-    //         headers: {
-    //           'Accept': 'application/json',
-    //           'Content-Type': 'application/json'
-    //       },
-    //       body: JSON.stringify(formData)
-    //       })
-      
-    //       const resData = await res.json()
-          
-    //       if(res.status === 400){
-    //         toast.error("Invalid password or email") 
-    //         return;
-    //       }else if(res.status === 200){
-    //         navigate('/')
-    //         toast.success(resData.data)
-    //       }
-    //       console.log(resData);
-    //     }
-        
   return (
     <Container component="main" maxWidth="xs">
     <CssBaseline />
