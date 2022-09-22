@@ -1,14 +1,16 @@
 import React from 'react';
-import axios from 'axios'
+
 import Products from './Products';
 import Navbar from '../features/navbar';
+import baseAxi from '../axiosUrl/axios.base';
+import { productEnd } from '../axiosUrl/axios.endpoint';
 
 const Home = () => {
   
   const [products , setProducts] = React.useState()
   React.useEffect(()=>{
     const fechData = async ()=>{
-      const res = await axios.get('http://localhost:8000/api/product') 
+      const res = await baseAxi(productEnd.allProduct)
       const allProducts = res.data
       setProducts(allProducts)
     }

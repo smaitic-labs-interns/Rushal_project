@@ -5,7 +5,8 @@ import { toast } from 'react-hot-toast';
 import {useNavigate} from 'react-router-dom'
 import { useFormik } from 'formik'
 import { registerValidationSchema } from "../validation/validation";
-import axios from "axios";
+import baseAxi from "../axiosUrl/axios.base";
+import { userEnd } from "../axiosUrl/axios.endpoint";
 
 
 
@@ -21,15 +22,13 @@ const formik =  useFormik({
     confirmPassword: '',
     contact: ''
   },
-
   validationSchema: registerValidationSchema,
   onSubmit:  async (values) => {
-    console.log(values);
-    const res =  await axios.post('http://localhost:8000/api/user/adduser',
-    values
+    const res =  await baseAxi(userEnd.signup
+      , values
      )
 
-    console.log(res.status);
+    console.log(res);
             const resData = await res.data
             if(res.status === 400){
                   toast.error("Somthing went wrong") 

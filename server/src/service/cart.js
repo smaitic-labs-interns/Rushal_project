@@ -9,6 +9,7 @@ const Schema = require('../models/cartModel')
 const addto_cart = async (Userid, newProduct) => {
   try {
     //assuming customer already have cart created
+    console.log(newProduct);
     const user_res = await user.get_user_by_id(Userid)
     if(!user_res){
       throw new Error("no user found for id :" + Userid)

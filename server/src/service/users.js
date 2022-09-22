@@ -5,11 +5,9 @@ const Schema = require('../models/userModel');
 //sign in
 const login = async (email, password) => {
   try {
-  if(await User.find_user_from_login_details(email, password)) {
-    console.log("login successfull");
-    return "login successfull"
-    // return true;
-  }
+  const data = await User.find_user_from_login_details(email, password)
+  console.log(data);
+  return data
   } catch (err) {
     console.log(err.message);
     throw err
@@ -21,8 +19,8 @@ const login = async (email, password) => {
 
 const sign_up = async (fname, lname, password, email, contact) => {
   try {
-    // console.log(fname);
-    const user = Schema.User({firstName : fname, lastName : lname, password, email, contact});
+    console.log(fname);
+    const user = Schema.User(fname, lname, email, password,  contact);
     // console.log(user);
     if (await User.find_user_from_email(user.email)) {
       throw new Error("email already exist");

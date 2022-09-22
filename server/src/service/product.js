@@ -21,6 +21,22 @@ const get_all_products = async () =>{
 }
 get_all_products()
 
+const get_product_id = async (id) =>{
+  try{
+    const products = await product.get_product_by_id(id)
+    if(products){
+      return products
+    }
+    return ({
+      'message': 'no product found'
+    })
+  }catch(err){
+    
+  }
+}
+get_product_id()
+
+
 const search_product = async(keyword) => {
   try {
     const result = await product.find_product_from_data(keyword)
@@ -85,4 +101,4 @@ const update_product = async(productid , productinfo) => {
 const pro = {price: 150 , Quantity: 50 };
 // update_product("30939740-d5df-4fc8-928c-5af178c0c832", pro);
 
-module.exports = {add_product ,search_product,update_product,remove_product , get_all_products}
+module.exports = {add_product ,search_product,update_product,remove_product , get_all_products , get_product_id }

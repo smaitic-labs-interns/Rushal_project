@@ -11,10 +11,25 @@ const all_products = async (req,res)=>{
         })
     }
 }
+
+const get_product_by_id = async (req,res) =>{
+    try {
+        const productid = req.params.id
+        // console.log(productid);
+        const products = await product.get_product_id(productid)
+        console.log(products);
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(400).json({
+            'message': 'somthing went wrong'
+        })
+    }
+}
 const add_product = async (req, res) =>{
     try{
         const data = req.body
-        const result = await product.add_product(data.category , data.name , data.price , data.brand , data.uantity)
+        console.log(data);
+        const result = await product.add_product(data.category , data.name , data.price , data.brand , data.quantity)
         res.status(200).send(result)
     }catch(err){
         res.status(400).send(err.message);
@@ -52,4 +67,4 @@ const search_product = async (req , res) =>{
     }
 }
 
-module.exports = {add_product , remove_product , update_product , search_product , all_products}
+module.exports = {add_product , remove_product , update_product , search_product , all_products , get_product_by_id}

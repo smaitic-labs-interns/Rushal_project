@@ -12,9 +12,13 @@ import {useNavigate} from 'react-router-dom'
 import { toast } from 'react-hot-toast';
 import { useFormik } from 'formik'
 import { loginValidationSchema } from '../validation/validation';
-import axios from 'axios';
-
+import baseAxi from '../axiosUrl/axios.base';
+import { userEnd } from '../axiosUrl/axios.endpoint';
+import { useDispatch } from 'react-redux';
+import { login } from '../reducer/userSlice';
 const Login = () => {
+  const dispatch = useDispatch()
+
     const navigate = useNavigate()
     const formik =  useFormik({
       initialValues: {
@@ -24,17 +28,21 @@ const Login = () => {
     
       validationSchema: loginValidationSchema,
       onSubmit:  async (values) => {
-        const res =  await axios.post(`http://localhost:8000/api/user/signin` ,
-        values
-        )
+        const res =  await baseAxi(userEnd.login, values) 
+    
             const resData = res.data
-             console.log(resData);
+             console.log(resData.data.fname);
             if(res.status === 400){
               toast.error("Invalid password or email") 
                 return;
             }else if(res.status === 200){
                    navigate('/')
              toast.success("Login successfull")
+             dispatch(login({
+              userId : resData.data._id,
+              firstName : resData.data.fname,
+              lastName :resData.data.lname
+             }))
                         }
                 console.log(res);
       },
@@ -51,8 +59,9 @@ const Login = () => {
       }}
     >
       <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-        
+     
       </Avatar>
+      
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
