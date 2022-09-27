@@ -9,7 +9,7 @@ const user_registration = async(req, res) => {
         const result = await user.sign_up(data.firstName, data.lastName, data.password, data.email , data.contact);
         res.status(200).send({data:result})
     }catch(err){
-        res.status(400).send({data:err.message});
+        res.status(400).send({data: err.message});
     }
 }
 

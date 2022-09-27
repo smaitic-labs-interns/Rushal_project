@@ -13,7 +13,7 @@ const Search = () => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     setSearch(data.get('search'))
-    const res = await axios(`http://localhost:8000/api/product/searchproduct?keyword=${search}`)
+    const res = await axios.get(`http://localhost:8000/api/product/searchproduct?keyword=${search}`)
     const resData = res.data.data
    
     if (res.status === 400){

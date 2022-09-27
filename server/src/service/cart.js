@@ -5,6 +5,20 @@ const Schema = require('../models/cartModel')
 
 
 
+const get_cart_by_id = async (id) =>{
+  try {
+  const carts = await cart.get_active_cart_data(id)
+  if(carts){
+    return carts
+  }else{
+    return ({
+      'message': 'no product found'
+    })
+  }
+}catch(err){
+  throw err
+}
+}
 
 const addto_cart = async (Userid, newProduct) => {
   try {
@@ -95,7 +109,7 @@ const removeproduct_fromcart = async (userid, productid) => {
 };
 // removeproduct_fromcart("98b69436-d691-47ff-904b-d29e5501b25a" , "30939740-d5df-4fc8-928c-5af178c0c832")
 
-module.exports = {addto_cart, updatecart_quantity , removeproduct_fromcart}
+module.exports = {addto_cart, updatecart_quantity , removeproduct_fromcart , get_cart_by_id}
 
 
 

@@ -20,7 +20,18 @@ async function get_cart_data (){
 //     return false;
 //   }
 // }
-  
+async function get_cart_id(id) {
+  try {
+    let con = await db_connect("cart");
+    let cart = await con.findOne({ _id: new mongodb.ObjectId(id)});
+    if (cart) {
+      return cart;
+    }
+    throw new Error("no cart found for this id")
+  } catch (e) {
+    throw e;
+  }
+}
 async function update_cart_data(cart){
   try{
     let con = await db_connect('cart');
@@ -135,7 +146,8 @@ module.exports = {
   update_quantity_from_cart,
   remove_product_from_cart,
   find_cart,
-  deactive_cart
+  deactive_cart,
+  get_cart_id
 };
 
 

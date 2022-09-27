@@ -21,7 +21,7 @@ const Product = () => {
       const res = await axios.get(`http://localhost:8000/api/product/${id}`)
       setProduct(res.data)
     }
-    fetchData()
+    fetchData() 
   }, [])
 
   const handleClick = async () => {
@@ -40,14 +40,14 @@ const Product = () => {
     if(res.status === 200){
       toast.success(res.data)
     }else{
-       toast.error(res.data)
+       toast.error("error occured")
     } 
   }
   return (
 
     <Typography textAlign="left" variant="h6">
       {JSON.stringify(product)}
-    This product id is {id}
+    {/* This product id is {id} */}
     <Button type="submit"
           variant="contained"
           onClick={handleClick}

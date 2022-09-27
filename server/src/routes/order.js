@@ -14,5 +14,6 @@ router.put("/order/returnreplaceorder/:orderid" , order.return_replace_order)
 router.get("/order/trackrefund/:orderid" , order.track_refund_update)
 router.get("/order/shipmentupdate/:orderid" , order.shipment_update)
 router.get("/order/trackorder/:orderid" , order.track_order)
+router.post("/order/placeorderbyuser/:userid" , order.place_order_by_user)
 
 module.exports = router

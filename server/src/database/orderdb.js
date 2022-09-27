@@ -24,7 +24,7 @@ async function add_order(order) {
   try {
     let con = await db_connect('order');
     let res = await con.insertOne(order);
-    return res.acknowledged;
+    return res;
   } catch (e) {
     throw e;
   }

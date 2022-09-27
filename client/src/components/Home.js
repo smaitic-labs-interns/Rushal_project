@@ -22,10 +22,11 @@ const Home = () => {
   return products && (
     <>
     <Navbar />
-      <h1>Ecommerce portal</h1>
+      
    
   
       <Products products = {products} />
+      <h1>Ecommerce portal</h1>
       
     </>
   );

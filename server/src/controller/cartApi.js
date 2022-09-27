@@ -1,6 +1,22 @@
 const cart = require('../service/cart')
 // const user = require('../data/users')
 
+
+const get_user_cart = async (req, res) =>{
+    try {
+        const userid = req.params.id
+        // console.log(cartid);
+        const carts = await cart.get_cart_by_id(userid)
+        console.log(carts);
+        res.status(200).json(carts)
+    } catch (error) {
+        res.status(400).json({
+            'message': 'somthing went wrong'
+        })
+    }
+}
+
+
 const add_cart = async (req, res) =>{
     try{
         const userid = req.params.userid;
@@ -36,4 +52,4 @@ const remove_product_from_cart = async (req, res) =>{
     }
 }
 
-module.exports = {add_cart , update_cart_quantity , remove_product_from_cart}
+module.exports = {add_cart , update_cart_quantity , remove_product_from_cart ,get_user_cart}

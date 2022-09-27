@@ -34,5 +34,35 @@ import * as yup from 'yup';
       .required('Confirm Password is required'),
   contact: yup
       .string('Enter your contact')
-      .required('Last Name is required')
+      .required('Contact is required')
     });
+
+ export const shipmentValidationSchema = yup.object({
+    country: yup
+    .string('Enter your Country Name')
+    .required('Your Country Name is required'),
+
+    name: yup
+    .string('Enter your Location Name')
+    .required('Your Location is required'),
+
+    city: yup
+    .string('Enter your City name')
+    .required('Your City name is required'),
+
+    charge: yup
+    .number('Payment Charge')
+    .required('Charge must be included'),
+
+    shipmentstatus: yup
+    .string('shipment status')
+    .required('shipment status is required'),
+
+    payment: yup
+    .string('Enter your payment type')
+    .required('Payment type must be valid'),
+
+    status: yup
+    .string('payment status')
+    .required('payment status is required'), 
+ });   

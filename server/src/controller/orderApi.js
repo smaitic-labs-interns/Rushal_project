@@ -1,12 +1,25 @@
 const order = require('../service/order')
 
 
+const place_order_by_user = async (req, res) =>{
+    try{
+        const userid = req.params.userid;
+        const data = req.body;
+        const result = await order.place_order_by_user(userid ,data.shipmentdetails );
+        res.status(200).send({data:result})
+    }catch(err){
+        res.status(400).send(err.message);
+    }
+}
+
+
 const place_order = async (req, res) =>{
     try{
         const userid = req.params.userid;
         const data = req.body;
-        const result = await order.place_order(userid ,data.shipmentAddress , data.Payment );
-        res.status(200).send(result)
+        const result = await order.place_order(userid ,data.shipementAddress , data.Payment );
+        console.log(result);
+        res.status(200).send({data:result})
     }catch(err){
         res.status(400).send(err.message);
     }
@@ -87,5 +100,6 @@ module.exports = {
   return_replace_order,
   track_refund_update,
   shipment_update,
-  track_order
+  track_order,
+  place_order_by_user
 };
