@@ -11,8 +11,8 @@ import React from 'react';
 import Product from './features/product';
 import Cart from './features/cart';
 import AddressForm from './features/payment&adress';
-import PlaceOrder from './features/placeOrder';
-// import Navbar from './features/navbar';
+import TrackOrder from './features/trackOrder';
+import Navbar from './features/navbar';
 function App() {
   const {firstName} = useSelector(state => state.user)
   React.useEffect(()=> {
@@ -21,7 +21,7 @@ function App() {
   return (
    <>
    <div className='App'>
-    {/* <Navbar /> */}
+    <Navbar />
    <Toaster />
    <Routes>
     <Route path = '/register' element = {<Signup />}/>
@@ -32,7 +32,7 @@ function App() {
     <Route path = '/product/:id' element = {<Product />}/>
     <Route path = '/cart/' element = {<Cart/>}/>
     <Route path = '/checkout' element = {<AddressForm/>}/>
-    <Route path = '/placeorder' element = {<PlaceOrder/>}/>
+    <Route path = '/trackorder' element = {<TrackOrder/>}/>
  
     </Routes>
    </div>

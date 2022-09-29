@@ -32,7 +32,7 @@ const Signup = () => {
     validationSchema: registerValidationSchema,
     onSubmit: async (values) => {
       try {
-        const res = await baseAxi(userEnd.signup, values);
+        const res = await baseAxi({apiDetails:userEnd.signup, body:values});
         console.log(res);
         const resData = await res.data;
         if (res.status === 200) {

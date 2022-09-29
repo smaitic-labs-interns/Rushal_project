@@ -42,7 +42,7 @@ import * as yup from 'yup';
     .string('Enter your Country Name')
     .required('Your Country Name is required'),
 
-    name: yup
+    location: yup
     .string('Enter your Location Name')
     .required('Your Location is required'),
 
@@ -66,3 +66,9 @@ import * as yup from 'yup';
     .string('payment status')
     .required('payment status is required'), 
  });   
+
+ export const orderIdValidationSchema = yup.object({
+    orderid: yup
+    .string('Enter your orderid')
+    .required('Enter your order id')
+ })

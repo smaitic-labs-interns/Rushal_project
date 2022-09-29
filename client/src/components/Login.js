@@ -31,7 +31,7 @@ const Login = () => {
 
     onSubmit: async (values) => { 
    try{
-    const res = await baseAxi(userEnd.login, values);
+    const res = await baseAxi({apiDetails: userEnd.login,body:values});
     const resData = res.data;
     console.log(resData.data.fname);
      if (res.status === 200) {

@@ -1,22 +1,21 @@
-const Order = require('../database/orderdb')
-const cartDb = require('../database/cartdb.js')
-const{v4: uuidv4} = require('uuid')
-const store = require('../database/productdb')
-const Schema = require('../models/orderModel')
-const user = require('../database/userdb')
-
+const Order = require("../database/orderdb");
+const cartDb = require("../database/cartdb.js");
+const { v4: uuidv4 } = require("uuid");
+const store = require("../database/productdb");
+const Schema = require("../models/orderModel");
+const user = require("../database/userdb");
 
 const place_order_by_user = async (user_id, shipmentdetails) => {
   try {
-    const user_res = await user.get_user_by_id(user_id)
-    if(!user_res){
-      throw new Error("no user found for id :" + user_id)
+    const user_res = await user.get_user_by_id(user_id);
+    if (!user_res) {
+      throw new Error("no user found for id :" + user_id);
     }
     const PAYMENT_TYPES = ["E-sewa", "Khalti", "fone pay", "CASH"];
     if (!PAYMENT_TYPES.includes(shipmentdetails.type)) {
       throw new Error("Invalid Payment");
     }
-   let totalcost = 0;
+    let totalcost = 0;
     const cartResult = await cartDb.get_active_cart_data(user_id);
     if (cartResult.status !== "active") {
       throw new Error(`Cart has been already placed for order`);
@@ -30,37 +29,37 @@ const place_order_by_user = async (user_id, shipmentdetails) => {
         totalcost += product.Quantity * productResult["price"];
       }
     }
-    const new_order = Schema.order_schema_by_user(cartResult,shipmentdetails, totalcost)
-    
+    const new_order = Schema.order_schema_by_user(
+      cartResult,
+      shipmentdetails,
+      totalcost
+    );
+
     if (await Order.add_order(new_order)) {
       if (await cartDb.deactive_cart(user_id)) {
         console.log("order place successfully");
-        return "order place successfully"
+        return "order place successfully";
       }
       throw new Error("error occur while deactivating cart");
     }
     throw new Error("error occured");
   } catch (err) {
     console.log(err.message);
-    throw err
+    throw err;
   }
 };
 
-
-
-
-
 const place_order = async (user_id, shipementAddress, Payment) => {
   try {
-    const user_res = await user.get_user_by_id(user_id)
-    if(!user_res){
-      throw new Error("no user found for id :" + user_id)
+    const user_res = await user.get_user_by_id(user_id);
+    if (!user_res) {
+      throw new Error("no user found for id :" + user_id);
     }
     const PAYMENT_TYPES = ["E-sewa", "Khalti", "fone pay", "CASH"];
     if (!PAYMENT_TYPES.includes(Payment.type)) {
       throw new Error("Invalid Payment");
     }
-   let totalcost = 0;
+    let totalcost = 0;
     const cartResult = await cartDb.get_active_cart_data(user_id);
     if (cartResult.status !== "active") {
       throw new Error(`Cart has been already placed for order`);
@@ -74,25 +73,30 @@ const place_order = async (user_id, shipementAddress, Payment) => {
         totalcost += product.Quantity * productResult["price"];
       }
     }
-    const new_order = Schema.order_schema(cartResult,shipementAddress, Payment, totalcost)
+    const new_order = Schema.order_schema(
+      cartResult,
+      shipementAddress,
+      Payment,
+      totalcost
+    );
 
-    const placeOrder = await Order.add_order(new_order)
+    const placeOrder = await Order.add_order(new_order);
     if (placeOrder.acknowledged) {
       console.log(placeOrder);
-    const deactivateCart = await cartDb.deactive_cart(user_id)
+      const deactivateCart = await cartDb.deactive_cart(user_id);
       if (deactivateCart) {
         console.log(deactivateCart);
-        return ({
-          'message': 'Order place successfully',
-          'orderid': placeOrder.insertedId
-        })
+        return {
+          message: "Order place successfully",
+          orderid: placeOrder.insertedId,
+        };
       }
       throw new Error("error occur while deactivating cart");
     }
     throw new Error("error occured");
   } catch (err) {
     console.log(err.message);
-    throw err
+    throw err;
   }
 };
 const shipments = {
@@ -102,7 +106,7 @@ const shipments = {
 };
 const address = { country: "Nepal", city: "Ktm", ...shipments };
 const Pay = { type: "Khalti", status: "Paid" };
-// place_order("98b69436-d691-47ff-904b-d29e5501b25a" ,address,Pay) 
+// place_order("98b69436-d691-47ff-904b-d29e5501b25a" ,address,Pay)
 
 const update_order_quantity = async (orderid, productid, quantity) => {
   try {
@@ -111,8 +115,11 @@ const update_order_quantity = async (orderid, productid, quantity) => {
       throw new Error("no Product in this order");
     }
     const order = await Order.get_order_by_id(orderid);
-    if(order.orderStatus === "delivered" || order.orderStatus === "on the way"){
-      throw new Error("order already placed for " + order.orderStatus)
+    if (
+      order.orderStatus === "delivered" ||
+      order.orderStatus === "on the way"
+    ) {
+      throw new Error("order already placed for " + order.orderStatus);
     }
 
     if (order) {
@@ -137,11 +144,10 @@ const update_order_quantity = async (orderid, productid, quantity) => {
     throw new Error("No Order Found For Id: " + orderid);
   } catch (err) {
     console.log(err.message);
-    throw err
+    throw err;
   }
 };
 // update_order_quantity("fe9a365e-579c-402d-8414-eb6dd7fe5528", "30939740-d5df-4fc8-928c-5af178c0c832", 5);
-
 
 async function update_shipment_status(order_id, Status) {
   try {
@@ -202,13 +208,13 @@ const cancel_order = async (orderid) => {
       }
       if (await Order.update_order(orderid, order)) {
         console.log("order cancel successfully");
-        return "order cancel successfully"
+        return "order cancel successfully";
       }
     }
     throw new Error("no order found on id :" + orderid);
   } catch (e) {
     console.log(e.message);
-    throw e
+    throw e;
   }
 };
 // cancel_order ("630cb26f49615b4fa51eb69f")
@@ -247,7 +253,7 @@ async function return_replace_order(order_id, action) {
     throw new Error("no order found");
   } catch (err) {
     console.log(err.message);
-    throw err
+    throw err;
   }
 }
 // return_replace_order("fe9a365e-579c-402d-8414-eb6dd7fe5528" , "return")
@@ -265,7 +271,7 @@ const trackrefund_update = async (orderid) => {
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {
     console.log(e.message);
-    throw e
+    throw e;
   }
 };
 // trackrefund_update("fe9a365e-579c-402d-8414-eb6dd7fe5528");
@@ -280,7 +286,7 @@ const shipment_update = async (orderid) => {
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {
     console.log(e.message);
-    throw e
+    throw e;
   }
 };
 // shipment_update("fe9a365e-579c-402d-8414-eb6dd7fe5528")
@@ -295,11 +301,10 @@ const track_order = async (orderid) => {
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {
     console.log(e.message);
-    throw e
+    throw e;
   }
 };
 //track_order("")
-
 
 module.exports = {
   place_order,
@@ -310,5 +315,5 @@ module.exports = {
   trackrefund_update,
   shipment_update,
   track_order,
-  place_order_by_user
+  place_order_by_user,
 };

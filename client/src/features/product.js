@@ -22,7 +22,7 @@ const Product = () => {
       setProduct(res.data)
     }
     fetchData() 
-  }, [])
+  }, [id])
 
   const handleClick = async () => {
     if(!loggedIn){
