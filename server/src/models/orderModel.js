@@ -8,7 +8,7 @@ const order_schema = (cart,shipementAddress , Payment , totalcost) => {
             totalcost: totalcost,
             shipementAddress,
             payment: Payment,
-            orderStatus: "Review",
+            orderStatus: "Requirements Complete please wait!",
     }
 }
 

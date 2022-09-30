@@ -50,21 +50,9 @@ import * as yup from 'yup';
     .string('Enter your City name')
     .required('Your City name is required'),
 
-    charge: yup
-    .number('Payment Charge')
-    .required('Charge must be included'),
-
-    shipmentstatus: yup
-    .string('shipment status')
-    .required('shipment status is required'),
-
     payment: yup
     .string('Enter your payment type')
     .required('Payment type must be valid'),
-
-    status: yup
-    .string('payment status')
-    .required('payment status is required'), 
  });   
 
  export const orderIdValidationSchema = yup.object({

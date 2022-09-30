@@ -24,51 +24,37 @@ import FormLabel from '@mui/material/FormLabel';
 export default function AddressForm() {
   const { userId } = useSelector((state) => state.user);
   const [paymentCharge , setPaymentCharge] = React.useState('')
-  const [location, setLocation] = React.useState('');
   const [shipmentStatus , setShipmentStatus] = React.useState('')
-  const [ payload , setPayload] = React.useState({})
+  const [paymentStatus , setPaymentStatus] = React.useState('')
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  React.useEffect(()=>{
-    console.log(location);
-    if(location === 'insideRingroad'){
-      setPaymentCharge(150)
-      setShipmentStatus('received')
-    }else if (location === 'outsideRingroad'){
-      setPaymentCharge(300)
-      setShipmentStatus('received')
-    } else{
-      setPaymentCharge('')
-      setShipmentStatus('')
-    }
-  },[location])
+
  
   const formik = useFormik({
     initialValues: {
       country: "",
       location: "",
       city: "",
-      charge: "",
-      shipmentstatus: "",
       payment: "",
-      status:""
     },
     validationSchema: shipmentValidationSchema,
-    onSubmit: async() =>{
-      setPayload({
+    onSubmit: async(values) =>{
+   
+      const payload = {
         shipementAddress: {
-          country : formik.country, 
-          city: formik.city,
-          name : formik.location,
-          charge : formik.charge, 
-          status: formik.status 
+          country : values.country, 
+          city: values.city,
+          name : values.location,
+          charge : paymentCharge, 
+          status: shipmentStatus
         },
         Payment: {
-          type: formik.payment,
-          status: formik.shipmentstatus 
+          type: values.payment,
+          status: paymentStatus 
                  },
-      })
+      }
+      console.log(payload);
       const res = await axios.post(`http://localhost:8000/api/order/placeorder/${userId}`, payload)
       const resData = await res.data;
       console.log(resData);
@@ -89,6 +75,30 @@ export default function AddressForm() {
     }
     }
   })
+  function handleChangeprice(e){
+    let val = e.target.value
+    if(val === 'insideRingroad'){
+      setPaymentCharge(150)
+      setShipmentStatus('received')
+    }else if (val === 'outsideRingroad'){
+      setPaymentCharge(300)
+      setShipmentStatus('received')
+    } else{
+      setPaymentCharge(null)
+      setShipmentStatus(null)
+    }
+  }
+
+  function handleChangePaymentStatus(e){
+    let val = e.target.value
+    if(val === 'E-sewa' || val === "Khalti"|| val === 'fone pay' ){
+      setPaymentStatus('Paid')
+    }else if (val === 'CASH'){
+      setPaymentStatus('Pending')
+    }else{
+      setPaymentStatus(null)
+    }
+  }
    
   return  (
     
@@ -109,11 +119,12 @@ export default function AddressForm() {
               name="country"
               autoComplete="country"
               autoFocus
-              value={formik.country}
+              value={formik.values.country}
               onChange={formik.handleChange}
             />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sx ={{textAlign : 'left'}}>
+              
             <FormControl fullWidth>
               <InputLabel id="name">Location</InputLabel>
               <Select
@@ -122,20 +133,21 @@ export default function AddressForm() {
                 margin="normal"
                 labelId="name"
                 id="location"
-                value={location}
+                value={formik.values.location}
                 label="Choose Location"
-                onChange={(e) => [setLocation(e.target.value) , formik.handleChange]}  
+                onChange={(e) => {formik.handleChange(e) ; handleChangeprice(e)}}  
               >
                 <MenuItem value= "insideRingroad">Inside Ringroad</MenuItem>
                 <MenuItem value= "outsideRingroad">Outside Ringroad</MenuItem>
               </Select>
             </FormControl>
-            </Grid>
+             </Grid>
+             
             <Grid item xs={12}>
             <TextField
               margin="normal"
               required
-              value={formik.city}
+              value={formik.values.city}
               fullWidth
               id="city"
               label="Enter City"
@@ -147,32 +159,32 @@ export default function AddressForm() {
             </Grid>
             <Grid item xs={12}>
             <TextField
-              margin="normal"
-              required
               fullWidth
-              value={[paymentCharge , formik.charge]}
+              value={paymentCharge !== null?paymentCharge: 0}
               id="charge"
               label="Payment charge"
-              name="charge"
-              autoComplete="charge"
-              autoFocus
-              onChange={formik.handleChange}
+            
+              name="charge"     
+              InputProps={{
+                readOnly: true,
+              }}
             />
             </Grid>
             <Grid item xs={12}>
             <TextField
               margin="normal"
-              required
               fullWidth
-              value={[shipmentStatus , formik.shipementAddress]}
+              value={shipmentStatus}
               id="shipmentstatus"
               label="shipmentstatus"
               name="shipmentstatus"
               autoComplete="shipmentstatus"
               autoFocus
-              onChange={formik.handleChange}
+              InputProps={{
+                readOnly: true,
+              }}
             />
-            </Grid>
+            </Grid> 
             <Typography variant="h6" gutterBottom>
               Payment Method
             </Typography>
@@ -180,10 +192,10 @@ export default function AddressForm() {
           <Grid item xs={12}>
             <FormControl>
             <FormLabel id="demo-radio-buttons-group-label">Payment Type</FormLabel>
-              <RadioGroup
+               <RadioGroup
                 defaultValue="payment"
-                value={formik.payment}
-                onChange={formik.handleChange}
+                value={formik.values.payment}
+                onChange={(e) => {formik.handleChange(e) ; handleChangePaymentStatus(e)}}
                 name = "payment"
                 id = "payment"
               >
@@ -210,21 +222,20 @@ export default function AddressForm() {
                   control={<Radio />}
                   label= "CASH"
                 />
-              </RadioGroup>
+              </RadioGroup> 
             </FormControl>
             </Grid>
             <Grid item xs={12}>
-            <TextField
+             <TextField
               margin="normal"
-              required
               fullWidth
               id="status"
               label="Payment Status"
               name="status"
-              autoComplete="status"
-              autoFocus
-              value={formik.status}
-              onChange={formik.handleChange}
+              value={paymentStatus}
+              InputProps={{
+                readOnly: true,
+              }}
             />  
             </Grid>
             <Button
