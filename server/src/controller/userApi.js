@@ -1,6 +1,4 @@
-// const express = require('express');
-// const router = express.Router()
-// router.use(express.json());
+
 const user = require('../service/users')
 
 const user_registration = async(req, res) => {
@@ -17,13 +15,6 @@ const user_login = async (req, res) =>{
     try{
         const data = req.body
         const result = await user.login(data.email , data.password);
-        // if(result === 'Invalid login Credentials'){
-        //     res.status(400).json({
-        //         'message' : 'Invalid login Credentials' 
-        //     })
-        //     return
-        // }
-        // res.status(200).send({data:result})
         if(result){
             res.status(200).json({
                 'data': result

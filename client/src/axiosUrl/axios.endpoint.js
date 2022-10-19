@@ -13,12 +13,19 @@ export const userEnd = {
 export const productEnd = {
 
     'search' : {
-        'url' : '/product/searchproduct',
+        'url' : '/product/searchproduct/:keyword',
         'method': 'GET'
     },
 
     'allProduct' : {
         'url' : '/product',
         'method' : 'GET'
+    }
+}
+export const orderEnd = {
+
+    'order' : {
+        'url' : '/order/placeorder/:userid',
+        'method': 'POST'
     }
 }

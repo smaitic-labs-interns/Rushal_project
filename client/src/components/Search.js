@@ -3,7 +3,8 @@ import { Typography, TextField, Button, Box, Container } from '@mui/material'
 import { toast } from 'react-hot-toast';
 import Products from './Products';
 import axios from 'axios';
-
+import { productEnd } from '../axiosUrl/axios.endpoint';
+import baseAxi from '../axiosUrl/axios.base';
 const Search = () => {
   const [search , setSearch] = React.useState()
   const [products , setProducts] = React.useState()
@@ -13,7 +14,8 @@ const Search = () => {
     e.preventDefault()
     const data = new FormData(e.currentTarget)
     setSearch(data.get('search'))
-    const res = await axios.get(`http://localhost:8000/api/product/searchproduct?keyword=${search}`)
+    console.log(search);
+    const res = await baseAxi({apiDetails: productEnd.search , path: {keyword: search}})
     const resData = res.data.data
    
     if (res.status === 400){

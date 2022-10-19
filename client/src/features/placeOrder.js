@@ -20,12 +20,16 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import { useFormik } from "formik";
 import { shipmentValidationSchema } from "../validation/validation";
 import FormLabel from '@mui/material/FormLabel';
+import baseAxi from "../axiosUrl/axios.base";
+import { orderEnd } from "../axiosUrl/axios.endpoint";
+import { object } from "yup";
 
 export default function AddressForm() {
   const { userId } = useSelector((state) => state.user);
-  const [paymentCharge , setPaymentCharge] = React.useState('')
-  const [shipmentStatus , setShipmentStatus] = React.useState('')
-  const [paymentStatus , setPaymentStatus] = React.useState('')
+  // const [paymentCharge , setPaymentCharge] = React.useState('')
+  // const [shipmentStatus , setShipmentStatus] = React.useState('')
+  // const [paymentStatus , setPaymentStatus] = React.useState('')
+  const [ status , setStatus] = React.useState({paymentCharge: '' , shipmentStatus: '' , paymentStatus: ''})
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -46,16 +50,17 @@ export default function AddressForm() {
           country : values.country, 
           city: values.city,
           name : values.location,
-          charge : paymentCharge, 
-          status: shipmentStatus
+          charge : status.paymentCharge, 
+          status: status.shipmentStatus
         },
         Payment: {
           type: values.payment,
-          status: paymentStatus 
+          status: status.paymentStatus 
                  },
       }
       console.log(payload);
-      const res = await axios.post(`http://localhost:8000/api/order/placeorder/${userId}`, payload)
+      const res = await baseAxi({apiDetails: orderEnd.order , path: {userid: userId}, body:payload})
+      // const res = await axios.post(`http://localhost:8000/api/order/placeorder/${userId}`, payload)
       const resData = await res.data;
       console.log(resData);
   
@@ -78,25 +83,31 @@ export default function AddressForm() {
   function handleChangeprice(e){
     let val = e.target.value
     if(val === 'insideRingroad'){
-      setPaymentCharge(150)
-      setShipmentStatus('received')
+      // setPaymentCharge(150)
+      setStatus({...status, shipmentStatus : 'received' , paymentCharge: 150} )
+      // setShipmentStatus('received')
     }else if (val === 'outsideRingroad'){
-      setPaymentCharge(300)
-      setShipmentStatus('received')
+      // setPaymentCharge(300)
+      // setShipmentStatus('received')
+      setStatus({...status, shipmentStatus : 'received' , paymentCharge: 300} )
     } else{
-      setPaymentCharge(null)
-      setShipmentStatus(null)
+      // setPaymentCharge(null)
+      // setShipmentStatus(null)
+      setStatus({...status, paymentCharge : null , shipmentStatus : null } )
     }
   }
 
   function handleChangePaymentStatus(e){
     let val = e.target.value
     if(val === 'E-sewa' || val === "Khalti"|| val === 'fone pay' ){
-      setPaymentStatus('Paid')
+      // setPaymentStatus('Paid')
+      setStatus({...status, paymentStatus : 'Paid'} )
     }else if (val === 'CASH'){
-      setPaymentStatus('Pending')
+      // setPaymentStatus('Pending')
+      setStatus({...status, paymentStatus : 'Pending'} )
     }else{
-      setPaymentStatus(null)
+      // setPaymentStatus(null)
+      setStatus({...status, paymentStatus : null} )
     }
   }
    
@@ -160,10 +171,9 @@ export default function AddressForm() {
             <Grid item xs={12}>
             <TextField
               fullWidth
-              value={paymentCharge !== null?paymentCharge: 0}
+              value={status.paymentCharge !== null?status.paymentCharge: 0}
               id="charge"
               label="Payment charge"
-            
               name="charge"     
               InputProps={{
                 readOnly: true,
@@ -174,7 +184,7 @@ export default function AddressForm() {
             <TextField
               margin="normal"
               fullWidth
-              value={shipmentStatus}
+              value={status.shipmentStatus}
               id="shipmentstatus"
               label="shipmentstatus"
               name="shipmentstatus"
@@ -232,7 +242,7 @@ export default function AddressForm() {
               id="status"
               label="Payment Status"
               name="status"
-              value={paymentStatus}
+              value={status.paymentStatus}
               InputProps={{
                 readOnly: true,
               }}

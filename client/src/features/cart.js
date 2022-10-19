@@ -4,7 +4,7 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import { toast } from "react-hot-toast";
 import {Routes , Route} from 'react-router-dom'
-import AddressForm from "./payment&adress";
+import AddressForm from "./placeOrder";
 
 const Cart = () => {
   const { userId } = useSelector((state) => state.user);

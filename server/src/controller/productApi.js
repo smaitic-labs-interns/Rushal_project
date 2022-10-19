@@ -58,7 +58,7 @@ const update_product = async (req , res) =>{
 }
 const search_product = async (req , res) =>{
     try{
-        const {keyword} = req.query
+        const keyword = req.params.keyword
         console.log(keyword);
         const result = await product.search_product(keyword)
         res.status(200).send({data:result})

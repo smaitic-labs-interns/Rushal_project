@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import React from 'react';
 import Product from './features/product';
 import Cart from './features/cart';
-import AddressForm from './features/payment&adress';
+import AddressForm from './features/placeOrder';
 import TrackOrder from './features/trackOrder';
 import Navbar from './features/navbar';
 function App() {

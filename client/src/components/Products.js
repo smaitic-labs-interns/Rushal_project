@@ -39,9 +39,11 @@ export default function Products({products}) {
                 >
                   <CardMedia
                     component="img"
+                    onClick={()=> navigate(`/product/${product._id}`)}
                     sx={{
                       // 16:9
                       pt: '56.25%',
+                      cursor: 'pointer'
                     }}
                     image="https://api.lorem.space/image/movie?w=150&h=220"
                     alt="random"
@@ -55,9 +57,8 @@ export default function Products({products}) {
                     </Typography>
                   </CardContent>
                   <CardActions>
-                    <Button size="small">$ {product.price}</Button>
-                    <Button size="small">{product.category}</Button>
-                    <Button onClick={()=> navigate(`/product/${product._id}`)} size="medium">Add to cart</Button>
+                    <Typography textAlign='left' variant='h6'>Rs.{product.price}</Typography>
+                    <Typography textAlign='right' variant='h6'>{product.category}</Typography>
                   </CardActions>
                 </Card>
               </Grid>
