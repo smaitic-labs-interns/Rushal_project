@@ -295,8 +295,8 @@ const track_order = async (orderid) => {
   try {
     const order = await Order.get_order_by_id(orderid);
     if (order) {
-      console.log(order.orderStatus);
-      return order.orderStatus;
+      console.log(order);
+      return order ;
     }
     throw new Error("no order found for this id:" + orderid);
   } catch (e) {

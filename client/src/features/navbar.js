@@ -48,9 +48,9 @@ const Navbar = () => {
     }}
     >
       <Toolbar sx={{ flexWrap: "wrap" }}>
-        <Link  style={{ color: 'inherit', textDecoration: 'inherit'}} to="/" > <MenuItem
+        <Link  style={{ color:'Black', textDecoration: 'inherit'}} to="/" > <MenuItem
            style={{ paddingRight: 700 , paddingLeft : 20 }}
-            >Ecommerce</MenuItem></Link>
+            >LOGO</MenuItem></Link>
 
         <nav style= {{
           display : 'flex',

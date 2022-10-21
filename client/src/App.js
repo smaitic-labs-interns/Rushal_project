@@ -13,6 +13,7 @@ import Cart from './features/cart';
 import AddressForm from './features/placeOrder';
 import TrackOrder from './features/trackOrder';
 import Navbar from './features/navbar';
+import UserAdmin  from './Admin/userAdmin';
 function App() {
   const {firstName} = useSelector(state => state.user)
   React.useEffect(()=> {
@@ -33,6 +34,7 @@ function App() {
     <Route path = '/cart/' element = {<Cart/>}/>
     <Route path = '/checkout' element = {<AddressForm/>}/>
     <Route path = '/trackorder' element = {<TrackOrder/>}/>
+    <Route path = '/admin' element = {<UserAdmin/>}/>
  
     </Routes>
    </div>

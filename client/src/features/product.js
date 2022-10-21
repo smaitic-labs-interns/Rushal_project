@@ -8,13 +8,15 @@ import { useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { cartSlice } from '../reducer/cartSlice';
+import { useDispatch } from 'react-redux';
+
 
 const Product = ({userCart}) => {
   const {id} = useParams()
   const navigate = useNavigate()
-
+  const dispatch = useDispatch();
   const [product, setProduct] = React.useState()
-  console.log(product);
   const { userId, loggedIn } = useSelector(state => state.user)
   const [qty, setQty] = React.useState(1);
   const [submitMsg, setSubmitMsg] = React.useState({});
@@ -29,47 +31,32 @@ const Product = ({userCart}) => {
     fetchData() 
   }, [id])
 
+
+  const handleIncrease = () => {
+    setQty(qty + 1);
+  };
+
+  const handleDecrease = () => {
+    qty !== 1 ? setQty(qty - 1) :  toast.error("Quantity cannot be less than 1");
+  };
+
   const handleClick = async () => {
-    if (userCart.message && userCart.message.type.length !== 0) {
-      setSubmitMsg(userCart.message);
-      if (submitMsg.type === "success") {
-        setSubmitMsgStyle({
-          border: "solid green 1px",
-          background: "#a5cca5",
-          color: "white",
-          padding: "20px 30px",
-          borderRadius: "10px",
-          position: "absolute",
-        });
-      } else {
-        setSubmitMsgStyle({
-          border: "solid red 1px",
-          background: "#f1b4b3",
-          color: "white",
-          padding: "20px 30px",
-          borderRadius: "10px",
-          position: "absolute",
-        });
-      }
-    }
     if(!loggedIn){
       navigate('/login')
       toast.error('You need to login first')
     }
     const payload  ={
       productId: id,
-      productQuantity: 1
+      productQuantity: qty
     }
-
-    const res = await axios.post(`http://localhost:8000/api/cart/addcart/${userId}`,payload)
-    // console.log(addToCart);
-   
-    if(res.status === 200){
-      toast.success(res.data)
-    }else{
-       toast.error("error occured")
-    } 
-    
+    const cartRes = await axios.post(`http://localhost:8000/api/cart/addcart/${userId}`,payload)
+    console.log(cartRes);
+    if (cartRes && cartRes.status === 200) {
+        toast.success('Quantity added to cart')
+      }else {
+        toast.error('Error occur adding to cart')
+      }
+      
 }
   return (
 
@@ -101,17 +88,6 @@ const Product = ({userCart}) => {
               }}
             >
               {/* {userCart.noOfProducts} */}
-            </Box>
-            <Box
-              sx={{
-                background: "Blue",
-                color: "white",
-                padding: "5px 10px",
-                marginTop: "3px",
-                borderRadius: "20%",
-              }}
-            >
-              Cart
             </Box>
           </Box>
         </Link>
@@ -168,11 +144,10 @@ const Product = ({userCart}) => {
                       <TextField
                         id="quantity"
                         label="My Quantity"
-                        // defaultValue={quty}
                         InputProps={{
                           readOnly: true,
                         }}
-                        value={'0'}
+                        value={qty}
                       />
                     </Box>
                     <Box
@@ -185,14 +160,14 @@ const Product = ({userCart}) => {
                       <Button
                         variant="outlined"
                         color="error"
-                        // onClick={handleDecrease}
+                        onClick={handleDecrease}
                       >
                         Decrease
                       </Button>
                       <Button
                         variant="outlined"
                         color="success"
-                        // onClick={handleIncrease}
+                        onClick={handleIncrease}
                       >
                         Increase
                       </Button>
