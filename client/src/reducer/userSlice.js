@@ -7,6 +7,9 @@ export const userSlice = createSlice({
         userId : '',
         firstName : '',
         lastName : '',
+        email : '',
+        contact : '',
+        role: '',
         loggedIn : false
     },
     reducers: {
@@ -14,16 +17,23 @@ export const userSlice = createSlice({
             state.userId = action.payload.userId
             state.firstName = action.payload.firstName
             state.lastName = action.payload.lastName
+            state.email = action.payload.email
+            state.contact = action.payload.contact
             state.loggedIn = true
-            console.log(action.payload);
+            state.role = action.payload.role
+           console.log(action.payload.role);
         },
         logout: (state) => {
             state.userId = ""
             state.firstName = ""
             state.lastName = ""
+            state.email = ""
+            state.contact = ""
             state.loggedIn = false
         }
+        
     }
+    
 })
 
 export const { login, logout } = userSlice.actions;

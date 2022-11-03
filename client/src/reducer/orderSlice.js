@@ -3,8 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 export const orderSlice = createSlice({
     name: 'orderSlice',
     initialState: {
-        orderId : ''
-       
+        orderId : '',
+       products : '',
+       shipmentAdress: '',
+       payment : ''
     },
     reducers: {
         setId: (state, action) => {

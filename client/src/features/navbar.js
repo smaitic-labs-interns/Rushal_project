@@ -35,6 +35,9 @@ const Navbar = () => {
     navigate('/login')
     // alert('hello')
   }
+  const handleNext = () =>{
+    navigate('/register')
+  }
   return (
 
     <Box
@@ -93,6 +96,18 @@ const Navbar = () => {
             Signin{" "}
           </Button>
         )}
+         {loggedIn ? (
+          <Button>   
+          </Button>
+        ) : (
+          <Button
+        variant="contained"
+        sx={{ my: 0, mb: 1 }}
+        onClick={handleNext}>
+          Register
+        </Button>
+        )}
+       
       </Toolbar>
     </AppBar>
     </Box>

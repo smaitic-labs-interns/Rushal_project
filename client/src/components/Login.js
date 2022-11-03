@@ -33,7 +33,7 @@ const Login = () => {
    try{
     const res = await baseAxi({apiDetails: userEnd.login,body:values});
     const resData = res.data;
-    console.log(resData.data.fname);
+    console.log(resData.data.role);
      if (res.status === 200) {
       navigate("/");
       toast.success("welcome" + ' ' + resData.data.fname + ' ' + resData.data.lname);
@@ -42,6 +42,9 @@ const Login = () => {
           userId: resData.data._id,
           firstName: resData.data.fname,
           lastName: resData.data.lname,
+          email: resData.data.email,
+          contact: resData.data.contact,
+          role: resData.data.role
         })
       );
     }

@@ -5,49 +5,20 @@ const store = require("../database/productdb");
 const Schema = require("../models/orderModel");
 const user = require("../database/userdb");
 
-const place_order_by_user = async (user_id, shipmentdetails) => {
-  try {
-    const user_res = await user.get_user_by_id(user_id);
-    if (!user_res) {
-      throw new Error("no user found for id :" + user_id);
-    }
-    const PAYMENT_TYPES = ["E-sewa", "Khalti", "fone pay", "CASH"];
-    if (!PAYMENT_TYPES.includes(shipmentdetails.type)) {
-      throw new Error("Invalid Payment");
-    }
-    let totalcost = 0;
-    const cartResult = await cartDb.get_active_cart_data(user_id);
-    if (cartResult.status !== "active") {
-      throw new Error(`Cart has been already placed for order`);
-    }
-    for (product of cartResult.Products) {
-      const productResult = await store.checking_product(product.id);
-      if (productResult.Quantity < product.Quantity) {
-        throw new Error("not sufficient product on store");
-      }
-      if (store.update_decrease_quantity(product.id, product.Quantity)) {
-        totalcost += product.Quantity * productResult["price"];
-      }
-    }
-    const new_order = Schema.order_schema_by_user(
-      cartResult,
-      shipmentdetails,
-      totalcost
-    );
 
-    if (await Order.add_order(new_order)) {
-      if (await cartDb.deactive_cart(user_id)) {
-        console.log("order place successfully");
-        return "order place successfully";
-      }
-      throw new Error("error occur while deactivating cart");
-    }
-    throw new Error("error occured");
-  } catch (err) {
-    console.log(err.message);
-    throw err;
+const get_user_orders = async(userid)=>{
+
+try {
+  const userOrders = await Order.get_order_by_userid(userid)
+  if(userOrders){
+    return userOrders
   }
-};
+  return("no order found for userid: " + userid)
+} catch (error) {
+  throw error
+}
+
+}
 
 const place_order = async (user_id, shipementAddress, Payment) => {
   try {
@@ -315,5 +286,5 @@ module.exports = {
   trackrefund_update,
   shipment_update,
   track_order,
-  place_order_by_user,
+  get_user_orders
 };

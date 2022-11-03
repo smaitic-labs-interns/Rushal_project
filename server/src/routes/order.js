@@ -15,5 +15,5 @@ router.get("/order/trackrefund/:orderid" , order.track_refund_update)
 router.get("/order/shipmentupdate/:orderid" , order.shipment_update)
 router.get("/order/trackorder/:orderid" , order.track_order)
 router.post("/order/placeorderbyuser/:userid" , order.place_order_by_user)
-
+router.get("/order/getallorders/:userid" , order.get_user_orders)
 module.exports = router

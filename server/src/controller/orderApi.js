@@ -11,6 +11,15 @@ const place_order_by_user = async (req, res) =>{
         res.status(400).send(err.message);
     }
 }
+const get_user_orders = async (req, res) =>{
+    try{
+        const userid = req.params.userid;
+        const result = await order.get_user_orders(userid);
+        res.status(200).send({data:result})
+    }catch(err){
+        res.status(400).send(err.message);
+    }
+}
 
 
 const place_order = async (req, res) =>{
@@ -101,5 +110,6 @@ module.exports = {
   track_refund_update,
   shipment_update,
   track_order,
-  place_order_by_user
+  place_order_by_user,
+  get_user_orders
 };

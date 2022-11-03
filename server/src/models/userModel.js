@@ -20,6 +20,7 @@ const Validate = require('../service/validation.js')
         password: Bcrypt.hashSync(value.password , Bcrypt.genSaltSync(10)),
         email: value.email,
         contact: value.contact,
+        role : "user"
       };
    }
       module.exports = {User}

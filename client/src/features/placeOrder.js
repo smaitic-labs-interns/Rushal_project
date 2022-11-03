@@ -22,13 +22,10 @@ import { shipmentValidationSchema } from "../validation/validation";
 import FormLabel from '@mui/material/FormLabel';
 import baseAxi from "../axiosUrl/axios.base";
 import { orderEnd } from "../axiosUrl/axios.endpoint";
-import { object } from "yup";
+
 
 export default function AddressForm() {
   const { userId } = useSelector((state) => state.user);
-  // const [paymentCharge , setPaymentCharge] = React.useState('')
-  // const [shipmentStatus , setShipmentStatus] = React.useState('')
-  // const [paymentStatus , setPaymentStatus] = React.useState('')
   const [ status , setStatus] = React.useState({paymentCharge: '' , shipmentStatus: '' , paymentStatus: ''})
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -60,7 +57,6 @@ export default function AddressForm() {
       }
       console.log(payload);
       const res = await baseAxi({apiDetails: orderEnd.order , path: {userid: userId}, body:payload})
-      // const res = await axios.post(`http://localhost:8000/api/order/placeorder/${userId}`, payload)
       const resData = await res.data;
       console.log(resData);
   

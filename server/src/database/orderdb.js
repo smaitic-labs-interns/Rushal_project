@@ -10,15 +10,18 @@ async function get_order_data (){
   return data;
 }
 
-// async function update_order_data(order) {
-//   try {
-//     fs.writeFile(path, JSON.stringify(order, null, 2));
-//     return true;
-//   } catch (e) {
-//     console.log(`${e.name} => ${e.message}`);
-//     return false;
-//   }
-// }
+
+async function get_order_by_userid(userid) {
+  try {
+    let con = await db_connect("order");
+    let orders = await con.find({ UserId: userid}).toArray();
+    if (orders) {
+      return orders;
+    }
+  } catch (e) {
+    throw e;
+  }
+}
 
 async function add_order(order) {
   try {
@@ -57,4 +60,4 @@ async function update_order (orderid , neworder){
 
 
 
- module.exports = {get_order_data , add_order, get_order_by_id,update_order}
+ module.exports = {get_order_data , add_order, get_order_by_id,update_order, get_order_by_userid}
