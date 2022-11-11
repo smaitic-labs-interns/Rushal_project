@@ -12,8 +12,11 @@ import { Provider } from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react'
 import { persistStore } from 'redux-persist';
 
+import { AdminApp } from './App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const persistor = persistStore(store)
+const path = window.location.pathname.includes('/admin')? true : false
+
 root.render(
   
   <React.StrictMode>
@@ -21,9 +24,15 @@ root.render(
       <PersistGate persistor={persistor}>
     <ThemeProvider theme={theme}>
     <CssBaseline />
-    <BrowserRouter>
+    {/* <BrowserRouter> */}
+    {/* {!path? (
+      <>
+    <Navbar />
     <App />
-    </BrowserRouter>
+    </>
+    ): (<AdminApp/>)} */}
+     <App />
+    {/* </BrowserRouter> */}
     </ThemeProvider>
     </PersistGate>
     </Provider>

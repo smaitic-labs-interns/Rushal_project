@@ -30,6 +30,7 @@ export const userSlice = createSlice({
             state.email = ""
             state.contact = ""
             state.loggedIn = false
+            state.role = " "
         }
         
     }

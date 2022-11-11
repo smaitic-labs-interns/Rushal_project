@@ -31,7 +31,9 @@ console.log(ordered);
       <Container sx={{ maxWidth: "100%" }}>
     <Box sx={{ display: "flex", flexDirection: "column", padding: "0 20px" }}
           >
+      
           <h1>Your Profile</h1>
+         
           <table border={1}>
             <thead>
               <tr>
@@ -48,6 +50,7 @@ console.log(ordered);
               <td>{contact}</td>
             </tbody>
           </table>
+         
           </Box>
       </Container>
 

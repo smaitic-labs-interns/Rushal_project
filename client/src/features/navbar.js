@@ -12,12 +12,11 @@ import { useNavigate } from 'react-router-dom';
 import MenuItem from '@mui/material/MenuItem';
 import Avatar from '@mui/material/Avatar';
 import { removeId } from '../reducer/orderSlice';
-
+import { Outlet } from 'react-router-dom';
 
 
 const Navbar = () => {
   const {firstName} = useSelector(state => state.user)
-  
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {loggedIn} = useSelector(state => state.user)
@@ -39,7 +38,7 @@ const Navbar = () => {
     navigate('/register')
   }
   return (
-
+    <>
     <Box
     sx={{ marginBottom: '100px'}}>
     <AppBar
@@ -111,6 +110,8 @@ const Navbar = () => {
       </Toolbar>
     </AppBar>
     </Box>
+    <Outlet />
+    </>
   );
 }
 

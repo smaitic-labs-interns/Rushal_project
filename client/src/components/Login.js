@@ -17,10 +17,12 @@ import { userEnd } from "../axiosUrl/axios.endpoint";
 import { useDispatch } from "react-redux";
 import { login } from "../reducer/userSlice";
 import { useSelector } from "react-redux";
+import MainAdmin from "../Admin/mainAdmin";
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const {role} = useSelector(state => state.user)
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,9 +36,7 @@ const Login = () => {
     const res = await baseAxi({apiDetails: userEnd.login,body:values});
     const resData = res.data;
     console.log(resData.data.role);
-     if (res.status === 200) {
-      navigate("/");
-      toast.success("welcome" + ' ' + resData.data.fname + ' ' + resData.data.lname);
+     if (res.status === 200 && resData.data.role === 'admin'){
       dispatch(
         login({
           userId: resData.data._id,
@@ -47,7 +47,25 @@ const Login = () => {
           role: resData.data.role
         })
       );
+      navigate('/admin')
     }
+    else if (res.status === 200 ){
+      
+      dispatch(
+        login({
+          userId: resData.data._id,
+          firstName: resData.data.fname,
+          lastName: resData.data.lname,
+          email: resData.data.email,
+          contact: resData.data.contact,
+          role: resData.data.role
+        })
+      );
+      navigate("/");
+   
+      toast.success("welcome" + ' ' + resData.data.fname + ' ' + resData.data.lname);
+    }
+   
    }catch(err){
     toast.error("Invalid email Password");
    }

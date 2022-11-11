@@ -30,7 +30,7 @@ const add_product = async (req, res) =>{
         const data = req.body
         console.log(data);
         const result = await product.add_product(data.category , data.name , data.price , data.brand , data.quantity)
-        res.status(200).send(result)
+        res.status(200).send({data : result})
     }catch(err){
         res.status(400).send(err.message);
     }
@@ -40,7 +40,7 @@ const remove_product = async (req , res) =>{
     try{
         const productid = req.params.id
         const result = await product.remove_product(productid)
-        res.status(200).send(result)
+        res.status(200).send({data: result})
     }catch(err){
         res.status(400).send(err.message);
     }
@@ -51,7 +51,7 @@ const update_product = async (req , res) =>{
         const data = req.body
         // console.log(data.Quantity)
         const result = await product.update_product(productid, data)
-        res.status(200).send(result)
+        res.status(200).send({data: result})
     }catch(err){
         res.status(400).send(err.message);
     }

@@ -20,8 +20,25 @@ export const productEnd = {
     'allProduct' : {
         'url' : '/product',
         'method' : 'GET'
+    },
+
+    'updateProduct' : {
+        'url' : '/product/updateproduct/:id',
+        'method' : 'PUT'
+    },
+    'removeProduct' : {
+        'url' : '/product/removeproduct/:id',
+        'method' : 'DELETE'
     }
 }
+export const cartEnd = {
+
+    'addCart' : {
+        'url' : '/cart/addcart/:userid',
+        'method': 'POST'
+    }
+}
+
 export const orderEnd = {
 
     'order' : {

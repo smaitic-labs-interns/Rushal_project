@@ -9,14 +9,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
-
+import image1 from '../image/image1.png'
 
 
 
 
 export default function Products({products}) {
   const navigate = useNavigate()
-
+  
 
   return (
       <main>
@@ -45,9 +45,10 @@ export default function Products({products}) {
                       pt: '56.25%',
                       cursor: 'pointer'
                     }}
-                    image="https://api.lorem.space/image/movie?w=150&h=220"
+                    image={image1}
                     alt="random"
                   />
+                  {/* <img src={image1} />  */}
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {product.name}

@@ -1,85 +1,73 @@
-import { lazy , Suspense } from 'react';
-import './App.css';
-import Signup from "./components/Signup"
-import Search from './components/Search';
-import Home from "./components/Home"
-import Login from './components/Login';
-import {Toaster} from "react-hot-toast"
-import {Routes , Route , Router} from 'react-router-dom'
-import Profile from './features/Profile';
-import { useSelector } from 'react-redux';
-import React from 'react';
-import Product from './features/product';
-import Cart from './features/cart';
-import AddressForm from './features/placeOrder';
-import TrackOrder from './features/trackOrder';
-import Navbar from './features/navbar';
-import { Drawer } from './Admin/drawer';
-import PrivateRoute from './routes/privateRoute';
-import PublicRoute from './routes/publicRoute';
-
+import "./App.css";
+import Signup from "./components/Signup";
+import Search from "./components/Search";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import { Toaster } from "react-hot-toast";
+import { Routes, Route } from "react-router-dom";
+import Profile from "./features/Profile";
+import { useSelector } from "react-redux";
+import React from "react";
+import Product from "./features/product";
+import Cart from "./features/cart";
+import AddressForm from "./features/placeOrder";
+import TrackOrder from "./features/trackOrder";
+import NotAuth from "./components/notAuth";
+import MainAdmin from "./Admin/mainAdmin";
+import Navbar from "./features/navbar";
+import { BrowserRouter } from "react-router-dom";
 function App() {
   // const isAuthenticated = getToken();
-  const {role} = useSelector(state => state.user)
-  React.useEffect(()=> {
+  const { role, loggedIn } = useSelector((state) => state.user);
+
+  React.useEffect(() => {
     console.log(role);
-  }, [role])
+  }, [role, loggedIn]);
+
+  const RequireAuth = ({ children }) => {
+    return loggedIn ? children : <NotAuth />;
+  };
+  const ProtectedRoute = ({ children }) => {
+    return loggedIn && role === 'admin' ? children : <NotAuth />;
+  };
   return (
-   <>
-   <div className='App'>
-    <Navbar />
-   <Toaster />
-
-   <Routes>
-    <Route path = '/register' element = {<Signup />}/>
-    <Route path = '/' element = {<Home />}/>
-    <Route path = '/login' element = {<Login />}/>
-    <Route path = '/search' element = {<Search />}/>
-    <Route path = '/profile' element = {<Profile />}/>
-    <Route path = '/product/:id' element = {<Product />}/>
-    <Route path = '/cart/' element = {<Cart/>}/>
-    <Route path = '/checkout' element = {<AddressForm/>}/>
-    <Route path = '/trackorder' element = {<TrackOrder/>}/>
-    <Route path = '/admin' element = {<Drawer/>}/>
- 
-    </Routes>
-    {/* <Router>
+    <>
+      <div className="App">
+        <Toaster />
+        <BrowserRouter>
         <Routes>
-          <PublicRoute
-            path="/login"
-            isAuthenticated={true}
-          >
-            <Login />
-          </PublicRoute>
-          <PublicRoute
-            path="/register"
-            // isAuthenticated={isAuthenticated}
-          >
-            <Signup />
-          </PublicRoute>
-          <PublicRoute
-            path="/forgot-password"
-            // isAuthenticated={isAuthenticated}
-          >
-          
-          </PublicRoute>
-          <PrivateRoute
-            path="/"
-            // isAuthenticated={isAuthenticated}
-          >
-
-          </PrivateRoute>
-          <Route path="*">
-            
+          <Route path="/" element={<Navbar />}>
+            <Route index element={<Home />} />
+            <Route path="register" element={<Signup />} />
+            <Route path="login" element={<Login />} />
+            <Route path="search" element={<Search />} />
+            <Route
+              path="profile"
+              element={
+                <RequireAuth>
+                  <Profile />
+                </RequireAuth>
+              }
+            />
+            <Route path="product/:id" element={<Product />} />
+            <Route path="cart/" element={<Cart />} />
+            <Route path="checkout" element={<AddressForm />} />
+            <Route path="trackorder" element={<TrackOrder />} />
+          </Route>
+          <Route path="/admin">
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+              <MainAdmin />
+              </ProtectedRoute>
+              }
+            />
           </Route>
         </Routes>
-    </Router> */}
-
- 
-   </div>
-
-   </>
+        </BrowserRouter>
+      </div>
+    </>
   );
 }
-
 export default App;
